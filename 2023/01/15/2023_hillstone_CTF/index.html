@@ -23,20 +23,20 @@
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
 <meta property="og:description" content="还是太菜了，有几题该做出来没做出来。 这是第一篇文章，希望以后能持续输出。 为什么输出？https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;88217284 WebPrimitive php通过SplFileObject读hint.php的代码，但因为有过滤，不能直接读flag  base64解码后审计代码 POP链：red::__destruct() &#x3D;&gt; white::__toSt">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112163305648.png">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112163950015.png">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230114211616585.png">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112162720013.png">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112162846505.png">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230115090145239.png">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230115121546648.png">
-<meta property="og:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112163128066.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/faee8c11aa6b4026e1697da23a2ffdca.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/aad6bb29408cba2dcaf5b7dd81fdeaab.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/a5373fc4c2f59f490da29d1fa720835a.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/005964f4538d87cb374d6e1a809ec795.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/8d24add3c1d285a1c83e12d068101492.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/f599e49329e00302da52eeede036020b.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/6fab5491d5a9758ef38f8cd05eb232eb.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/01/15/74cb65ee6ad22186dcde691c70f7dad4.png">
 <meta property="article:published_time" content="2023-01-15T01:24:54.713Z">
-<meta property="article:modified_time" content="2023-01-15T04:56:29.500Z">
+<meta property="article:modified_time" content="2023-01-15T05:06:53.537Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="Write Up">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112163305648.png">
+<meta name="twitter:image" content="https://img.katck.com/images/2023/01/15/faee8c11aa6b4026e1697da23a2ffdca.png">
   
   
   
@@ -299,7 +299,7 @@
 <p>这是第一篇文章，希望以后能持续输出。</p>
 <p>为什么输出？<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88217284">https://zhuanlan.zhihu.com/p/88217284</a></p>
 <h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Primitive-php"><a href="#Primitive-php" class="headerlink" title="Primitive php"></a>Primitive php</h3><p>通过SplFileObject读hint.php的代码，但因为有过滤，不能直接读flag</p>
-<p><img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112163305648.png" srcset="/img/loading.gif" lazyload alt="image-20230112163305648"></p>
+<p><img src="https://img.katck.com/images/2023/01/15/faee8c11aa6b4026e1697da23a2ffdca.png" srcset="/img/loading.gif" lazyload alt="faee8c11aa6b4026e1697da23a2ffdca.png"></p>
 <p>base64解码后审计代码</p>
 <p>POP链：<code>red::__destruct() =&gt; white::__toString() =&gt; color::__execute() ==&gt; blue::__invoke() ==&gt; red::__call() ==&gt; color::getFlag()</code></p>
 <p>然后将color类中的$c1设置为flag.php即可读取flag</p>
@@ -308,13 +308,13 @@
 <p>POC:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">O:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;red&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">2</span>:<span class="hljs-string">&quot;r1&quot;</span>;O:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;white&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;w&quot;</span>;O:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;color&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">2</span>:<span class="hljs-string">&quot;c1&quot;</span>;O:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;blue&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">2</span>:<span class="hljs-string">&quot;b1&quot;</span>;O:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;red&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">2</span>:<span class="hljs-string">&quot;r1&quot;</span>;O:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;color&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">2</span>:<span class="hljs-string">&quot;c1&quot;</span>;s:<span class="hljs-number">8</span>:<span class="hljs-string">&quot;flag.php&quot;</span>;&#125;&#125;s:<span class="hljs-number">2</span>:<span class="hljs-string">&quot;b2&quot;</span>;N;&#125;&#125;&#125;&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112163950015.png" srcset="/img/loading.gif" lazyload alt="image-20230112163950015"></p>
+<p><img src="https://img.katck.com/images/2023/01/15/aad6bb29408cba2dcaf5b7dd81fdeaab.png" srcset="/img/loading.gif" lazyload alt="aad6bb29408cba2dcaf5b7dd81fdeaab.png"></p>
 <h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="daobudao"><a href="#daobudao" class="headerlink" title="daobudao"></a>daobudao</h3><p>base64之后凯撒</p>
 <h3 id="brute-vigenere"><a href="#brute-vigenere" class="headerlink" title="brute_vigenere"></a>brute_vigenere</h3><p>题目明示爆破就完事了，维吉尼亚密码表中多加了个<code>&#123;&#125;</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> itertools<br> <br>dicts = string.ascii_lowercase + <span class="hljs-string">&quot;&#123;&#125;&quot;</span><br>enc = <span class="hljs-string">&#x27;&#123;mvjk&#125;gbxyiutfchpm&#125;ylm&#125;a&#125;amuxlmg&#x27;</span><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span>  itertools.product(dicts, repeat=<span class="hljs-number">4</span>):<br>    key = <span class="hljs-string">&#x27;&#x27;</span>.join(k)<br>    enc_index = [dicts.index(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> enc]<br>    key_index = [dicts.index(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> key]<br>    flag = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(enc)):<br>        ans = (enc_index[i] - key_index[i % <span class="hljs-number">4</span>]) % <span class="hljs-number">28</span><br>        flag += dicts[ans]<br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;hsnctf&#123;&#x27;</span> <span class="hljs-keyword">in</span> flag:<br>        <span class="hljs-built_in">print</span>(flag)<br>        <span class="hljs-keyword">break</span><br><span class="hljs-comment">#output:hsnctf&#123;wecanalwaystrustvigenere&#125;</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="smooth-rsa"><a href="#smooth-rsa" class="headerlink" title="smooth_rsa"></a>smooth_rsa</h3><p>通过gen_primes()和genkey()生成素数和公钥。有趣的是flag被分成两部分，第二部分使用$e^{m_2}\ mod\ n$加密</p>
-<img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230114211616585.png" srcset="/img/loading.gif" lazyload alt="image-20230114211616585" style="zoom:67%;" />
+<img src="https://img.katck.com/images/2023/01/15/a5373fc4c2f59f490da29d1fa720835a.png" srcset="/img/loading.gif" lazyload alt="a5373fc4c2f59f490da29d1fa720835a.png" style="zoom:67%;" />
 
 <p>根据素数生成的函数判断，p-1光滑，根据Pollard’s p-1算法分解N。获得前半部分flag</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Pollards_p_1</span>(<span class="hljs-params">N</span>):<br>    a = <span class="hljs-number">2</span><br>    n = <span class="hljs-number">2</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        a = <span class="hljs-built_in">pow</span>(a, n, N)<br>        res = gmpy2.gcd(a-<span class="hljs-number">1</span>, N)<br>        <span class="hljs-keyword">if</span> res != <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> res != N:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;n =&#x27;</span>, n)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;p =&#x27;</span>, res)<br>            <span class="hljs-keyword">return</span> res<br>        n += <span class="hljs-number">1</span>    <br><br><br>n = <span class="hljs-string">&#x27;&#x27;</span><br>c = <span class="hljs-string">&#x27;&#x27;</span><br>e = <span class="hljs-number">0x10001</span><br>p = Pollards_p_1(n)<br>q = n // p<br>d = gmpy2.invert(e, (p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>))<br>m = <span class="hljs-built_in">pow</span>(c, d, n)<br><span class="hljs-built_in">print</span>(long_to_bytes(m))<br><br>output:<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">n = 519863</span><br><span class="hljs-string">p = 153745976376847545241555912669157347880949716526722039650361779744915868188863264992722345501177873099593695231122873134365290651521444093220273133944427674631580854029267432922015034145356597048170793885604683602766372487332360313195898198870590532683023388212411561733101072884414575984089097280339407299863</span><br><span class="hljs-string">b&#x27;HSNCTF&#123;015f0d60fab48&#x27;</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
@@ -329,19 +329,19 @@
 <p>download.zip中存在key.txt，但需要密码。</p>
 <p>之前就发现flag.rar有2.36M但是能看到的内容之后flag.txt，大小不一致，怀疑隐藏东西了</p>
 <p>将rar的文件头改成0x74，表示文件块，才可以正确显示文件（改了好几个）</p>
-<img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112162720013.png" srcset="/img/loading.gif" lazyload alt="image-20230112162720013" style="zoom: 50%;" />
+<img src="https://img.katck.com/images/2023/01/15/005964f4538d87cb374d6e1a809ec795.png" srcset="/img/loading.gif" lazyload alt="005964f4538d87cb374d6e1a809ec795.png" style="zoom:67%;" />
 
 <p>之后可以在压缩包中查看到ACL和STM两个文件</p>
-<img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112162846505.png" srcset="/img/loading.gif" lazyload alt="image-20230112162846505" style="zoom: 50%;" />
+<img src="https://img.katck.com/images/2023/01/15/8d24add3c1d285a1c83e12d068101492.png" srcset="/img/loading.gif" lazyload alt="8d24add3c1d285a1c83e12d068101492.png" style="zoom: 50%;" />
 
 <p>后来发现NTFS隐写也是可以的</p>
-<img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230115090145239.png" srcset="/img/loading.gif" lazyload alt="image-20230115090145239" style="zoom: 50%;" />
+<img src="https://img.katck.com/images/2023/01/15/f599e49329e00302da52eeede036020b.png" srcset="/img/loading.gif" lazyload alt="f599e49329e00302da52eeede036020b.png" style="zoom: 50%;" />
 
 <p>通过010 editor查看发现STM是一个音频文件，改后缀后打开听了像是卫星信号，结合题目。直接使用RX-SSTV开始听</p>
-<img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230115121546648.png" srcset="/img/loading.gif" lazyload alt="image-20230115121546648" style="zoom: 50%;" />
+<img src="https://img.katck.com/images/2023/01/15/6fab5491d5a9758ef38f8cd05eb232eb.png" srcset="/img/loading.gif" lazyload alt="6fab5491d5a9758ef38f8cd05eb232eb.png" style="zoom:50%;" />
 
 <p>获得疑似密码的东西，想到之前key.txt需要密码，获得flag</p>
-<img src="https://aurey7.github.io/img/2023_hillstone_CTF.assets/image-20230112163128066.png" srcset="/img/loading.gif" lazyload alt="image-20230112163128066" style="zoom: 50%;" />
+<img src="https://img.katck.com/images/2023/01/15/74cb65ee6ad22186dcde691c70f7dad4.png" srcset="/img/loading.gif" lazyload alt="74cb65ee6ad22186dcde691c70f7dad4.png" style="zoom:50%;" />
 
                 
               </div>
