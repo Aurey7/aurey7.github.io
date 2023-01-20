@@ -1,5 +1,4 @@
 http://aurey7.github.io.git/2023/01/18/No_alphanumeric_webshell/
-http://aurey7.github.io.git/2023/01/16/2023_HGAME_CTF_Weak_2/
 http://aurey7.github.io.git/2023/01/15/2023_hillstone_CTF/
 http://aurey7.github.io.git/about/index.html
 http://aurey7.github.io.git/
