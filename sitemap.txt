@@ -1,3 +1,4 @@
+http://aurey7.github.io.git/2023/04/23/Java%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/
 http://aurey7.github.io.git/2023/02/02/php_weak_type/
 http://aurey7.github.io.git/2023/01/18/No_alphanumeric_webshell/
 http://aurey7.github.io.git/2023/02/02/php_var_overrides/
@@ -6,6 +7,7 @@ http://aurey7.github.io.git/about/index.html
 http://aurey7.github.io.git/
 http://aurey7.github.io.git/tags/Write-Up/
 http://aurey7.github.io.git/tags/WEB/
+http://aurey7.github.io.git/tags/Java-Security/
 http://aurey7.github.io.git/categories/CTF/
 http://aurey7.github.io.git/categories/CTF/PHP/
 http://aurey7.github.io.git/categories/CTF/PHP/WEB/
