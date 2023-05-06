@@ -16,17 +16,17 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="CommonCollections1基础知识CommonsCollection Apache Commons Collections是一个扩展了Java标准库里的Collection结构的第三方基础库，它提供了很多强有力的数据结构类型并且实现了各种集合工具类。作为Apache开源项目的重要组件，Commons Collections被广泛应用于各种Java应用的开发。  CommonsCollec">
+    <meta name="description" content="CommonCollections1ysoserial Gadget123456789101112131415161718192021&#x2F;*	Gadget chain:		ObjectInputStream.readObject()			AnnotationInvocationHandler.readObject()				Map(Proxy).entrySet()					AnnotationIn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CommonCollections1">
 <meta property="og:url" content="http://aurey7.github.io.git/2023/05/06/CommonCollections1/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="CommonCollections1基础知识CommonsCollection Apache Commons Collections是一个扩展了Java标准库里的Collection结构的第三方基础库，它提供了很多强有力的数据结构类型并且实现了各种集合工具类。作为Apache开源项目的重要组件，Commons Collections被广泛应用于各种Java应用的开发。  CommonsCollec">
+<meta property="og:description" content="CommonCollections1ysoserial Gadget123456789101112131415161718192021&#x2F;*	Gadget chain:		ObjectInputStream.readObject()			AnnotationInvocationHandler.readObject()				Map(Proxy).entrySet()					AnnotationIn">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:\Users\aurey\Documents\Blog\source\_posts\images\CommonCollections1\image-20230425214703430.png">
 <meta property="og:image" content="c:\Users\aurey\Documents\Blog\source\_posts\images\CommonCollections1\image-20230425215845242.png">
 <meta property="article:published_time" content="2023-05-06T13:00:22.000Z">
-<meta property="article:modified_time" content="2023-05-06T05:36:13.466Z">
+<meta property="article:modified_time" content="2023-05-06T05:37:46.845Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="Java Security">
 <meta name="twitter:card" content="summary_large_image">
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.7k 字
+          8.2k 字
         
       </span>
     
@@ -248,7 +248,7 @@
         
         
         
-          65 分钟
+          69 分钟
         
       </span>
     
@@ -299,7 +299,8 @@
             
               <div class="markdown-body">
                 
-                <h2 id="CommonCollections1"><a href="#CommonCollections1" class="headerlink" title="CommonCollections1"></a>CommonCollections1</h2><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="CommonsCollection"><a href="#CommonsCollection" class="headerlink" title="CommonsCollection"></a>CommonsCollection</h3><blockquote>
+                <h2 id="CommonCollections1"><a href="#CommonCollections1" class="headerlink" title="CommonCollections1"></a>CommonCollections1</h2><h4 id="ysoserial-Gadget"><a href="#ysoserial-Gadget" class="headerlink" title="ysoserial Gadget"></a>ysoserial Gadget</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment">	Gadget chain:</span><br><span class="hljs-comment">		ObjectInputStream.readObject()</span><br><span class="hljs-comment">			AnnotationInvocationHandler.readObject()</span><br><span class="hljs-comment">				Map(Proxy).entrySet()</span><br><span class="hljs-comment">					AnnotationInvocationHandler.invoke()</span><br><span class="hljs-comment">						LazyMap.get()</span><br><span class="hljs-comment">							ChainedTransformer.transform()</span><br><span class="hljs-comment">								ConstantTransformer.transform()</span><br><span class="hljs-comment">								InvokerTransformer.transform()</span><br><span class="hljs-comment">									Method.invoke()</span><br><span class="hljs-comment">										Class.getMethod()</span><br><span class="hljs-comment">								InvokerTransformer.transform()</span><br><span class="hljs-comment">									Method.invoke()</span><br><span class="hljs-comment">										Runtime.getRuntime()</span><br><span class="hljs-comment">								InvokerTransformer.transform()</span><br><span class="hljs-comment">									Method.invoke()</span><br><span class="hljs-comment">										Runtime.exec()</span><br><span class="hljs-comment">	Requires:</span><br><span class="hljs-comment">		commons-collections</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="CommonsCollection"><a href="#CommonsCollection" class="headerlink" title="CommonsCollection"></a>CommonsCollection</h3><blockquote>
 <p>Apache Commons Collections是一个扩展了Java标准库里的Collection结构的第三方基础库，它提供了很多强有力的数据结构类型并且实现了各种集合工具类。作为Apache开源项目的重要组件，Commons Collections被广泛应用于各种Java应用的开发。</p>
 </blockquote>
 <p>CommonsCollection实现了一个TransformedMap类，该类是对Java标准数据结构Map接口的一个扩展。<strong>该类可以在一个元素被添加到集合内时，自动对该元素进行特定的修饰变换，具体的变换逻辑由Transformer类定义，Transformer在TransformedMap实例化的时候作为参数传入。</strong>这也是这个利用链的核心。</p>
