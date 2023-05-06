@@ -1,4 +1,4 @@
-http://aurey7.github.io.git/2023/04/24/CommonCollections1/
+http://aurey7.github.io.git/2023/05/06/CommonCollections1/
 http://aurey7.github.io.git/2023/04/23/Java%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/
 http://aurey7.github.io.git/2023/04/24/URLDNS/
 http://aurey7.github.io.git/2023/02/02/php_weak_type/
