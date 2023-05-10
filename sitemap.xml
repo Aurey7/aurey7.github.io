@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://aurey7.github.io.git/2023/04/24/URLDNS/</loc>
+    
+    <lastmod>2023-05-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://aurey7.github.io.git/2023/05/10/CommonsCollections3/</loc>
     
     <lastmod>2023-05-10</lastmod>
@@ -23,15 +32,6 @@
     <loc>http://aurey7.github.io.git/2023/05/06/CommonsCollections1/</loc>
     
     <lastmod>2023-05-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://aurey7.github.io.git/2023/04/24/URLDNS/</loc>
-    
-    <lastmod>2023-05-06</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
