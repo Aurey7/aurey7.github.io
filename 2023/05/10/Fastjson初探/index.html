@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/6ad695aefb8e297e456b778c476c2c35.png">
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/11f1b778e6d909b68844c95049187424.png">
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/f605948d1a4189b7bd99c653a6682a93.png">
-<meta property="og:image" content="c:\Users\aurey\Documents\Blog\source\_posts\images\Fastjson%E5%88%9D%E6%8E%A2\image-20230510223124840.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/05/11/a95b4797bd4b3ac836a8d98220cd92d7.png">
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/e745e4228e1539caba396a405b3f796a.png">
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/9791832ee1ef058bff9c74ad8f3b75a5.png">
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/433481df89d71eefa32ea17799f754f8.png">
@@ -45,7 +45,7 @@
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/9995d68c6cdeb72d00f27653c29ebba2.png">
 <meta property="og:image" content="https://img.katck.com/images/2023/05/11/331091ad054d509b5364afeeb8a6aa9d.png">
 <meta property="article:published_time" content="2023-05-10T08:01:58.000Z">
-<meta property="article:modified_time" content="2023-05-11T07:59:06.684Z">
+<meta property="article:modified_time" content="2023-05-11T08:09:58.254Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="Java Security">
 <meta name="twitter:card" content="summary_large_image">
@@ -353,7 +353,7 @@
 <p><strong>结论：</strong></p>
 <p>public的属性会进行反序列化赋值，private的属性不会直接进行反序列化复制，而是调用setxxx（xxx为属性名）的函数进行赋值</p>
 <p>getxxx（xxx为属性名）的函数会根据函数返回值的不同，而选择被调用或不被调用。</p>
-<h4 id="parse反序列化过程调试"><a href="#parse反序列化过程调试" class="headerlink" title="parse反序列化过程调试"></a>parse反序列化过程调试</h4><p><img src="C:\Users\aurey\Documents\Blog\source\_posts\images\Fastjson初探\image-20230510223124840.png" srcset="/img/loading.gif" lazyload alt="image-20230510223124840"></p>
+<h4 id="parse反序列化过程调试"><a href="#parse反序列化过程调试" class="headerlink" title="parse反序列化过程调试"></a>parse反序列化过程调试</h4><p><img src="https://img.katck.com/images/2023/05/11/a95b4797bd4b3ac836a8d98220cd92d7.png" srcset="/img/loading.gif" lazyload alt="image-20230510223124840"></p>
 <p>调用JSON#parse()，然后 new DefaultJSONParser()</p>
 <p><img src="https://img.katck.com/images/2023/05/11/e745e4228e1539caba396a405b3f796a.png" srcset="/img/loading.gif" lazyload alt="image-20230510223328328"></p>
 <p>this调用至构造方法，lexer.getCurrent() 获取lexer.ch属性，这里是获取JSON字符串的第一个字符，即<code>&#123;</code></p>
