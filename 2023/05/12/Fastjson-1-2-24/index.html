@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://img.katck.com/images/2023/05/12/7ce70873537f572fab7a1f2796012ed4.png">
 <meta property="og:image" content="https://img.katck.com/images/2023/05/12/2693a7ecea8196032f25da379c20f0eb.png">
 <meta property="article:published_time" content="2023-05-12T12:51:23.000Z">
-<meta property="article:modified_time" content="2023-05-12T14:02:47.843Z">
+<meta property="article:modified_time" content="2023-05-12T14:06:34.039Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="Java Security">
 <meta property="article:tag" content="Fastjson">
@@ -309,7 +309,7 @@
 <p>影响版本：<code>fastjson &lt;= 1.2.24</code> 描述：fastjson 默认使用 <code>@type</code> 指定反序列化任意类，攻击者可以通过在 Java 常见环境中寻找能够构造恶意类的方法，通过反序列化的过程中调用的 getter/setter 方法，以及目标成员变量的注入来达到传参的目的，最终形成恶意调用链。</p>
 </blockquote>
 <p>此漏洞开启了 fastjson 反序列化漏洞的大门，为安全研究人员提供了新的思路。我也有点落后的来学习了😶‍🌫️</p>
-<h3 id="TemplatesImpl-利用链"><a href="#TemplatesImpl-利用链" class="headerlink" title="TemplatesImpl 利用链"></a>TemplatesImpl 利用链</h3><p>之前cc3的时候有利用过TemplatesImpl加载字节码，这里其实也是一个道理。</p>
+<h3 id="TemplatesImpl-利用链"><a href="#TemplatesImpl-利用链" class="headerlink" title="TemplatesImpl 利用链"></a>TemplatesImpl 利用链</h3><p>之前cc3的时候有利用过TemplatesImpl加载字节码，这里其实也是一样的。</p>
 <p>TemplatesImpl类实现了<code>Serializable</code>接口，因此可以被序列化。</p>
 <p>首先我们关注该类中的一个成员属性<code>_class</code>，是一个 Class 类型的数组，数组里下标为 <code>_transletIndex</code> 的类会在 <code>getTransletInstance()</code> 方法中使用 <code>newInstance()</code> 进行实例化。</p>
 <p><img src="https://img.katck.com/images/2023/05/12/cfa7f5e468a679a25fabcd58447c6ce5.png" srcset="/img/loading.gif" lazyload alt="image-20230512211916404"></p>
