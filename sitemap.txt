@@ -1,3 +1,4 @@
+http://aurey7.github.io.git/2023/05/12/Fastjson-1-2-24/
 http://aurey7.github.io.git/2023/05/10/Fastjson%E5%88%9D%E6%8E%A2/
 http://aurey7.github.io.git/2023/05/10/CommonsCollections3/
 http://aurey7.github.io.git/2023/04/24/URLDNS/
@@ -13,7 +14,9 @@ http://aurey7.github.io.git/
 http://aurey7.github.io.git/tags/Write-Up/
 http://aurey7.github.io.git/tags/WEB/
 http://aurey7.github.io.git/tags/Java-Security/
+http://aurey7.github.io.git/tags/Fastjson/
 http://aurey7.github.io.git/categories/CTF/
 http://aurey7.github.io.git/categories/CTF/PHP/
 http://aurey7.github.io.git/categories/CTF/PHP/WEB/
 http://aurey7.github.io.git/categories/Java-Security/
+http://aurey7.github.io.git/categories/Java-Security/Fastjson/
