@@ -24,10 +24,10 @@
 <meta property="og:description" content="最近开始学习Java安全，稍微总结一下 反射Java反射是Java非常重要的动态特征，通过使用反射我们可以获取任何类的成员方法、成员变量、构造方法等，还可以动态创建Java类实例、调用任意的类方法、修改任意的类成员变量值等。 反射获取Runtime对象执行代码123456789101112131415&#x2F;&#x2F; 获取Runtime类对象Class runtimeClass1 &#x3D; Class.forNam">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://docs.oracle.com/javase/tutorial/figures/rmi/rmi-2.gif">
-<meta property="og:image" content="c:\Users\aurey\Documents\Blog\source\_posts\images\Java%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80\image-20230514093942942.png">
-<meta property="og:image" content="c:\Users\aurey\Documents\Blog\source\_posts\images\Java%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80\image-20230514103454494.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/05/14/69b006657b0b0ee3fba5a4ec3c65f41c.png">
+<meta property="og:image" content="https://img.katck.com/images/2023/05/14/dc7531ae30a7fc1ba184903021858e24.png">
 <meta property="article:published_time" content="2023-04-23T09:22:06.000Z">
-<meta property="article:modified_time" content="2023-05-14T03:07:16.412Z">
+<meta property="article:modified_time" content="2023-05-14T04:22:24.653Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="Java Security">
 <meta name="twitter:card" content="summary_large_image">
@@ -426,7 +426,7 @@
 <p>设计上客户端和服务端不能直接通信，而是通过注册中心通信。</p>
 <p><strong>三者的关联：</strong>服务端创建远程对象，并将远程对象在注册中心注册，客户端到注册中心查找并获取对应的远程对象，最终在服务端调用其方法。</p>
 <p><strong>借图：</strong><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9261#toc-12">https://xz.aliyun.com/t/9261#toc-12</a></p>
-<p><img src="C:\Users\aurey\Documents\Blog\source\_posts\images\Java安全基础\image-20230514093942942.png" srcset="/img/loading.gif" lazyload alt="image-20230514093942942"></p>
+<p><img src="https://img.katck.com/images/2023/05/14/69b006657b0b0ee3fba5a4ec3c65f41c.png" srcset="/img/loading.gif" lazyload alt="image-20230514093942942"></p>
 <h3 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h3><ol>
 <li>RMI客户端在调用远程方法时会先创建 <code>Stub(sun.rmi.registry.RegistryImpl_Stub)</code></li>
 <li>Stub 会将 Remote 对象传递给 远程引用层<code>java.rmi.server.RemoteRef</code> 并创建 远程调用对象<code>java.rmi.server.RemoteCall</code></li>
@@ -461,7 +461,7 @@
 <li>调用远程对象上的方法</li>
 </ol>
 <p>执行客户端的main方法后，代码实际上是在服务端执行的，客户端可以获取执行结果</p>
-<p><img src="C:\Users\aurey\Documents\Blog\source\_posts\images\Java安全基础\image-20230514103454494.png" srcset="/img/loading.gif" lazyload alt="image-20230514103454494"></p>
+<p><img src="https://img.katck.com/images/2023/05/14/dc7531ae30a7fc1ba184903021858e24.png" srcset="/img/loading.gif" lazyload alt="image-20230514103454494"></p>
 <h2 id="JNDI"><a href="#JNDI" class="headerlink" title="JNDI"></a>JNDI</h2><p><strong>参考：</strong></p>
 <p><a target="_blank" rel="noopener" href="https://javasec.org/">https://javasec.org/</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/phith0n/JavaThings">https://github.com/phith0n/JavaThings</a></p>
