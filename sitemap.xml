@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://aurey7.github.io.git/2023/07/13/Remake/</loc>
+    <loc>http://auray.github.io.git/2023/07/13/Remake/</loc>
     
     <lastmod>2023-07-13</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>http://aurey7.github.io.git/about/index.html</loc>
+    <loc>http://auray.github.io.git/about/index.html</loc>
     
     <lastmod>2023-01-15</lastmod>
     
@@ -21,7 +21,7 @@
   
 
   <url>
-    <loc>http://aurey7.github.io.git/</loc>
+    <loc>http://auray.github.io.git/</loc>
     <lastmod>2023-07-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -29,7 +29,7 @@
 
   
   <url>
-    <loc>http://aurey7.github.io.git/tags/Remake/</loc>
+    <loc>http://auray.github.io.git/tags/Remake/</loc>
     <lastmod>2023-07-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
