@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>MonitorsTwo - HackTheBox</title>
+    <link href="/2023/07/16/MonitorsTwo-HackTheBox/"/>
+    <url>/2023/07/16/MonitorsTwo-HackTheBox/</url>
+    
+    <content type="html"><![CDATA[<p>端口还没扫完，直接浏览器访问一下，Google一搜，RCE</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Q6F88cIx3M.png" alt=""></p><h3 id="CVE-2022-46169-CACTI-1-2-22"><a href="#CVE-2022-46169-CACTI-1-2-22" class="headerlink" title="CVE-2022-46169-CACTI-1.2.22"></a>CVE-2022-46169-CACTI-1.2.22</h3><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vlWca8mr7s.png" alt=""></p><p>直接拿下</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_bnxOO6aQgw.png" alt=""></p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NQThyjlhnm.png" alt=""></p><h3 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h3><p>但是www-data用户连家目录都无，这里没有找到user flag</p><p>直接上Linpeas 收集一下信息，发现了一个脚本 <code>entrypoint.sh</code>和两个数据库密码</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_t7OuKTMMe5.png" alt=""></p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JNh6xed6cX.png" alt=""></p><p>这里也是一个连接数据库的脚本，倒是发现了有个host为db的数据库</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_9IMi2gGAqP.png" alt=""></p><p>db的地址找不到，不过有个<code>172.19.0.3</code>，我们可以尝试连接</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8zDCX02DIY.png" alt=""></p><p>结果就是失败了</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8i6wujwPhZ.png" alt=""></p><p>这里是在没办法了，去网上找了一下writeup，发现大伙使用 <code>getent</code>发现的数据库地址</p><blockquote><p><code>getent</code> 命令用来查看系统的数据库中的相关记录。即使这些数据库不是在本地，比如 ldap 或者 nis 中的数据库，也可以使用 getent 查看。</p></blockquote><h4 id="Docker-逃逸"><a href="#Docker-逃逸" class="headerlink" title="Docker 逃逸"></a>Docker 逃逸</h4><p>登录MySQL成功，本来想在mysql.user里面查信息的，结果Password这一列直接被删。于是转战cacti</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_H3B7f1i3PQ.png" alt=""></p><p>使用john爆破一下，得出明文密码</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MBtQQHdVmg.png" alt=""></p><p>拿下User Flag</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xhl4G00v7d.png" alt=""></p><h3 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h3><p>SUID和sudo看了一下是没有了，直接上linpeas再查查</p><p>倒是发现了个at提权漏洞</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ggdaCi7uMz.png" alt=""></p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gMjX2tx9ck.png" alt=""></p><p>结果环境里就没有安装gcc…</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_E2jbbHVlqA.png" alt=""></p><p>又在linpeas里面翻了很久，根据里面的信息可以察觉到这里和CACTI（上面那个Shell）应该是两个机器，根据进程信息可以判断这边应该跑着Docker，CACTI可能就是个容器</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Wz-LAKfkiI.png" alt=""></p><p>于是查一下Docker版本看看有没有nday</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_s1KagKh6AJ.png" alt=""></p><p>还真有，该漏洞允许非特权Linux用户访问和运行容器内的程序。</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7P_NAmATET.png" alt=""></p><p>找到EXP直接开冲：<a href="https://github.com/UncleJ4ck/CVE-2021-41091" title="https://github.com/UncleJ4ck/CVE-2021-41091">https://github.com/UncleJ4ck/CVE-2021-41091</a></p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8VoeEON5zC.png" alt=""></p><p>但是跑完之后还是没成功嘛，认真看一下，我们需要先在容器内给<code>/bin/bash</code> 加上SUID</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aQYhSIoU6I.png" alt=""></p><p>又回到CACTI里面提权，SUID这里发现了<code>capsh</code>可以进行提权</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dRVimB8E8u.png" alt=""></p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_CiVOFKRHht.png" alt=""></p><p>再回去试试</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zL_9eQzyj8.png" alt=""></p><p>拿下！这台靶机，开局直接送个Shell，我还在想这也太简单了。结果是个Container环境，还得Docker逃逸，整体还是挺有收获的</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>HackTheBox</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Sau - HackTheBox</title>
     <link href="/2023/07/15/Sau-HackTheBox/"/>
     <url>/2023/07/15/Sau-HackTheBox/</url>
