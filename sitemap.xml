@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://aurey7.github.io.git/2023/07/18/Jupiter-HackTheBox/</loc>
+    
+    <lastmod>2023-07-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://aurey7.github.io.git/2023/07/15/Sau-HackTheBox/</loc>
     
     <lastmod>2023-07-16</lastmod>
@@ -49,7 +58,7 @@
 
   <url>
     <loc>http://aurey7.github.io.git/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -57,14 +66,14 @@
   
   <url>
     <loc>http://aurey7.github.io.git/tags/Remake/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://aurey7.github.io.git/tags/HackTheBox/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

