@@ -66,9 +66,10 @@
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HDiUE-9v9E.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_W7FS4heVMt.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Rme1oSXEWw.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image-20230718234530269.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vjsWQXlpIr.png">
 <meta property="article:published_time" content="2023-07-18T15:05:34.000Z">
-<meta property="article:modified_time" content="2023-07-18T15:09:43.622Z">
+<meta property="article:modified_time" content="2023-07-18T15:47:00.127Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="HackTheBox">
 <meta name="twitter:card" content="summary_large_image">
@@ -279,7 +280,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.1k 字
         
       </span>
     
@@ -436,7 +437,8 @@
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Rme1oSXEWw.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <h4 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h4><p>太折磨了，主要也是我打得断断续续的（每天下班时间打一下，公司一下又断开回家打）。这波打下来还是学到很多的（虚拟主机扫描、通过Grafana 打PostgreSQL GetShell、用户定时任务脚本提权、两层端口转发打内网服务、恶心的没用过的软件提权）</p>
 <p>而且这个sattrack提权还没有writeup，大伙都是有<code>/usr/local/bin/sattrack</code>读写权限，直接</p>
-<p><code>cp /bin/bash /usr/local/bin/sattrack</code>再<code>sudo /bin/bash</code>就完事了 😓</p>
+<p><code>cp /bin/bash /usr/local/bin/sattrack</code>再<code>sudo /bin/bash</code>就完事了 😓（官方在一个月前修复了这个Bug）</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image-20230718234530269.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>最后，狠狠的给他打个8分（虽然我还没打过Hard</p>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vjsWQXlpIr.png" srcset="/img/loading.gif" lazyload alt=""></p>
 
