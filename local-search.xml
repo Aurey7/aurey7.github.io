@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Active - HackTheBox</title>
+    <link href="/2023/07/22/Active-HackTheBox/"/>
+    <url>/2023/07/22/Active-HackTheBox/</url>
+    
+    <content type="html"><![CDATA[<p>开局先扫描，可以看到经典的SMB、RPC、LDAP。都是我们信息收集的目标</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_V6eVzNUJuG.png" alt=""></p><h3 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h3><p>发现了一个可读的共享</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OZ3VGNfPsz.png" alt=""></p><p>把文件下载下来，发现是两个组策略文件，其中一个文件包含用户名密码</p><p>使用gpp-decrypt进行解密</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jTGmNhMcMQ.png" alt=""></p><p>此时我们拥有了用户名<code>active.htb\SVC_TGS</code>和密码<code>GPPstillStandingStrong2k18</code></p><p>获得User Flag</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_yFuamx1-F-.png" alt=""></p><h3 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h3><p>BloodHound信息收集一波</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zGYojrslUd.png" alt=""></p><p>简单看了一下我们的<code>SVC_TGS</code>用户并不在其中，我的理解BloodHound是用来发现各种权限存在的风险的，这里可能没有。（我也不是很懂，欢迎大佬指正）</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_AapcJ6PdLM.png" alt=""></p><h4 id="Kerberoasting"><a href="#Kerberoasting" class="headerlink" title="Kerberoasting"></a>Kerberoasting</h4><p>我们拥有一个用户密码，可以试一下Kerberoasting攻击。</p><p><strong>原理：</strong> Kerberoasting攻击主要是利用Kerberos认证中的第四步：<strong>TGS_REP</strong>，这一步会返回由目标服务实例的NTLM Hash加密的TGS票据，加密算法为RC4-HMAC</p><p>我们可以通过爆破该TGS票据获得服务的NTLM Hash，这里打的是CIFS服务</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_1m_DD8vGS0.png" alt=""></p><p>使用john进行爆破，爆破成功，我们获得了Administrator的密码：<code>Ticketmaster1968</code></p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_sbjEU20280.png" alt=""></p><p>直接smb拿到root.txt</p><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__ZoZNH6lzb.png" alt=""></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>HackTheBox</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Forest - HackTheBox</title>
     <link href="/2023/07/22/Forest-HackTheBox/"/>
     <url>/2023/07/22/Forest-HackTheBox/</url>

