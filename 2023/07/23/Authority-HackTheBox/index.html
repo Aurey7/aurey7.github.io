@@ -16,34 +16,55 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="开局先扫描，可以看到经典的SMB、RPC、LDAP。都是我们信息收集的目标  Get User Flag发现了一个可读的共享  把文件下载下来，发现是两个组策略文件，其中一个文件包含用户名密码 使用gpp-decrypt进行解密  此时我们拥有了用户名active.htb\SVC_TGS和密码GPPstillStandingStrong2k18 获得User Flag  Get Root Flag">
+    <meta name="description" content="开局先扫描  enum4linux找不到什么有用的信息，smbmap这边发现了可读的共享  Get User FlagSMB information leakage下载下来可以看到是个Ansible脚本  我重点看了PWM，因为8443端口开放着这个服务 配置文件中发现了：  账户svc_pwm Ansible账户：Administrator；密码：Welcome1 开启了WinRM PWM系统的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Active - HackTheBox">
-<meta property="og:url" content="http://aurey7.github.io.git/2023/07/22/Active-HackTheBox/index.html">
+<meta property="og:title" content="Authority - HackTheBox">
+<meta property="og:url" content="http://aurey7.github.io.git/2023/07/23/Authority-HackTheBox/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="开局先扫描，可以看到经典的SMB、RPC、LDAP。都是我们信息收集的目标  Get User Flag发现了一个可读的共享  把文件下载下来，发现是两个组策略文件，其中一个文件包含用户名密码 使用gpp-decrypt进行解密  此时我们拥有了用户名active.htb\SVC_TGS和密码GPPstillStandingStrong2k18 获得User Flag  Get Root Flag">
+<meta property="og:description" content="开局先扫描  enum4linux找不到什么有用的信息，smbmap这边发现了可读的共享  Get User FlagSMB information leakage下载下来可以看到是个Ansible脚本  我重点看了PWM，因为8443端口开放着这个服务 配置文件中发现了：  账户svc_pwm Ansible账户：Administrator；密码：Welcome1 开启了WinRM PWM系统的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_V6eVzNUJuG.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OZ3VGNfPsz.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jTGmNhMcMQ.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_yFuamx1-F-.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zGYojrslUd.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_AapcJ6PdLM.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_1m_DD8vGS0.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_sbjEU20280.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__ZoZNH6lzb.png">
-<meta property="article:published_time" content="2023-07-22T13:18:52.000Z">
-<meta property="article:modified_time" content="2023-07-22T13:20:19.667Z">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_D8YDBtzGtN.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_rZMnI29qzH.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_6KrDOksijT.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HOYtIwcUDI.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7K-3dMRMiJ.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8EVjvCQg-I.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_98842n_UT4.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pZuSdPZ_hj.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5NvmcmfHKR.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PqoDEKxLTq.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Bb72VRcd3O.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_99tiVHyxp_.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mU-Wo3q-95.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_acGjwUzfah.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_oklhZUd9fM.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_YVEXxe6w6a.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PHN5v2l1RD.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d7gDOEvLG5.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_3915IknvUg.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_WZICsk0f2l.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_L55bt-Q2si.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dSWCtwZhQV.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_wQPnr71YoZ.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cz7Cn-pN9f.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_6uHu3zRNfV.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Rw1WOrkBkz.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_bRTLFPPNHy.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_DKu2GByFnX.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PCP7nk5XWM.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5YM3VfmVW_.png">
+<meta property="article:published_time" content="2023-07-23T03:41:01.000Z">
+<meta property="article:modified_time" content="2023-07-23T03:44:07.490Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="HackTheBox">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_V6eVzNUJuG.png">
+<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_D8YDBtzGtN.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Active - HackTheBox - Aurey7&#39;s Blog</title>
+  <title>Authority - HackTheBox - Aurey7&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -221,7 +242,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Active - HackTheBox"></span>
+            <span id="subtitle" data-typed-text="Authority - HackTheBox"></span>
           
         </div>
 
@@ -232,8 +253,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-22 21:18" pubdate>
-          2023年7月22日 晚上
+        <time datetime="2023-07-23 11:41" pubdate>
+          2023年7月23日 中午
         </time>
       </span>
     
@@ -244,7 +265,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          521 字
+          1.8k 字
         
       </span>
     
@@ -255,7 +276,7 @@
         
         
         
-          5 分钟
+          16 分钟
         
       </span>
     
@@ -301,33 +322,98 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Active - HackTheBox</h1>
+            <h1 style="display: none">Authority - HackTheBox</h1>
             
             
               <div class="markdown-body">
                 
-                <p>开局先扫描，可以看到经典的SMB、RPC、LDAP。都是我们信息收集的目标</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_V6eVzNUJuG.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h3><p>发现了一个可读的共享</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OZ3VGNfPsz.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>把文件下载下来，发现是两个组策略文件，其中一个文件包含用户名密码</p>
-<p>使用gpp-decrypt进行解密</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jTGmNhMcMQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>此时我们拥有了用户名<code>active.htb\SVC_TGS</code>和密码<code>GPPstillStandingStrong2k18</code></p>
-<p>获得User Flag</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_yFuamx1-F-.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h3><p>BloodHound信息收集一波</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zGYojrslUd.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>简单看了一下我们的<code>SVC_TGS</code>用户并不在其中，我的理解BloodHound是用来发现各种权限存在的风险的，这里可能没有。（我也不是很懂，欢迎大佬指正）</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_AapcJ6PdLM.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="Kerberoasting"><a href="#Kerberoasting" class="headerlink" title="Kerberoasting"></a>Kerberoasting</h4><p>我们拥有一个用户密码，可以试一下Kerberoasting攻击。</p>
-<p><strong>原理：</strong> Kerberoasting攻击主要是利用Kerberos认证中的第四步：<strong>TGS_REP</strong>，这一步会返回由目标服务实例的NTLM Hash加密的TGS票据，加密算法为RC4-HMAC</p>
-<p>我们可以通过爆破该TGS票据获得服务的NTLM Hash，这里打的是CIFS服务</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_1m_DD8vGS0.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>使用john进行爆破，爆破成功，我们获得了Administrator的密码：<code>Ticketmaster1968</code></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_sbjEU20280.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>直接smb拿到root.txt</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__ZoZNH6lzb.png" srcset="/img/loading.gif" lazyload alt=""></p>
+                <p>开局先扫描</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_D8YDBtzGtN.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>enum4linux找不到什么有用的信息，smbmap这边发现了可读的共享</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_rZMnI29qzH.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h2><h3 id="SMB-information-leakage"><a href="#SMB-information-leakage" class="headerlink" title="SMB information leakage"></a>SMB information leakage</h3><p>下载下来可以看到是个Ansible脚本</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_6KrDOksijT.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>我重点看了PWM，因为8443端口开放着这个服务</p>
+<p>配置文件中发现了：</p>
+<ul>
+<li>账户svc_pwm</li>
+<li>Ansible账户：Administrator；密码：Welcome1</li>
+<li>开启了WinRM</li>
+<li>PWM系统的两个账户密码</li>
+</ul>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HOYtIwcUDI.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7K-3dMRMiJ.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8EVjvCQg-I.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>直接WinRM登录一下这个administrator账户（确实不行，我也觉得没这么简单</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_98842n_UT4.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="PWM-Service"><a href="#PWM-Service" class="headerlink" title="PWM Service"></a>PWM Service</h3><p>那就是用PWM的用户密码登录上去看看能做什么</p>
+<p>直接登录不行</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pZuSdPZ_hj.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5NvmcmfHKR.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>只能再回到文件里看看，发现了真正的密码</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PqoDEKxLTq.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="Crack-the-Ansible-Vault"><a href="#Crack-the-Ansible-Vault" class="headerlink" title="Crack the Ansible-Vault"></a>Crack the Ansible-Vault</h3><p>Google查了破解方法</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Bb72VRcd3O.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_99tiVHyxp_.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mU-Wo3q-95.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>整理一下解密出来的信息：</p>
+<ul>
+<li>ldap_admin_password：DevT3st\@123</li>
+<li>pwm_admin_password：pWm <em>@dm!N</em>!23</li>
+<li>pwm_admin_login：svc_pwm</li>
+</ul>
+<p>终于登录上了这个平台</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_acGjwUzfah.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但这里又被折磨了好久，也去Github和Google搜了很多这个项目的信息</p>
+<p>最后在配置文件里看到了LDAP服务地址，回想起之前登录的时候一直在警告LDAP服务不可用，那么我们把这个地址改成自己的地址会怎么样呢？</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_oklhZUd9fM.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>改完之后监听端口、再上传配置文件看看</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_YVEXxe6w6a.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>直接乱码，可能是加密过后才发过来的，这里又将ldaps改成ldap</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PHN5v2l1RD.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这回能看见东西了，发现了svc_ldap用户，后面那个猜测是个密码：<code>lDaP_1n_th3_cle4r!</code></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d7gDOEvLG5.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>拿下user flag</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_3915IknvUg.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h2><h3 id="ADCS-x20"><a href="#ADCS-x20" class="headerlink" title="ADCS&#x20;"></a>ADCS&#x20;</h3><p>还记得SMB泄露的Ansible里面除了LDAP和PWM之外还有ADCS。我们可以尝试一下证书提权</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_WZICsk0f2l.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="ADCS-information-collection"><a href="#ADCS-information-collection" class="headerlink" title="ADCS information collection"></a>ADCS information collection</h4><p>这里使用Certipy进行信息收集</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">certipy find -u svc_ldap@authority.htb.corp -p lDaP_1n_th3_cle4r! -dc-ip 10.10.11.222 -dc-only -stdout<br></code></pre></td></tr></table></figure>
+<h4 id="ADCS-vulnerability-scanning"><a href="#ADCS-vulnerability-scanning" class="headerlink" title="ADCS vulnerability scanning"></a>ADCS vulnerability scanning</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">certipy find -u svc_ldap@authority.htb.corp -p lDaP_1n_th3_cle4r! -dc-ip 10.10.11.222 -vulnerable -stdout<br></code></pre></td></tr></table></figure>
+<p>发现了存在ESC1和ESC7漏洞</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_L55bt-Q2si.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dSWCtwZhQV.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="ADCS-ESC1"><a href="#ADCS-ESC1" class="headerlink" title="ADCS ESC1"></a>ADCS ESC1</h4><p><strong>原理：</strong> 默认情况下，域用户可以注册User证书模板，域机器账户可以注册Machine证书模板。两个证书模板都允许客户端身份验证。当用户账户申请User模板证书时，用户账户的用户主体名称（User Principal Name，UPN）将嵌入证书，以进行识别。</p>
+<p>当使用证书进行身份验证时，KDC会尝试将UPN从证书映射到目标账户。User证书模板的msPKI-Certificate-Name-Flag属性存在一个CT_FLAG_SUBJECT_ALT_REQUIRE_UPN标志位，其指示CA将来自活动目录中请求者用户对象的UPN属性值添加到已颁发证书的主题备用名称中。UPN必须是唯一的，意味着不能同时有两个具有相同UPN的用户。但是机器账户是没有UPN属性的，那么机器在使用证书进行身份验证时，证书模板的 msPKI-Certificate-Name-Flag 属性还存在CT_FLAG_SUBJECT_ALT_REQUIRE_DNS 标志位，指示CA将从活动目录中请求用户对象的DNS属性获得的值添加到已颁发证书的主题备份名称中。 — 引用自<a target="_blank" rel="noopener" href="https://item.jd.com/13378771.html" title="《内网渗透体系建设》">《内网渗透体系建设》</a></p>
+<p>也就是说，当机器账户申请证书时，计算机的DNS属性值被嵌入证书，以进行识别。</p>
+<p>我们可以通过机器账户申请证书，并填入Administrator的UPN，进行提权</p>
+<ol>
+<li>先添加一个机器账户</li>
+</ol>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_wQPnr71YoZ.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol>
+<li>通过certipy申请UPN为Administrator的证书</li>
+</ol>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cz7Cn-pN9f.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol>
+<li>使用证书进行身份验证</li>
+</ol>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_6uHu3zRNfV.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但是KDC似乎不支持这种方式。不过我们这里确实有了证书了</p>
+<h4 id="PassTheCert"><a href="#PassTheCert" class="headerlink" title="PassTheCert"></a>PassTheCert</h4><p>Google之后在Github找到了这个项目，非常符合我们现在的情况</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Rw1WOrkBkz.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_bRTLFPPNHy.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol>
+<li>先把证书和私钥分离</li>
+</ol>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_DKu2GByFnX.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol>
+<li>通过证书进行认证，完成提权</li>
+</ol>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PCP7nk5XWM.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>拿下Root Flag</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5YM3VfmVW_.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>总体打下来还是挺有难度的，打了三台Windows靶机了，目前的思路都是以信息泄露为入口，打某个服务获得凭据再通过某个配置错误提权。总体而言需要对域渗透、Windows协议比较了解。</p>
 
                 
               </div>
@@ -352,8 +438,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Active - HackTheBox</div>
-      <div>http://aurey7.github.io.git/2023/07/22/Active-HackTheBox/</div>
+      <div>Authority - HackTheBox</div>
+      <div>http://aurey7.github.io.git/2023/07/23/Authority-HackTheBox/</div>
     </div>
     <div class="license-meta">
       
@@ -365,7 +451,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年7月22日</div>
+          <div>2023年7月23日</div>
         </div>
       
       
@@ -397,18 +483,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/07/23/Authority-HackTheBox/" title="Authority - HackTheBox">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Authority - HackTheBox</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/07/22/Forest-HackTheBox/" title="Forest - HackTheBox">
-                        <span class="hidden-mobile">Forest - HackTheBox</span>
+                      <a href="/2023/07/22/Active-HackTheBox/" title="Active - HackTheBox">
+                        <span class="hidden-mobile">Active - HackTheBox</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
