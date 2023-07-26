@@ -1,3 +1,4 @@
+http://aurey7.github.io.git/2023/07/26/Kerberos-Summary/
 http://aurey7.github.io.git/2023/07/23/Authority-HackTheBox/
 http://aurey7.github.io.git/2023/07/22/Forest-HackTheBox/
 http://aurey7.github.io.git/2023/07/22/Active-HackTheBox/
@@ -10,3 +11,4 @@ http://aurey7.github.io.git/about/index.html
 http://aurey7.github.io.git/
 http://aurey7.github.io.git/tags/Remake/
 http://aurey7.github.io.git/tags/HackTheBox/
+http://aurey7.github.io.git/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/
