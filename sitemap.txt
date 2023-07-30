@@ -1,3 +1,4 @@
+http://aurey7.github.io.git/2023/07/30/Cerberus-HackTheBox/
 http://aurey7.github.io.git/2023/07/26/Kerberos-Summary/
 http://aurey7.github.io.git/2023/07/23/Authority-HackTheBox/
 http://aurey7.github.io.git/2023/07/22/Forest-HackTheBox/

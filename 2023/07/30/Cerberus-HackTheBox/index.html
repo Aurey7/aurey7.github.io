@@ -1,0 +1,944 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Aurey7">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="年轻人的第一台Hard靶机，真的太难了 开局先扫描，与往常的Windows靶机不同，这台只开了8080  访问8080，发现一个监控软件  Linux User ShellCVE-2022-24715上exploit-notes看看 https:&#x2F;&#x2F;exploit-notes.hdks.org&#x2F;exploit&#x2F;web&#x2F;icinga-web-pentesting&#x2F; 直接试试RCE  没法登录，看来是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cerberus-HackTheBox">
+<meta property="og:url" content="http://aurey7.github.io.git/2023/07/30/Cerberus-HackTheBox/index.html">
+<meta property="og:site_name" content="Aurey7&#39;s Blog">
+<meta property="og:description" content="年轻人的第一台Hard靶机，真的太难了 开局先扫描，与往常的Windows靶机不同，这台只开了8080  访问8080，发现一个监控软件  Linux User ShellCVE-2022-24715上exploit-notes看看 https:&#x2F;&#x2F;exploit-notes.hdks.org&#x2F;exploit&#x2F;web&#x2F;icinga-web-pentesting&#x2F; 直接试试RCE  没法登录，看来是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Syu0LNRQsy.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f_k4yYa1Rv.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_KGz5DRnkJc.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OolDkW3Jij.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_wpRYVjfCQq.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Md_NJpmM7S.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_83eamjJax0.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fx7dSR2HVB.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_XMobJQyJEi.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pxzRR1dFhs.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_SEnr6S3KOl.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_2emTnkBNR0.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_11mGRaAaWj.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_w4WMbtmdfp.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_BjDcUGB7iE.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Fd2wc36Ezz.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PwX2_gtlkN.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_K4Pwy3bNow.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jebiFaJej9.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_41jFqwGPif.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_H6FgGol75e.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_rs4OndHPRb.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gMnhOrmsHD.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Nt_QfGuubS.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_quwJv3ZVwv.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_kO9D1Z9Msq.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_hHBeqZqP7l.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jc6CvAEHdR.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_58699Nf-de.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d0qtdnaNnG.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JDG3nxfrGa.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Dib8Y2WDvz.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_WDPbnR5J43.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__6aBuASjoN.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_awtUwypoFC.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_c83qNWjnAJ.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_51YR4zGnQE.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fA-q-CAU26.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f0nx4OAibi.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_32rl8S_gOj.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cK8WGvsQYS.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JHFhchrUn8.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xeIFDj9y5F.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_u6c7CGZi9K.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_2ho3MSDpmt.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ijg_LuKW4F.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5NplAKSJ8d.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_iqg9ADUdHa.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Q-f6fywsFy.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_z-XUjYSODu.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7bfhhJnb5m.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HEO07lAERO.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_qVG5Iv1HDD.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_9x8VPhkOih.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_giBONGd2_-.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xogCyqmnjL.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_O53SLtqeFO.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_H7V9pyB0aV.png">
+<meta property="article:published_time" content="2023-07-30T02:53:28.000Z">
+<meta property="article:modified_time" content="2023-07-30T02:57:20.721Z">
+<meta property="article:author" content="Aurey7">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Syu0LNRQsy.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Cerberus-HackTheBox - Aurey7&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"aurey7.github.io.git","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Aurey7</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.katck.com/images/2023/01/15/b6479d67545b18ee9500ca1d1254eea7.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Cerberus-HackTheBox"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-30 10:53" pubdate>
+          2023年7月30日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Cerberus-HackTheBox</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>年轻人的第一台Hard靶机，真的太难了</p>
+<p>开局先扫描，与往常的Windows靶机不同，这台只开了8080</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Syu0LNRQsy.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>访问8080，发现一个监控软件</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f_k4yYa1Rv.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="Linux-User-Shell"><a href="#Linux-User-Shell" class="headerlink" title="Linux User Shell"></a>Linux User Shell</h3><h4 id="CVE-2022-24715"><a href="#CVE-2022-24715" class="headerlink" title="CVE-2022-24715"></a>CVE-2022-24715</h4><p>上exploit-notes看看</p>
+<p><a target="_blank" rel="noopener" href="https://exploit-notes.hdks.org/exploit/web/icinga-web-pentesting/">https://exploit-notes.hdks.org/exploit/web/icinga-web-pentesting/</a></p>
+<p>直接试试RCE</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_KGz5DRnkJc.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>没法登录，看来是需要用户密码的</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OolDkW3Jij.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>留意到下面还有个未授权的任意文件读取</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_wpRYVjfCQq.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>确实可以，那我们就找一下用户密码</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Md_NJpmM7S.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>在<code>/etc/icingaweb2/resources.ini</code>中发现了用户密码</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_83eamjJax0.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>登录成功</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fx7dSR2HVB.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>再试试RCE，拿下。只是www-data账户，还需提权</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_XMobJQyJEi.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pxzRR1dFhs.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>linpeas跑一下，留意到root运行了redis，但是这里连SSH都没开，写root公钥是没办法了。</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_SEnr6S3KOl.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>竟然还有53端口</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_2emTnkBNR0.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>一些smb信息</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_11mGRaAaWj.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="Linux-Root-Shell"><a href="#Linux-Root-Shell" class="headerlink" title="Linux Root Shell"></a>Linux Root Shell</h3><h4 id="firejail提权"><a href="#firejail提权" class="headerlink" title="firejail提权"></a>firejail提权</h4><p>SUID这里发现了新面孔</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_w4WMbtmdfp.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这里没有</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_BjDcUGB7iE.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>不过在sploitus.com找到了提权漏洞</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Fd2wc36Ezz.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_PwX2_gtlkN.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_K4Pwy3bNow.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>然鹅并没有发现任何flag，这台靶机是Windows靶机，这波拿下一个Linux机器。估计要开始横向才行了</p>
+<h2 id="Get-User-Flag"><a href="#Get-User-Flag" class="headerlink" title="Get User Flag"></a>Get User Flag</h2><p>回想一下这是一台Windows靶机，但给了我们一台Linux打，而且开了DNS和smb服务。我猜测是用Linux搭的域，上网了解一下。</p>
+<p>再跑一次linpeas收集信息，这里可看到SSSD，它可以让Linux服务器加到域内</p>
+<p><a target="_blank" rel="noopener" href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/configuring_authentication_and_authorization_in_rhel/understanding-sssd-and-its-benefits_configuring-authentication-and-authorization-in-rhel">https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/configuring_authentication_and_authorization_in_rhel/understanding-sssd-and-its-benefits_configuring-authentication-and-authorization-in-rhel</a></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jebiFaJej9.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>LDAP信息</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_41jFqwGPif.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>确实可以看到这是一个Linux搭建的域</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_H6FgGol75e.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这边还有一些票据</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_rs4OndHPRb.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">You could use SSSDKCMExtractor to extract the tickets stored here<br><span class="hljs-literal">-rw-------</span> <span class="hljs-number">1</span> root root <span class="hljs-number">1638400</span> Mar  <span class="hljs-number">1</span> <span class="hljs-number">12</span>:<span class="hljs-number">11</span> /var/lib/sss/secrets/secrets.ldb<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_gMnhOrmsHD.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>还有powershell历史命令</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Nt_QfGuubS.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>恶心人。。</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_quwJv3ZVwv.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>研究一下krb5.keytab怎么利用</p>
+<p><a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-active-directory#extract-accounts-from-etc-krb5.keytab">https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-active-directory#extract-accounts-from-etc-krb5.keytab</a></p>
+<p>成功获得Hash</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_kO9D1Z9Msq.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但我们还没做主机探测，这里用一下著名的fscan</p>
+<p>发现还有一台主机存活</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_hHBeqZqP7l.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>没开445，无法通过哈希传递横向过去</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_jc6CvAEHdR.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这个5985端口正是winrm的端口，算是给我们开了个口子。有用户密码即可登录了</p>
+<p>只能再回到前面收集到的信息，了解一下SSSD</p>
+<blockquote>
+<p>SSSD (System Security Services Daemon) 是一个用于提供统一身份认证和授权服务的守护进程。它在Linux系统中广泛使用，特别是在企业环境中，用于集成用户身份验证、授权和用户信息检索。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-active-directory#ccache-ticket-reuse-from-sssd-kcm">https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-active-directory#ccache-ticket-reuse-from-sssd-kcm</a></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_58699Nf-de.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>非常可惜这台机子没有.secrets.mkey</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d0qtdnaNnG.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这时候死去的CTF技巧又来了，通过strings命令查看cache_cerberus.local.ldb可以看到一个hash</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JDG3nxfrGa.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>john爆一下</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Dib8Y2WDvz.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>用户方面可以发现，还是这个matthew</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_WDPbnR5J43.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="frp-内网穿透"><a href="#frp-内网穿透" class="headerlink" title="frp 内网穿透"></a>frp 内网穿透</h3><h4 id="服务端（VPS）"><a href="#服务端（VPS）" class="headerlink" title="服务端（VPS）"></a>服务端（VPS）</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cat</span> frps.ini <br>[<span class="hljs-type">common</span>]<br>bind_addr = <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span><br>bind_port = <span class="hljs-number">7000</span><br><br>./frps <span class="hljs-literal">-c</span> frps.ini<br></code></pre></td></tr></table></figure>
+<h4 id="客户端（靶机Linux）"><a href="#客户端（靶机Linux）" class="headerlink" title="客户端（靶机Linux）"></a>客户端（靶机Linux）</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cat</span> frpc.ini<br>[<span class="hljs-type">common</span>]<br>server_addr = <span class="hljs-number">10.10</span>.<span class="hljs-number">16.76</span><br>server_port = <span class="hljs-number">7000</span><br><br>[<span class="hljs-type">socks5</span>]<br>remote_port = <span class="hljs-number">1080</span><br>plugin = socks5<br><br><br>./frpc <span class="hljs-literal">-c</span> frpc.ini<br></code></pre></td></tr></table></figure>
+<p>修改proxychains配置文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">tail <span class="hljs-literal">-n</span> <span class="hljs-number">1</span> /etc/proxychains.conf  //在最后一行添加以下配置<br>socks5 <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> <span class="hljs-number">1080</span><br></code></pre></td></tr></table></figure>
+<p>此时VPS上通过proxychains已经能访问了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">proxychains &lt;<span class="hljs-built_in">command</span>&gt;<br></code></pre></td></tr></table></figure>
+<p>获得user flag，真不容易</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image__6aBuASjoN.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>直接上BloodHound收集一波信息，寄了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_awtUwypoFC.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>PowerSploit也寄了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_c83qNWjnAJ.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>试一下winpeas，不负众望</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_51YR4zGnQE.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>试一下上面这个漏洞，失败了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fA-q-CAU26.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>后面翻了很久winpeas，发现了这个AD的密码重置工具</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f0nx4OAibi.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>版本6.2</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_32rl8S_gOj.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>存在RCE</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cK8WGvsQYS.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>竟然需要administrator的密码..</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JHFhchrUn8.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>搜一下其他与ManageEngine ADSelfService相关的CVE</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xeIFDj9y5F.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>CVE-2021-40539版本不合适</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_u6c7CGZi9K.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>CVE-2022-47966能以NT AUTHORITY\SYSTEM 的身份远程执行代码，这就完美了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_2ho3MSDpmt.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但这两个参数不知道去哪里搞</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ijg_LuKW4F.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Github上看到，这个GUID在网页上应该能搞到</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5NplAKSJ8d.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Issuer可能是adfs/services/trust</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_iqg9ADUdHa.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>端口太多了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Q-f6fywsFy.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这里找到了对应端口</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_z-XUjYSODu.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>难道只能本地访问？</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7bfhhJnb5m.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Get-Root-Flag"><a href="#Get-Root-Flag" class="headerlink" title="Get Root Flag"></a>Get Root Flag</h2><h3 id="frp内网穿透"><a href="#frp内网穿透" class="headerlink" title="frp内网穿透"></a>frp内网穿透</h3><h4 id="客户端（靶机Windows）"><a href="#客户端（靶机Windows）" class="headerlink" title="客户端（靶机Windows）"></a>客户端（靶机Windows）</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cat</span> frpc.ini<br>[<span class="hljs-type">common</span>]<br>server_addr = <span class="hljs-number">10.10</span>.<span class="hljs-number">16.76</span><br>server_port = <span class="hljs-number">7000</span><br><br>[<span class="hljs-type">ssh</span>]<br><span class="hljs-built_in">type</span> = tcp<br>local_ip = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span><br>local_port = <span class="hljs-number">9251</span><br>remote_port = <span class="hljs-number">6000</span><br>plugin = socks5<br><br>.\frpc.exe <span class="hljs-literal">-c</span> frpc.ini<br></code></pre></td></tr></table></figure>
+<h4 id="服务端（VPS）-1"><a href="#服务端（VPS）-1" class="headerlink" title="服务端（VPS）"></a>服务端（VPS）</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cat</span> frps.ini <br>[<span class="hljs-type">common</span>]<br>bind_addr = <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span><br>bind_port = <span class="hljs-number">7000</span><br><br>./frps <span class="hljs-literal">-c</span> frps.ini<br></code></pre></td></tr></table></figure>
+<p>修改proxychains配置文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">tail <span class="hljs-literal">-n</span> <span class="hljs-number">1</span> /etc/proxychains.conf  //在最后一行添加以下配置<br>socks5 <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> <span class="hljs-number">6000</span><br></code></pre></td></tr></table></figure>
+<p>此时VPS上通过proxychains已经能访问了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_HEO07lAERO.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h4><p>本地通过Proxifier进行代理</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_qVG5Iv1HDD.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>即可进行访问</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_9x8VPhkOih.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用matthew\@CERBERUS.LOCAL和它的密码登录一下</p>
+<p>坏了但是获得了我们想要的GUID</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_giBONGd2_-.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="CVE-2022-47966提权"><a href="#CVE-2022-47966提权" class="headerlink" title="CVE-2022-47966提权"></a>CVE-2022-47966提权</h3><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xogCyqmnjL.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>设置好参数之后exploit（这里失败了很多次）</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_O53SLtqeFO.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这回不是Script Kiddie了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_H7V9pyB0aV.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>太难了，每次打Windows靶机都感觉知识量暴增。经常都要去研究它给的软件，比如这里的SSSD、ADFS。而且环境不太稳定，CVE-2022-47966打了好久才成功，中间还重置了两次靶机，重来了两遍。还有这次靶机都没开SSH，只能通过其他软件进行内网渗透。又狠狠复习了一波内网代理。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/HackTheBox/">#HackTheBox</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Cerberus-HackTheBox</div>
+      <div>http://aurey7.github.io.git/2023/07/30/Cerberus-HackTheBox/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Aurey7</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/26/Kerberos-Summary/" title="Kerberos Summary">
+                        <span class="hidden-mobile">Kerberos Summary</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p05Dpl9y8j46kYbkrPmdQHe5-gzGzoHsz","appKey":"AG8e6lFbZr5DSdTu49Bs70X0","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
