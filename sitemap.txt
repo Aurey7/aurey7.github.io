@@ -1,3 +1,4 @@
+http://aurey7.github.io.git/2023/08/13/WIZ-IAM-Challenge/
 http://aurey7.github.io.git/2023/08/06/Gofer-HackTheBox/
 http://aurey7.github.io.git/2023/07/30/Cerberus-HackTheBox/
 http://aurey7.github.io.git/2023/07/15/Sau-HackTheBox/
@@ -14,4 +15,5 @@ http://aurey7.github.io.git/
 http://aurey7.github.io.git/tags/Remake/
 http://aurey7.github.io.git/tags/HackTheBox/
 http://aurey7.github.io.git/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/
+http://aurey7.github.io.git/tags/Cloud-Security/
 http://aurey7.github.io.git/categories/Pentest/
