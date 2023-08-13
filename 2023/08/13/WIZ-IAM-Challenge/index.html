@@ -16,12 +16,12 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="很有意思的挑战，攻击各种IAM Policy错误配置。之前没打过aws，后面几个挑战基本上是跟着师傅们的writeup打的，学到不少新姿势。GPT帮了大忙，在理解IAM Policy和AWS服务上大大提高了效率。 您也可以尝试：https:&#x2F;&#x2F;bigiamchallenge.com&#x2F;challenge Buckets of Fun直接给出了一个Bucket的Policy 1234567891011">
+    <meta name="description" content="很有意思的挑战，攻击各种IAM Policy错误配置。之前没打过aws，这次学到不少新姿势。GPT帮了大忙，在理解IAM Policy和AWS服务利用上大大提高了效率。 您也可以尝试：https:&#x2F;&#x2F;bigiamchallenge.com&#x2F;challenge Buckets of Fun直接给出了一个Bucket的Policy 12345678910111213141516171819202122">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WIZ IAM Challenge">
 <meta property="og:url" content="http://aurey7.github.io.git/2023/08/13/WIZ-IAM-Challenge/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="很有意思的挑战，攻击各种IAM Policy错误配置。之前没打过aws，后面几个挑战基本上是跟着师傅们的writeup打的，学到不少新姿势。GPT帮了大忙，在理解IAM Policy和AWS服务上大大提高了效率。 您也可以尝试：https:&#x2F;&#x2F;bigiamchallenge.com&#x2F;challenge Buckets of Fun直接给出了一个Bucket的Policy 1234567891011">
+<meta property="og:description" content="很有意思的挑战，攻击各种IAM Policy错误配置。之前没打过aws，这次学到不少新姿势。GPT帮了大忙，在理解IAM Policy和AWS服务利用上大大提高了效率。 您也可以尝试：https:&#x2F;&#x2F;bigiamchallenge.com&#x2F;challenge Buckets of Fun直接给出了一个Bucket的Policy 12345678910111213141516171819202122">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/%E6%88%AA%E5%B1%8F2023-08-13%2015.27.12_slmM4DaK5-.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/%E6%88%AA%E5%B1%8F2023-08-13%2015.26.54_e1nsKVFFbb.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/TBjtvNQ-XM.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_89dN-E5iwP.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_nZjnacpb2L.png">
-<meta property="og:image" content="c:\Users\aurey\Downloads\Compressed\image\%E6%88%AA%E5%B1%8F2023-08-13 22.14.48_VmqsTQV6yP.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/2023-08-13%2022.14.48_VmqsTQV6yP.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_FUh3ft72Z1.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/%E6%88%AA%E5%B1%8F2023-08-13%2022.37.32_w7eJ6AOcIB.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/2023-08-13%2022.38.23_qGRwckGPu7.png">
@@ -45,7 +45,7 @@
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_KF88kZKXys.png">
 <meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/%E6%88%AA%E5%B1%8F2023-08-13%2023.29.28_TJUbKlzXWo.png">
 <meta property="article:published_time" content="2023-08-13T15:38:48.000Z">
-<meta property="article:modified_time" content="2023-08-13T16:00:46.839Z">
+<meta property="article:modified_time" content="2023-08-13T23:02:50.582Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="Cloud Security">
 <meta name="twitter:card" content="summary_large_image">
@@ -227,7 +227,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://bigiamchallenge.com/finisher/20FzRuiW') no-repeat center center; background-size: cover;">
+     style="background: url('https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image-20230814070241423.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -318,7 +318,7 @@
             
               <div class="markdown-body">
                 
-                <p>很有意思的挑战，攻击各种IAM Policy错误配置。之前没打过aws，后面几个挑战基本上是跟着师傅们的writeup打的，学到不少新姿势。GPT帮了大忙，在理解IAM Policy和AWS服务上大大提高了效率。</p>
+                <p>很有意思的挑战，攻击各种IAM Policy错误配置。之前没打过aws，这次学到不少新姿势。GPT帮了大忙，在理解IAM Policy和AWS服务利用上大大提高了效率。</p>
 <p>您也可以尝试：<a target="_blank" rel="noopener" href="https://bigiamchallenge.com/challenge">https://bigiamchallenge.com/challenge</a></p>
 <h2 id="Buckets-of-Fun"><a href="#Buckets-of-Fun" class="headerlink" title="Buckets of Fun"></a>Buckets of Fun</h2><p>直接给出了一个Bucket的Policy</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash">&#123;<br>    <span class="hljs-string">&quot;Version&quot;</span>: <span class="hljs-string">&quot;2012-10-17&quot;</span>,<br>    <span class="hljs-string">&quot;Statement&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;Effect&quot;</span>: <span class="hljs-string">&quot;Allow&quot;</span>,<br>            <span class="hljs-string">&quot;Principal&quot;</span>: <span class="hljs-string">&quot;*&quot;</span>,<br>            <span class="hljs-string">&quot;Action&quot;</span>: <span class="hljs-string">&quot;s3:GetObject&quot;</span>,<br>            <span class="hljs-string">&quot;Resource&quot;</span>: <span class="hljs-string">&quot;arn:aws:s3:::thebigiamchallenge-storage-9979f4b/*&quot;</span><br>        &#125;,<br>        &#123;<br>            <span class="hljs-string">&quot;Effect&quot;</span>: <span class="hljs-string">&quot;Allow&quot;</span>,<br>            <span class="hljs-string">&quot;Principal&quot;</span>: <span class="hljs-string">&quot;*&quot;</span>,<br>            <span class="hljs-string">&quot;Action&quot;</span>: <span class="hljs-string">&quot;s3:ListBucket&quot;</span>,<br>            <span class="hljs-string">&quot;Resource&quot;</span>: <span class="hljs-string">&quot;arn:aws:s3:::thebigiamchallenge-storage-9979f4b&quot;</span>,<br>            <span class="hljs-string">&quot;Condition&quot;</span>: &#123;<br>                <span class="hljs-string">&quot;StringLike&quot;</span>: &#123;<br>                    <span class="hljs-string">&quot;s3:prefix&quot;</span>: <span class="hljs-string">&quot;files/*&quot;</span><br>                &#125;<br>            &#125;<br>        &#125;<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -369,10 +369,10 @@
 </blockquote>
 <p>让GPT帮忙查一下如何使用</p>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_89dN-E5iwP.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>但我们并没有AKSK。于是开始寻找，在网站图片这里可以看到AKSK泄漏了</p>
+<p>但我们并没有AKSK。于是开始寻找，在网站图片这里可以看到AKSK泄漏</p>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_nZjnacpb2L.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>直接读好像不太行</p>
-<p><img src="C:\Users\aurey\Downloads\Compressed\image\截屏2023-08-13 22.14.48_VmqsTQV6yP.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/2023-08-13%2022.14.48_VmqsTQV6yP.png" srcset="/img/loading.gif" lazyload alt="2023-08-13 22.14.48_VmqsTQV6yP"></p>
 <p>后来看writeup，师傅们发现了这里的js</p>
 <p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_FUh3ft72Z1.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>上面只获取了logo图，我们需要列出所有文件，直接交给GPT写一段获取S3文件的代码</p>
