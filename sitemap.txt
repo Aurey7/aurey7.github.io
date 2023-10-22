@@ -1,3 +1,4 @@
+http://aurey7.github.io.git/2023/10/22/Drive-HackTheBox/
 http://aurey7.github.io.git/2023/09/19/Gobox-HackTheBox/
 http://aurey7.github.io.git/2023/09/17/Epsilon-HackTheBox/
 http://aurey7.github.io.git/2023/09/16/Monteverde-HackTheBox/

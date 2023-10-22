@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://aurey7.github.io.git/2023/10/22/Drive-HackTheBox/</loc>
+    
+    <lastmod>2023-10-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://aurey7.github.io.git/2023/09/19/Gobox-HackTheBox/</loc>
     
     <lastmod>2023-09-19</lastmod>
@@ -166,7 +175,7 @@
 
   <url>
     <loc>http://aurey7.github.io.git/</loc>
-    <lastmod>2023-09-19</lastmod>
+    <lastmod>2023-10-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -174,35 +183,35 @@
   
   <url>
     <loc>http://aurey7.github.io.git/tags/Remake/</loc>
-    <lastmod>2023-09-19</lastmod>
+    <lastmod>2023-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://aurey7.github.io.git/tags/HackTheBox/</loc>
-    <lastmod>2023-09-19</lastmod>
+    <lastmod>2023-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://aurey7.github.io.git/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/</loc>
-    <lastmod>2023-09-19</lastmod>
+    <lastmod>2023-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://aurey7.github.io.git/tags/Cloud-Security/</loc>
-    <lastmod>2023-09-19</lastmod>
+    <lastmod>2023-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://aurey7.github.io.git/tags/Cloud-Native-Security/</loc>
-    <lastmod>2023-09-19</lastmod>
+    <lastmod>2023-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -211,7 +220,7 @@
   
   <url>
     <loc>http://aurey7.github.io.git/categories/Pentest/</loc>
-    <lastmod>2023-09-19</lastmod>
+    <lastmod>2023-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
